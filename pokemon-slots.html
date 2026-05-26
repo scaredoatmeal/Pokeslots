@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PokéSlots Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Bungee&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFD700;--gold2:#FFA500;--neon-b:#00e5ff;--neon-g:#39ff14;--neon-p:#ff00ff}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:#06060d;font-family:'Rajdhani',sans-serif;color:#fff;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 50% at 50% 0%,#1a082e 0%,transparent 65%),
+             radial-gradient(ellipse 50% 40% at 80% 90%,#1a0808 0%,transparent 55%),
+             repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.012) 60px,rgba(255,255,255,.012) 61px),
+             repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.012) 60px,rgba(255,255,255,.012) 61px)}
+#app{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:20px 12px 60px;gap:18px;min-height:100vh}
+
+/* HEADER */
+header{text-align:center}
+h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
+  background:linear-gradient(135deg,var(--gold),var(--gold2) 40%,#fff 55%,var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 18px rgba(255,200,0,.45));line-height:1}
+.sub{font-family:'Bungee',cursive;font-size:clamp(.65rem,2vw,.9rem);letter-spacing:6px;
+  color:var(--neon-b);text-shadow:0 0 10px var(--neon-b);margin-top:3px}
+.marquee-wrap{width:min(680px,100%);overflow:hidden;background:#0b0b16;border:2px solid var(--gold);
+  border-radius:5px;padding:4px 0;box-shadow:0 0 12px rgba(255,200,0,.25)}
+.marquee{display:inline-block;white-space:nowrap;animation:mar 15s linear infinite;
+  font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:var(--gold)}
+@keyframes mar{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+
+/* MACHINE */
+.machine{width:min(680px,100%);background:linear-gradient(180deg,#191926,#0d0d1a);
+  border:3px solid #28284a;border-radius:22px 22px 28px 28px;
+  box-shadow:0 0 0 1px #333,0 0 50px rgba(0,180,255,.07),0 30px 70px rgba(0,0,0,.85);
+  position:relative;overflow:visible}
+.machine::before{content:'';position:absolute;top:-4px;left:8%;right:8%;height:4px;
+  background:linear-gradient(90deg,transparent,#c8d8f8,transparent);border-radius:4px}
+
+/* SIGN */
+.sign{background:linear-gradient(180deg,#1a0000,#280000);border-radius:18px 18px 0 0;
+  padding:12px 18px 10px;border-bottom:3px solid var(--gold);
+  display:flex;justify-content:space-between;align-items:center}
+.sign-lights{display:flex;gap:5px}
+.sl{width:10px;height:10px;border-radius:50%;animation:blink 1s infinite}
+.sl:nth-child(1){background:#f33;box-shadow:0 0 7px #f33;animation-delay:.0s}
+.sl:nth-child(2){background:var(--gold);box-shadow:0 0 7px var(--gold);animation-delay:.2s}
+.sl:nth-child(3){background:#3f3;box-shadow:0 0 7px #3f3;animation-delay:.4s}
+.sl:nth-child(4){background:var(--neon-b);box-shadow:0 0 7px var(--neon-b);animation-delay:.6s}
+.sl:nth-child(5){background:var(--neon-p);box-shadow:0 0 7px var(--neon-p);animation-delay:.8s}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.sign-title{font-family:'Bungee Inline',cursive;font-size:1.25rem;letter-spacing:2px;
+  color:var(--gold);text-shadow:0 0 14px var(--gold)}
+
+/* STATS BAR */
+.stats{padding:12px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-bottom:2px solid #1c1c2e}
+.stat{background:#07070f;border:1px solid #232336;border-radius:9px;padding:8px 10px;text-align:center;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--sc,var(--gold))}
+.stat[data-c=b]{--sc:var(--neon-b)} .stat[data-c=g]{--sc:var(--neon-g)}
+.slbl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:#667;font-weight:700}
+.sval{font-family:'Bungee',cursive;font-size:1.4rem;color:var(--gold);text-shadow:0 0 10px rgba(255,200,0,.4);line-height:1.15}
+.sval.b{color:var(--neon-b);text-shadow:0 0 10px rgba(0,229,255,.4)}
+.sval.g{color:var(--neon-g);text-shadow:0 0 10px rgba(57,255,20,.4)}
+
+/* PAYTABLE */
+.pt-btn{width:100%;background:none;border:none;border-bottom:2px solid #1c1c2e;color:#99a;
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:3px;
+  text-transform:uppercase;padding:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:color .2s}
+.pt-btn:hover{color:var(--gold)} .pt-btn .arr{transition:transform .3s} .pt-btn.open .arr{transform:rotate(180deg)}
+.pt-body{display:none;padding:10px 18px;border-bottom:2px solid #1c1c2e;background:rgba(0,0,0,.3)}
+.pt-body.vis{display:block}
+.pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}
+.pt-row{display:flex;align-items:center;gap:6px;background:#0a0a16;border:1px solid #1c1c2e;border-radius:7px;padding:5px 9px;font-size:.82rem}
+.pt-row .m{font-family:'Bungee',cursive;color:var(--gold);font-size:.95rem;margin-left:auto;white-space:nowrap}
+
+/* REELS */
+.reels-wrap{padding:18px 20px}
+.reels-frame{background:#04040b;border:3px solid #232338;border-radius:14px;padding:14px;
+  box-shadow:inset 0 0 50px rgba(0,0,0,.9),inset 0 0 20px rgba(0,0,20,.5);position:relative}
+
+/* payline */
+.reels-frame::before{content:'WIN LINE';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-family:'Bungee',cursive;font-size:.5rem;letter-spacing:2px;color:rgba(255,200,0,.25);z-index:8}
+.reels-frame::after{content:'';position:absolute;top:50%;left:12px;right:12px;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,200,0,.35),transparent);transform:translateY(-50%);z-index:8;pointer-events:none}
+
+.reels-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+
+/* INDIVIDUAL REEL BOX — this is the key change: simple img display, no scroll strip */
+.reel-box{height:150px;background:#080812;border:2px solid #1e1e30;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;gap:3px;transition:border-color .3s,box-shadow .3s}
+.reel-box::before,.reel-box::after{content:'';position:absolute;left:0;right:0;height:32px;z-index:5;pointer-events:none}
+.reel-box::before{top:0;background:linear-gradient(to bottom,rgba(4,4,11,1),transparent)}
+.reel-box::after{bottom:0;background:linear-gradient(to top,rgba(4,4,11,1),transparent)}
+.reel-box img{width:100px;height:100px;object-fit:contain;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.12));transition:filter .15s;position:relative;z-index:2}
+.reel-name{font-family:'Bungee',cursive;font-size:.55rem;letter-spacing:1px;text-transform:uppercase;
+  color:#667;z-index:2;position:relative}
+
+/* Spinning state */
+.reel-box.spinning img{animation:spinBlur .12s linear infinite}
+@keyframes spinBlur{0%{filter:blur(4px) brightness(.55) drop-shadow(0 0 0 transparent)}
+  50%{filter:blur(6px) brightness(.35) drop-shadow(0 0 0 transparent)}
+  100%{filter:blur(4px) brightness(.55) drop-shadow(0 0 0 transparent)}}
+
+/* Winner state */
+.reel-box.winner{border-color:var(--gold) !important;animation:winGlow .5s ease-in-out infinite alternate}
+@keyframes winGlow{from{box-shadow:0 0 12px var(--gold),inset 0 0 10px rgba(255,200,0,.08)}
+  to{box-shadow:0 0 30px var(--gold),0 0 55px #FF6600,inset 0 0 18px rgba(255,200,0,.15)}}
+.reel-box.winner img{animation:winPulse .45s ease-in-out infinite alternate!important;
+  filter:drop-shadow(0 0 14px var(--gold)) brightness(1.25)!important}
+@keyframes winPulse{from{transform:scale(1)}to{transform:scale(1.14)}}
+
+/* MSG */
+.msg-bar{text-align:center;padding:8px;height:42px;display:flex;align-items:center;justify-content:center}
+.msg{font-family:'Bungee',cursive;font-size:1rem;letter-spacing:2px;color:#444;transition:all .2s}
+.msg.win{color:var(--gold);text-shadow:0 0 16px var(--gold),0 0 32px #FF6600;animation:pop .4s cubic-bezier(.36,2,.5,.8)}
+.msg.lose{color:#aa2222}
+.msg.jackpot{color:var(--neon-b);text-shadow:0 0 18px var(--neon-b),0 0 36px var(--neon-p);font-size:1.2rem;animation:pop .4s cubic-bezier(.36,2,.5,.8)}
+.msg.catch{color:var(--neon-g);text-shadow:0 0 16px var(--neon-g);animation:pop .4s cubic-bezier(.36,2,.5,.8)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+
+/* WIN FLASH */
+#wflash{position:absolute;inset:0;border-radius:11px;pointer-events:none;z-index:20;opacity:0;
+  background:radial-gradient(ellipse,rgba(255,200,0,.2),transparent 70%);transition:opacity .2s}
+#wflash.on{opacity:1;animation:fp .55s ease-in-out infinite alternate}
+@keyframes fp{from{opacity:.25}to{opacity:.75}}
+
+/* CONTROLS */
+.controls{padding:14px 20px 20px;display:flex;flex-direction:column;gap:13px}
+.bet-row{display:flex;align-items:center;gap:10px;background:#07070f;border:1px solid #1c1c2e;border-radius:11px;padding:10px 14px}
+.bet-lbl{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#557;font-weight:700;width:65px;flex-shrink:0}
+.bet-slider{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;outline:none;cursor:pointer;
+  background:linear-gradient(to right,var(--gold) 0%,var(--gold) var(--p,9%),#1e1e1e var(--p,9%),#1e1e1e 100%)}
+.bet-slider::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));cursor:pointer;box-shadow:0 0 7px rgba(255,200,0,.55);border:2px solid rgba(255,255,255,.15)}
+.bet-slider::-moz-range-thumb{width:19px;height:19px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));cursor:pointer;box-shadow:0 0 7px rgba(255,200,0,.55);border:2px solid rgba(255,255,255,.15)}
+.bet-num{font-family:'Bungee',cursive;font-size:1.05rem;color:var(--gold);width:56px;text-align:right;flex-shrink:0}
+.qbets{display:flex;gap:5px}
+.qb{flex:1;min-width:44px;background:#0e0e18;border:1px solid #262636;border-radius:7px;color:#99a;
+  font-family:'Bungee',cursive;font-size:.72rem;padding:5px 3px;cursor:pointer;transition:all .15s;text-align:center}
+.qb:hover{background:#181828;border-color:var(--gold);color:var(--gold)}
+.qb.on{background:#181200;border-color:var(--gold);color:var(--gold);box-shadow:0 0 8px rgba(255,200,0,.18)}
+.action-row{display:flex;align-items:center;gap:14px}
+
+/* LEVER */
+.lever-wrap{position:relative;width:58px;height:96px;flex-shrink:0;cursor:pointer;user-select:none}
+.lever-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:24px;
+  background:linear-gradient(180deg,#555,#1e1e1e);border-radius:5px;border:2px solid #666;box-shadow:0 3px 6px rgba(0,0,0,.5)}
+.lever-base::after{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:7px;height:13px;background:#141414;border-radius:3px}
+.lever-arm{position:absolute;bottom:20px;left:50%;width:5px;height:62px;transform-origin:bottom center;
+  transform:translateX(-50%) rotate(-22deg);background:linear-gradient(90deg,#777,#bbb,#777);
+  border-radius:3px;transition:transform .22s cubic-bezier(.36,2,.5,.8)}
+.lever-ball{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:20px;height:20px;
+  border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff6666,#bb0000);
+  box-shadow:0 0 9px rgba(180,0,0,.6)}
+.lever-arm.pull{transform:translateX(-50%) rotate(22deg)}
+
+/* SPIN BTN */
+.spin-btn{flex:1;height:62px;background:linear-gradient(135deg,#c00,#800 50%,#c00);border:none;
+  border-radius:13px;font-family:'Bungee Inline',cursive;font-size:1.55rem;letter-spacing:3px;color:#fff;
+  cursor:pointer;position:relative;overflow:hidden;user-select:none;
+  box-shadow:0 5px 0 #4a0000,0 7px 18px rgba(180,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);
+  transition:all .1s;text-shadow:0 2px 3px rgba(0,0,0,.45)}
+.spin-btn::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);transition:left .45s}
+.spin-btn:hover::before{left:150%}
+.spin-btn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 7px 0 #4a0000,0 10px 25px rgba(180,0,0,.45),inset 0 1px 0 rgba(255,255,255,.18)}
+.spin-btn:not(:disabled):active{transform:translateY(4px);box-shadow:0 1px 0 #4a0000,0 2px 8px rgba(180,0,0,.2)}
+.spin-btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+.max-btn{width:62px;height:62px;background:linear-gradient(135deg,#001f55,#000f2a);border:2px solid var(--neon-b);
+  border-radius:13px;font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:1px;color:var(--neon-b);
+  cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,.18),0 5px 0 #000;text-shadow:0 0 7px var(--neon-b);
+  transition:all .1s;flex-shrink:0;user-select:none}
+.max-btn:hover{background:linear-gradient(135deg,#002d80,#001540);box-shadow:0 0 18px rgba(0,229,255,.35),0 5px 0 #000}
+
+/* ── CATCH OVERLAY ── */
+.catch-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.catch-overlay.show{display:flex;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.pokeball{width:70px;height:70px;border-radius:50%;position:relative;
+  background:linear-gradient(to bottom,#ee1111 0%,#ee1111 47%,#222 47%,#222 53%,#fff 53%,#fff 100%);
+  border:3px solid #1a1a1a;box-shadow:0 0 20px rgba(255,50,50,.5),0 8px 20px rgba(0,0,0,.6)}
+.pokeball::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #1a1a1a;z-index:1;
+  box-shadow:0 0 10px rgba(255,255,255,.5)}
+.pb-shake{animation:pbShake .4s ease-in-out 3}
+@keyframes pbShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-18deg)}75%{transform:rotate(18deg)}}
+.catch-img{width:130px;height:130px;object-fit:contain;image-rendering:pixelated;
+  filter:drop-shadow(0 0 22px rgba(57,255,20,.7));animation:catchPop .5s cubic-bezier(.36,2,.5,.8)}
+@keyframes catchPop{0%{transform:scale(0) translateY(40px);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.catch-name{font-family:'Bungee Inline',cursive;font-size:2rem;color:var(--neon-g);
+  text-shadow:0 0 20px var(--neon-g),0 0 40px var(--neon-g);letter-spacing:3px}
+.catch-label{font-family:'Bungee',cursive;font-size:.85rem;letter-spacing:4px;color:var(--gold);
+  text-shadow:0 0 12px var(--gold)}
+.catch-dismiss{margin-top:6px;font-family:'Bungee',cursive;font-size:.7rem;letter-spacing:2px;
+  color:#555;cursor:pointer;padding:6px 16px;border:1px solid #333;border-radius:20px;background:none;
+  transition:color .2s,border-color .2s}
+.catch-dismiss:hover{color:#888;border-color:#666}
+
+/* POKEDEX */
+.dex-section{padding:0 20px 16px}
+.dex-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.dex-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:#445;font-weight:700}
+.dex-count{font-family:'Bungee',cursive;font-size:.75rem;color:var(--neon-g);text-shadow:0 0 8px var(--neon-g)}
+.dex-grid{display:flex;flex-wrap:wrap;gap:6px}
+.dex-empty{font-size:.75rem;color:#334;letter-spacing:1px}
+.dex-card{background:#090912;border:1px solid #222233;border-radius:8px;padding:6px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  transition:border-color .2s,box-shadow .2s;position:relative}
+.dex-card:hover{border-color:var(--neon-g);box-shadow:0 0 10px rgba(57,255,20,.15)}
+.dex-card img{width:44px;height:44px;object-fit:contain;image-rendering:pixelated}
+.dex-card .dc-name{font-family:'Bungee',cursive;font-size:.48rem;letter-spacing:1px;text-transform:uppercase;color:#667;text-align:center}
+.dex-card .dc-cnt{position:absolute;top:3px;right:5px;font-family:'Bungee',cursive;font-size:.55rem;color:var(--gold)}
+
+/* HISTORY */
+.hist-section{padding:0 20px 18px}
+.hist-lbl{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:#334;font-weight:700;margin-bottom:6px}
+.hist-list{display:flex;gap:5px;flex-wrap:wrap}
+.hp{font-family:'Bungee',cursive;font-size:.68rem;padding:3px 9px;border-radius:18px;border:1px solid;opacity:.88}
+.hp.win{border-color:var(--neon-g);color:var(--neon-g);background:rgba(57,255,20,.07)}
+.hp.lose{border-color:#332;color:#554;background:transparent}
+.hp.jackpot{border-color:var(--neon-b);color:var(--neon-b);background:rgba(0,229,255,.08)}
+.hp.catch{border-color:var(--neon-g);color:#fff;background:rgba(57,255,20,.18)}
+
+/* FOOTER */
+.foot{background:linear-gradient(180deg,#0d0d1a,#111120);border-radius:0 0 26px 26px;
+  padding:12px 20px;display:flex;justify-content:space-between;border-top:2px solid #1a1a28}
+.fs .fl{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:#334}
+.fs .fv{font-family:'Bungee',cursive;font-size:.85rem;color:#556;text-align:center}
+
+/* COINS */
+@keyframes coinRain{0%{transform:translateY(-40px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.coin-p{position:fixed;pointer-events:none;z-index:9999;animation:coinRain linear forwards}
+</style>
+</head>
+<body>
+
+<!-- CATCH OVERLAY -->
+<div class="catch-overlay" id="catchOverlay">
+  <div class="catch-label">YOU CAUGHT A POKÉMON!</div>
+  <div class="pokeball" id="catchBall"></div>
+  <img class="catch-img" id="catchImg" src="" alt="">
+  <div class="catch-name" id="catchName"></div>
+  <button class="catch-dismiss" id="catchDismiss">CONTINUE →</button>
+</div>
+
+<div id="app">
+  <header>
+    <h1>PokéSlots</h1>
+    <div class="sub">★ Casino Royale ★</div>
+  </header>
+
+  <div class="marquee-wrap">
+    <span class="marquee">★ 3× LEGENDARY = JACKPOT ×50 &nbsp;&nbsp; ★ 3× SAME = CATCH IT + ×10 &nbsp;&nbsp; ★ 3× STARTER TRIO = ×8 &nbsp;&nbsp; ★ 3× SAME TYPE = ×5 &nbsp;&nbsp; ★ ANY PAIR = ×2 &nbsp;&nbsp; ★ GOOD LUCK TRAINER! &nbsp;&nbsp;</span>
+  </div>
+
+  <div class="machine">
+    <div class="sign">
+      <div class="sign-lights"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+      <div class="sign-title">⚡ POKÉMON SLOTS ⚡</div>
+      <div class="sign-lights"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="slbl">🪙 Coins</div><div class="sval" id="dCoins">1,000</div></div>
+      <div class="stat" data-c="b"><div class="slbl">Last Win</div><div class="sval b" id="dLastWin">—</div></div>
+      <div class="stat" data-c="g"><div class="slbl">Total Won</div><div class="sval g" id="dTotalWon">0</div></div>
+    </div>
+
+    <button class="pt-btn" id="ptBtn">▸ PAYTABLE <span class="arr">▾</span></button>
+    <div class="pt-body" id="ptBody">
+      <div class="pt-grid">
+        <div class="pt-row">⚡ 3× Legendary<span class="m">×50 JACKPOT</span></div>
+        <div class="pt-row">🏆 3× Same Pokémon<span class="m">×10 + CATCH!</span></div>
+        <div class="pt-row">💎 3× Starter Trio<span class="m">×8</span></div>
+        <div class="pt-row">🔥 3× Same Type<span class="m">×5</span></div>
+        <div class="pt-row">✨ Any Pair<span class="m">×2</span></div>
+        <div class="pt-row">❌ No Match<span class="m">×0</span></div>
+      </div>
+    </div>
+
+    <div class="reels-wrap">
+      <div class="reels-frame">
+        <div id="wflash"></div>
+        <div class="reels-row">
+          <div class="reel-box" id="rb0">
+            <img id="ri0" src="" alt="">
+            <div class="reel-name" id="rn0">---</div>
+          </div>
+          <div class="reel-box" id="rb1">
+            <img id="ri1" src="" alt="">
+            <div class="reel-name" id="rn1">---</div>
+          </div>
+          <div class="reel-box" id="rb2">
+            <img id="ri2" src="" alt="">
+            <div class="reel-name" id="rn2">---</div>
+          </div>
+        </div>
+        <div class="msg-bar"><div class="msg" id="msgEl">PLACE YOUR BET & PULL THE LEVER</div></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="bet-row">
+        <div class="bet-lbl">BET</div>
+        <input type="range" class="bet-slider" id="betSlider" min="1" max="100" value="10">
+        <div class="bet-num" id="betNum">10</div>
+      </div>
+      <div class="qbets">
+        <button class="qb" data-v="1">MIN<br>1</button>
+        <button class="qb" data-v="5">5</button>
+        <button class="qb on" data-v="10">10</button>
+        <button class="qb" data-v="25">25</button>
+        <button class="qb" data-v="50">50</button>
+        <button class="qb" data-v="100">MAX<br>100</button>
+      </div>
+      <div class="action-row">
+        <div class="lever-wrap" id="lev">
+          <div class="lever-arm" id="levArm"><div class="lever-ball"></div></div>
+          <div class="lever-base"></div>
+        </div>
+        <button class="spin-btn" id="spinBtn">SPIN!</button>
+        <button class="max-btn" id="maxBtn">MAX<br>BET</button>
+      </div>
+    </div>
+
+    <!-- POKÉDEX -->
+    <div class="dex-section">
+      <div class="dex-header">
+        <div class="dex-title">📖 Caught Pokédex</div>
+        <div class="dex-count" id="dexCount">0 caught</div>
+      </div>
+      <div class="dex-grid" id="dexGrid">
+        <span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>
+      </div>
+    </div>
+
+    <div class="hist-section">
+      <div class="hist-lbl">Recent Spins</div>
+      <div class="hist-list" id="histList"><span style="color:#334;font-size:.72rem">No spins yet...</span></div>
+    </div>
+
+    <div class="foot">
+      <div class="fs"><div class="fl">Min Bet</div><div class="fv">1 🪙</div></div>
+      <div class="fs"><div class="fl">Spins</div><div class="fv" id="dSpins">0</div></div>
+      <div class="fs"><div class="fl">Max Bet</div><div class="fv">100 🪙</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── POKEMON DATA ─────────────────────────────────────────────────────────────
+const POOL = [
+  {id:1,  name:"Bulbasaur",  types:["grass","poison"],   leg:false,start:true},
+  {id:4,  name:"Charmander", types:["fire"],              leg:false,start:true},
+  {id:7,  name:"Squirtle",   types:["water"],             leg:false,start:true},
+  {id:25, name:"Pikachu",    types:["electric"],          leg:false,start:false},
+  {id:39, name:"Jigglypuff", types:["normal","fairy"],    leg:false,start:false},
+  {id:52, name:"Meowth",     types:["normal"],            leg:false,start:false},
+  {id:54, name:"Psyduck",    types:["water"],             leg:false,start:false},
+  {id:63, name:"Abra",       types:["psychic"],           leg:false,start:false},
+  {id:66, name:"Machop",     types:["fighting"],          leg:false,start:false},
+  {id:74, name:"Geodude",    types:["rock","ground"],     leg:false,start:false},
+  {id:92, name:"Gastly",     types:["ghost","poison"],    leg:false,start:false},
+  {id:94, name:"Gengar",     types:["ghost","poison"],    leg:false,start:false},
+  {id:113,name:"Chansey",    types:["normal"],            leg:false,start:false},
+  {id:129,name:"Magikarp",   types:["water"],             leg:false,start:false},
+  {id:131,name:"Lapras",     types:["water","ice"],       leg:false,start:false},
+  {id:133,name:"Eevee",      types:["normal"],            leg:false,start:false},
+  {id:143,name:"Snorlax",    types:["normal"],            leg:false,start:false},
+  {id:147,name:"Dratini",    types:["dragon"],            leg:false,start:false},
+  {id:150,name:"Mewtwo",     types:["psychic"],           leg:true, start:false},
+  {id:151,name:"Mew",        types:["psychic"],           leg:true, start:false},
+  {id:152,name:"Chikorita",  types:["grass"],             leg:false,start:true},
+  {id:155,name:"Cyndaquil",  types:["fire"],              leg:false,start:true},
+  {id:158,name:"Totodile",   types:["water"],             leg:false,start:true},
+  {id:249,name:"Lugia",      types:["psychic","flying"],  leg:true, start:false},
+  {id:250,name:"Ho-Oh",      types:["fire","flying"],     leg:true, start:false},
+];
+
+// jsDelivr mirrors PokeAPI sprites — works in all sandbox/preview environments
+const SPRITE = id => `https://cdn.jsdelivr.net/gh/PokeAPI/sprites@master/sprites/pokemon/other/official-artwork/${id}.png`;
+const SPRITE_FALLBACK = id => `https://cdn.jsdelivr.net/gh/PokeAPI/sprites@master/sprites/pokemon/${id}.png`;
+
+// Preload all sprites into browser cache
+POOL.forEach(p => { const i = new Image(); i.onerror = () => { i.src = SPRITE_FALLBACK(p.id); }; i.src = SPRITE(p.id); });
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let coins = 1000, totalWon = 0, spinCount = 0, bet = 10;
+let spinning = false;
+let history = [];
+let caught = {}; // id → {poke, count}
+let spinIntervals = [null, null, null];
+
+const PAYOUTS = {jackpot:50, triple:10, starter:8, typeTriple:5, double:2};
+
+// ─── REEL HELPERS ─────────────────────────────────────────────────────────────
+function randPoke() { return POOL[Math.floor(Math.random() * POOL.length)]; }
+
+function setReel(r, poke) {
+  const img = document.getElementById(`ri${r}`);
+  img.onerror = () => { img.onerror=null; img.src = SPRITE_FALLBACK(poke.id); };
+  img.src = SPRITE(poke.id);
+  document.getElementById(`rn${r}`).textContent = poke.name;
+}
+
+function startSpin(r) {
+  document.getElementById(`rb${r}`).classList.add('spinning');
+  document.getElementById(`rb${r}`).classList.remove('winner');
+  // cycle through random pokemon images
+  spinIntervals[r] = setInterval(() => {
+    const p = randPoke();
+    const img = document.getElementById(`ri${r}`);
+    img.onerror = () => { img.onerror=null; img.src = SPRITE_FALLBACK(p.id); };
+    img.src = SPRITE(p.id);
+    document.getElementById(`rn${r}`).textContent = p.name;
+  }, 90);
+}
+
+function stopSpin(r, poke) {
+  clearInterval(spinIntervals[r]);
+  document.getElementById(`rb${r}`).classList.remove('spinning');
+  setReel(r, poke);
+}
+
+function markWinner(r) {
+  document.getElementById(`rb${r}`).classList.add('winner');
+}
+
+// ─── SPIN ─────────────────────────────────────────────────────────────────────
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+async function spin() {
+  if (spinning) return;
+  if (bet > coins) { setMsg('NOT ENOUGH COINS!', 'lose'); shakeBtn(); return; }
+
+  spinning = true;
+  document.getElementById('spinBtn').disabled = true;
+  document.getElementById('levArm').classList.add('pull');
+  setTimeout(() => document.getElementById('levArm').classList.remove('pull'), 280);
+
+  coins -= bet;
+  spinCount++;
+  updateStats();
+  setMsg('SPINNING...', '');
+  document.getElementById('wflash').classList.remove('on');
+  document.querySelectorAll('.reel-box').forEach(b => b.classList.remove('winner'));
+
+  // Pick final results
+  const result = [randPoke(), randPoke(), randPoke()];
+
+  // Start all reels
+  startSpin(0); startSpin(1); startSpin(2);
+
+  // Stop staggered
+  await wait(900);  stopSpin(0, result[0]);
+  await wait(300);  stopSpin(1, result[1]);
+  await wait(300);  stopSpin(2, result[2]);
+  await wait(150);
+
+  spinning = false;
+  document.getElementById('spinBtn').disabled = false;
+  evaluate(result);
+}
+
+// ─── EVALUATE ─────────────────────────────────────────────────────────────────
+async function evaluate(poke) {
+  const [p0,p1,p2] = poke;
+  let mult = 0, rtype = 'lose', msg = '';
+  let isCatch = false;
+
+  const allSame   = p0.id===p1.id && p1.id===p2.id;
+  const allLeg    = p0.leg && p1.leg && p2.leg;
+  const allStart  = p0.start && p1.start && p2.start;
+  const sameType  = p0.types.some(t => p1.types.includes(t) && p2.types.includes(t));
+  const anyPair   = p0.id===p1.id || p1.id===p2.id || p0.id===p2.id;
+
+  if      (allSame && allLeg) { mult=PAYOUTS.jackpot;    rtype='jackpot'; msg=`⚡ LEGENDARY JACKPOT! ×${PAYOUTS.jackpot}`; isCatch=true; }
+  else if (allSame)           { mult=PAYOUTS.triple;     rtype='win';     msg=`🏆 CAUGHT ${p0.name.toUpperCase()}! ×${PAYOUTS.triple}`; isCatch=true; }
+  else if (allStart)          { mult=PAYOUTS.starter;    rtype='win';     msg=`💎 STARTER TRIO! ×${PAYOUTS.starter}`; }
+  else if (sameType)          { mult=PAYOUTS.typeTriple; rtype='win';     msg=`🔥 TYPE MATCH! ×${PAYOUTS.typeTriple}`; }
+  else if (anyPair)           { mult=PAYOUTS.double;     rtype='win';     msg=`✨ PAIR! ×${PAYOUTS.double}`; }
+  else                        { rtype='lose'; msg=LOSE_MSGS[Math.floor(Math.random()*LOSE_MSGS.length)]; }
+
+  const win = mult * bet;
+  coins += win;
+  totalWon += win;
+  updateStats();
+  document.getElementById('dLastWin').textContent = win > 0 ? `+${win}` : '—';
+  document.getElementById('dTotalWon').textContent = totalWon.toLocaleString();
+
+  if (rtype !== 'lose') {
+    markWinner(0); markWinner(1); markWinner(2);
+    document.getElementById('wflash').classList.add('on');
+    setTimeout(() => document.getElementById('wflash').classList.remove('on'), 2500);
+    const n = rtype==='jackpot' ? 55 : 18;
+    for (let i=0;i<n;i++) setTimeout(spawnCoin, i*55);
+  }
+
+  if (isCatch) {
+    const catchPoke = allLeg ? p0 : p0;
+    await triggerCatch(catchPoke);
+    setMsg(msg, rtype === 'jackpot' ? 'jackpot' : 'catch');
+  } else {
+    setMsg(msg, rtype);
+  }
+
+  addHistory(rtype, win, isCatch);
+
+  if (coins <= 0) {
+    setTimeout(() => { coins=1000; updateStats(); setMsg('BROKE! HERE\'S 1000 FREE COINS!',''); }, 1800);
+  }
+}
+
+// ─── CATCH MECHANIC ───────────────────────────────────────────────────────────
+function triggerCatch(poke) {
+  return new Promise(resolve => {
+    // Update caught collection
+    if (caught[poke.id]) caught[poke.id].count++;
+    else caught[poke.id] = { poke, count:1 };
+    updateDex();
+
+    // Show overlay
+    const ov = document.getElementById('catchOverlay');
+    const ball = document.getElementById('catchBall');
+    const img  = document.getElementById('catchImg');
+    const nm   = document.getElementById('catchName');
+
+    img.onerror = () => { img.onerror=null; img.src = SPRITE_FALLBACK(poke.id); };
+    img.src = SPRITE(poke.id);
+    nm.textContent = poke.name.toUpperCase();
+    ball.classList.remove('pb-shake');
+    ov.classList.add('show');
+
+    // Animate pokeball then reveal pokemon
+    void ball.offsetWidth;
+    ball.classList.add('pb-shake');
+
+    const dismiss = document.getElementById('catchDismiss');
+    const handler = () => {
+      ov.classList.remove('show');
+      dismiss.removeEventListener('click', handler);
+      resolve();
+    };
+    dismiss.addEventListener('click', handler);
+    // Auto-dismiss after 4s
+    setTimeout(() => { if(ov.classList.contains('show')) handler(); }, 4000);
+  });
+}
+
+function updateDex() {
+  const grid = document.getElementById('dexGrid');
+  const cnt  = document.getElementById('dexCount');
+  const entries = Object.values(caught);
+  cnt.textContent = `${entries.length} caught`;
+  grid.innerHTML = '';
+  entries.forEach(({poke, count}) => {
+    const card = document.createElement('div');
+    card.className = 'dex-card';
+    card.title = poke.name;
+    card.innerHTML = `
+      <img src="${SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+      <div class="dc-name">${poke.name}</div>
+      ${count > 1 ? `<div class="dc-cnt">×${count}</div>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ─── UI HELPERS ───────────────────────────────────────────────────────────────
+const LOSE_MSGS = [
+  'NOT THIS TIME...','SO CLOSE!','TEAM ROCKET ESCAPED',
+  'MISTY TOOK YOUR COINS','PROFESSOR OAK IS DISAPPOINTED',
+  'GARY OAK LAUGHS AT YOU','TACKLE NOT VERY EFFECTIVE',
+  'BETTER LUCK NEXT SPIN!'
+];
+
+function setMsg(text, type) {
+  const el = document.getElementById('msgEl');
+  el.className = 'msg';
+  void el.offsetWidth; // reflow for animation replay
+  el.textContent = text;
+  el.className = 'msg ' + (type||'');
+}
+
+function updateStats() {
+  document.getElementById('dCoins').textContent = coins.toLocaleString();
+  document.getElementById('dSpins').textContent = spinCount;
+}
+
+function shakeBtn() {
+  const b = document.getElementById('spinBtn');
+  b.style.transform='translateX(-7px)';
+  setTimeout(()=>b.style.transform='translateX(7px)',80);
+  setTimeout(()=>b.style.transform='translateX(-4px)',160);
+  setTimeout(()=>b.style.transform='',240);
+}
+
+function addHistory(type, amount, isCatch) {
+  history.unshift({type, amount, isCatch});
+  if (history.length > 10) history.pop();
+  const list = document.getElementById('histList');
+  list.innerHTML = '';
+  history.forEach(h => {
+    const p = document.createElement('div');
+    p.className = `hp ${h.isCatch ? 'catch' : h.type}`;
+    p.textContent = h.isCatch ? `🎉 CAUGHT!` : h.type==='jackpot' ? `⚡+${h.amount}` : h.type==='win' ? `+${h.amount}` : `-${bet}`;
+    list.appendChild(p);
+  });
+}
+
+function spawnCoin() {
+  const c = document.createElement('div');
+  c.className = 'coin-p';
+  c.textContent = '🪙';
+  c.style.cssText = `left:${10+Math.random()*80}%;top:20%;
+    animation-duration:${.65+Math.random()*.8}s;font-size:${12+Math.random()*14}px;`;
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(), 1500);
+}
+
+// ─── BET ──────────────────────────────────────────────────────────────────────
+function setBet(v) {
+  bet = Math.max(1, Math.min(100, parseInt(v)));
+  document.getElementById('betSlider').value = bet;
+  document.getElementById('betNum').textContent = bet;
+  const pct = ((bet-1)/99*100).toFixed(1)+'%';
+  document.getElementById('betSlider').style.setProperty('--p', pct);
+  document.querySelectorAll('.qb').forEach(b => b.classList.toggle('on', parseInt(b.dataset.v)===bet));
+}
+
+document.getElementById('betSlider').addEventListener('input', e => setBet(e.target.value));
+document.getElementById('maxBtn').addEventListener('click', () => setBet(100));
+document.querySelectorAll('.qb').forEach(b => b.addEventListener('click', () => setBet(b.dataset.v)));
+document.getElementById('spinBtn').addEventListener('click', spin);
+document.getElementById('lev').addEventListener('click', spin);
+document.addEventListener('keydown', e => { if(e.code==='Space'&&!spinning){e.preventDefault();spin();}});
+document.getElementById('ptBtn').addEventListener('click', () => {
+  document.getElementById('ptBody').classList.toggle('vis');
+  document.getElementById('ptBtn').classList.toggle('open');
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+setBet(10);
+updateStats();
+// Show a random pokemon on each reel initially
+POOL.slice(0,3).forEach((p,r) => setReel(r, p));
+</script>
+</body>
+</html>

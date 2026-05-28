@@ -48,12 +48,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .sval{font-family:'Bungee',cursive;font-size:1.4rem;color:var(--gold);text-shadow:0 0 10px rgba(255,200,0,.4);line-height:1.15}
 .sval.b{color:var(--neon-b);text-shadow:0 0 10px rgba(0,229,255,.4)}
 .sval.g{color:var(--neon-g);text-shadow:0 0 10px rgba(57,255,20,.4)}
-.level-bar{display:flex;align-items:center;gap:10px;padding:8px 20px;border-bottom:2px solid #1c1c2e;background:#060610}
-.lv-label{font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:2px;color:#445;flex-shrink:0}
-.lv-badge{font-family:'Bungee Inline',cursive;font-size:1rem;color:var(--gold);text-shadow:0 0 10px var(--gold);flex-shrink:0;min-width:55px}
-.lv-track{flex:1;height:7px;background:#111;border-radius:4px;overflow:hidden;border:1px solid #222}
-.lv-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .5s ease;box-shadow:0 0 6px rgba(255,200,0,.4)}
-.lv-xp{font-family:'Bungee',cursive;font-size:.58rem;color:#445;flex-shrink:0}
+
 .streak-bar{display:flex;align-items:center;gap:8px;padding:5px 20px;background:#080810;border-bottom:2px solid #1c1c2e}
 .streak-badge{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:1px;padding:3px 10px;border-radius:18px;border:1px solid #333;color:#445;transition:all .3s}
 .streak-badge.hot{border-color:#ff6600;color:#ff9900;background:rgba(255,100,0,.1);text-shadow:0 0 8px #ff6600}
@@ -115,12 +110,6 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .qb:hover{background:#181828;border-color:var(--gold);color:var(--gold)}
 .qb.on{background:#181200;border-color:var(--gold);color:var(--gold);box-shadow:0 0 8px rgba(255,200,0,.18)}
 .action-row{display:flex;align-items:center;gap:14px}
-.lever-wrap{position:relative;width:58px;height:96px;flex-shrink:0;cursor:pointer;user-select:none}
-.lever-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:24px;background:linear-gradient(180deg,#555,#1e1e1e);border-radius:5px;border:2px solid #666;box-shadow:0 3px 6px rgba(0,0,0,.5)}
-.lever-base::after{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:7px;height:13px;background:#141414;border-radius:3px}
-.lever-arm{position:absolute;bottom:20px;left:50%;width:5px;height:62px;transform-origin:bottom center;transform:translateX(-50%) rotate(-22deg);background:linear-gradient(90deg,#777,#bbb,#777);border-radius:3px;transition:transform .22s cubic-bezier(.36,2,.5,.8)}
-.lever-ball{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff6666,#bb0000);box-shadow:0 0 9px rgba(180,0,0,.6)}
-.lever-arm.pull{transform:translateX(-50%) rotate(22deg)}
 .spin-btn{flex:1;height:62px;background:linear-gradient(135deg,#c00,#800 50%,#c00);border:none;border-radius:13px;font-family:'Bungee Inline',cursive;font-size:1.55rem;letter-spacing:3px;color:#fff;cursor:pointer;position:relative;overflow:hidden;user-select:none;box-shadow:0 5px 0 #4a0000,0 7px 18px rgba(180,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);transition:all .1s;text-shadow:0 2px 3px rgba(0,0,0,.45)}
 .spin-btn::before{content:'';position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);transition:left .45s}
 .spin-btn:hover::before{left:150%}
@@ -187,7 +176,42 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .battle-result.defeat{color:#cc2222;text-shadow:0 0 16px #f00}
 .battle-result.fled{color:#556}
 
-/* ── COOLDOWN OVERLAY ── */
+/* ── SHINY HUNT ── */
+/* shimmer keyframe used on shiny reel cells */
+@keyframes shinyShimmer{
+  0%  {filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #ff0080) hue-rotate(0deg) brightness(1.3)}
+  25% {filter:drop-shadow(0 0 10px #ffe600) drop-shadow(0 0 20px #ff6600) hue-rotate(90deg) brightness(1.4)}
+  50% {filter:drop-shadow(0 0 10px #00e5ff) drop-shadow(0 0 20px #ff00ff) hue-rotate(180deg) brightness(1.35)}
+  75% {filter:drop-shadow(0 0 10px #39ff14) drop-shadow(0 0 18px #ffe600) hue-rotate(270deg) brightness(1.4)}
+  100%{filter:drop-shadow(0 0 8px #ff0080) drop-shadow(0 0 16px #fff) hue-rotate(360deg) brightness(1.3)}
+}
+.reel-box.shiny img{animation:shinyShimmer 1.2s linear infinite!important}
+.reel-box.shiny{border-color:#ff00ff!important;box-shadow:0 0 20px #ff00ff,0 0 40px #00e5ff!important}
+/* dex card for shiny caught */
+.dex-card.shiny-caught{border-color:#ff00ff!important;background:linear-gradient(135deg,#0a0018,#150028)!important;box-shadow:0 0 12px rgba(255,0,255,.3)}
+.dex-card.shiny-caught::after{content:'✨';position:absolute;top:2px;left:4px;font-size:.7rem}
+/* rainbow coin rain for shiny catch */
+@keyframes rainbowCoin{
+  0%  {transform:translateY(-40px) rotate(0);opacity:1;filter:hue-rotate(0deg)}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0;filter:hue-rotate(360deg)}
+}
+.coin-p.rainbow{animation:rainbowCoin linear forwards}
+.pklv-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:520;display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 16px 30px;overflow-y:auto}
+.pklv-overlay.show{display:flex;animation:fadeIn .3s ease}
+.pklv-title{font-family:'Bungee Inline',cursive;font-size:1.7rem;color:var(--gold);text-shadow:0 0 20px var(--gold);letter-spacing:3px;margin-bottom:4px;text-align:center}
+.pklv-sub{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:3px;color:#667;margin-bottom:4px;text-align:center}
+.pklv-points{font-family:'Bungee Inline',cursive;font-size:1.1rem;color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);margin-bottom:16px;text-align:center}
+.pklv-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%;max-width:520px;margin-bottom:16px}
+.pklv-card{background:#09090f;border:2px solid #1e1e2e;border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:all .18s;width:100px;position:relative}
+.pklv-card:hover{border-color:var(--gold);box-shadow:0 0 16px rgba(255,200,0,.3);transform:translateY(-3px)}
+.pklv-card img{width:60px;height:60px;object-fit:contain}
+.pklv-card .pk-name{font-family:'Bungee',cursive;font-size:.5rem;letter-spacing:1px;text-transform:uppercase;color:#778;text-align:center}
+.pklv-card .pk-lv{font-family:'Bungee',cursive;font-size:.75rem;color:var(--gold);text-shadow:0 0 6px rgba(255,200,0,.4)}
+.pklv-card .pk-pwr{font-size:.6rem;color:#556}
+.pklv-card .pk-gain{font-size:.6rem;color:var(--neon-g);text-shadow:0 0 6px var(--neon-g)}
+.pklv-card .pk-wins{font-size:.52rem;color:#3a5a3a}
+.pklv-skip{font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:2px;color:#445;cursor:pointer;padding:7px 18px;border:1px solid #2a2a3a;border-radius:20px;background:none;transition:all .2s;margin-top:4px}
+.pklv-skip:hover{color:#667;border-color:#444}
 .cooldown-overlay{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
 .cooldown-overlay.show{display:flex}
 .cd-title{font-family:'Bungee Inline',cursive;font-size:2rem;color:#c00;text-shadow:0 0 20px #f00;letter-spacing:2px}
@@ -236,6 +260,15 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 </head>
 <body>
 
+<!-- POKEMON LEVEL PICKER -->
+<div class="pklv-overlay" id="pklvOverlay">
+  <div class="pklv-title">⬆️ TRAINER LEVEL UP!</div>
+  <div class="pklv-sub">CHOOSE ONE POKÉMON TO POWER UP</div>
+  <div class="pklv-points" id="pklvPoints">1 POINT TO SPEND</div>
+  <div class="pklv-grid" id="pklvGrid"></div>
+  <button class="pklv-skip" id="pklvSkip">SKIP FOR NOW →</button>
+</div>
+
 <!-- COOLDOWN -->
 <div class="cooldown-overlay" id="cooldownOverlay">
   <div class="cd-pokeball"></div>
@@ -243,6 +276,16 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <div class="cd-sub">YOUR POKÉMON NEED A REST</div>
   <div class="cd-timer" id="cdTimer">1:00:00</div>
   <div class="cd-msg">You ran out of coins. Come back in an hour to claim your free 1,000 coins!</div>
+</div>
+
+<!-- SHINY CATCH OVERLAY -->
+<div class="catch-overlay" id="shinyOverlay" style="background:rgba(0,0,0,.92)">
+  <div class="catch-label" style="color:var(--neon-p);text-shadow:0 0 20px var(--neon-p),0 0 40px var(--gold)">✨ A SHINY APPEARED! ✨</div>
+  <div class="pokeball" id="shinyBall" style="box-shadow:0 0 30px #ff00ff,0 0 60px #00e5ff"></div>
+  <img class="catch-img" id="shinyImg" src="" alt="" style="filter:drop-shadow(0 0 24px #ff00ff) drop-shadow(0 0 40px var(--gold))">
+  <div class="catch-name" id="shinyName" style="color:var(--neon-p);text-shadow:0 0 20px var(--neon-p),0 0 40px var(--neon-b)"></div>
+  <div class="catch-sub" id="shinySub" style="color:var(--gold)"></div>
+  <button class="ov-dismiss" id="shinyDismiss">CONTINUE →</button>
 </div>
 
 <!-- CATCH OVERLAY -->
@@ -308,12 +351,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       <div class="stat" data-c="b"><div class="slbl">Last Win</div><div class="sval b" id="dLastWin">—</div></div>
       <div class="stat" data-c="g"><div class="slbl">Total Won</div><div class="sval g" id="dTotalWon">0</div></div>
     </div>
-    <div class="level-bar">
-      <div class="lv-label">TRAINER</div>
-      <div class="lv-badge" id="lvBadge">LV 1</div>
-      <div class="lv-track"><div class="lv-fill" id="lvFill" style="width:0%"></div></div>
-      <div class="lv-xp" id="lvXp">0 / 50 XP</div>
-    </div>
+
     <div class="streak-bar">
       <div class="streak-badge" id="streakBadge">🔥 0 STREAK</div>
       <div class="battle-counter" id="battleCounter">⚔️ BATTLE IN 10</div>
@@ -356,10 +394,6 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
         <button class="qb" data-v="100">MAX<br>100</button>
       </div>
       <div class="action-row">
-        <div class="lever-wrap" id="lev">
-          <div class="lever-arm" id="levArm"><div class="lever-ball"></div></div>
-          <div class="lever-base"></div>
-        </div>
         <button class="spin-btn" id="spinBtn">SPIN!</button>
         <button class="max-btn" id="maxBtn">MAX<br>BET</button>
       </div>
@@ -378,6 +412,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="foot">
       <div class="fs"><div class="fl">Min Bet</div><div class="fv">1 🪙</div></div>
       <div class="fs"><div class="fl">Spins</div><div class="fv" id="dSpins">0</div></div>
+      <div class="fs"><div class="fl">✨ Shinies</div><div class="fv" id="dShinies">0</div></div>
       <div class="fs"><div class="fl">Max Bet</div><div class="fv">100 🪙</div></div>
     </div>
   </div>
@@ -447,6 +482,10 @@ function typeMultiplier(attackerTypes, defenderTypes) {
 
 const SPRITE          = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 const SPRITE_FALLBACK = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+const SPRITE_SHINY    = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
+
+const SHINY_RATE = 75;   // 1-in-75 chance a reel slot is shiny
+const SHINY_CATCH_RATE = 55; // % catch chance when all 3 match shiny (vs normal ~40%)
 
 POOL.forEach(p => { const i=new Image(); i.onerror=()=>{i.src=SPRITE_FALLBACK(p.id);}; i.src=SPRITE(p.id); });
 
@@ -466,15 +505,17 @@ let coins=1000, totalWon=0, spinCount=0, bet=10;
 let spinning=false, history=[], caught={}, spinIntervals=[null,null,null];
 let bestWin=0, xp=0, level=1, winStreak=0, lastDaily=0, soundOn=false;
 let spinsUntilBattle=BATTLE_EVERY;
-let firstWinGiven=false;   // early first win flag
-let battleUnlocked=false;  // unlocked after first catch
+let firstWinGiven=false;
+let battleUnlocked=false;
+let pendingLvPoints=0;
+let shinyCount=0; // total shinies ever caught
 
 // ─── SAVE / LOAD ─────────────────────────────────────────────────────────────
 function saveState() {
   localStorage.setItem(SAVE_KEY, JSON.stringify({
     coins,totalWon,spinCount,caught,history:history.slice(0,10),
     bestWin,xp,level,winStreak,lastDaily,soundOn,
-    spinsUntilBattle,firstWinGiven,battleUnlocked
+    spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount
   }));
 }
 
@@ -489,6 +530,8 @@ function loadState() {
     spinsUntilBattle=d.spinsUntilBattle??BATTLE_EVERY;
     firstWinGiven=d.firstWinGiven??false;
     battleUnlocked=d.battleUnlocked??false;
+    pendingLvPoints=d.pendingLvPoints??0;
+    shinyCount=d.shinyCount??0;
     return true;
   } catch(e){ return false; }
 }
@@ -554,6 +597,7 @@ const sfxBattle =()=>[330,392,440,523].forEach((f,i)=>tone(f,'square',.18,.12,i*
 const sfxVict   =()=>[523,659,784,880,1047].forEach((f,i)=>tone(f,'sine',.4,.2,i*.08));
 const sfxDaily  =()=>[784,880,988,1175].forEach((f,i)=>tone(f,'sine',.25,.18,i*.06));
 const sfxLevel  =()=>[523,659,784,880,1047].forEach((f,i)=>tone(f,'sine',.4,.22,i*.09));
+const sfxShiny  =()=>[1047,1319,1568,2093].forEach((f,i)=>tone(f,'sine',.5,.22,i*.07));
 
 // ─── REEL HELPERS ─────────────────────────────────────────────────────────────
 function randPoke(){ return POOL[Math.floor(Math.random()*POOL.length)]; }
@@ -578,10 +622,20 @@ function startSpin(r){
   },90);
 }
 
-function stopSpin(r,poke){
+function stopSpin(r,poke,shiny=false){
   clearInterval(spinIntervals[r]);
   document.getElementById(`rb${r}`).classList.remove('spinning');
-  setReel(r,poke); sfxStop();
+  if(shiny){
+    document.getElementById(`rb${r}`).classList.add('shiny');
+    // Use shiny sprite
+    const img=document.getElementById(`ri${r}`);
+    img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
+    img.src=SPRITE_SHINY(poke.id);
+    document.getElementById(`rn${r}`).textContent='✨ '+poke.name;
+    sfxShiny();
+  } else {
+    setReel(r,poke); sfxStop();
+  }
 }
 
 function markWinner(r){ document.getElementById(`rb${r}`).classList.add('winner'); }
@@ -624,29 +678,33 @@ async function spin(){
 
   spinning=true;
   document.getElementById('spinBtn').disabled=true;
-  document.getElementById('levArm').classList.add('pull');
-  setTimeout(()=>document.getElementById('levArm').classList.remove('pull'),280);
 
   coins-=bet; spinCount++; spinsUntilBattle--;
   updateStats(); updateBattleCounter();
   setMsg('SPINNING...','');
   document.getElementById('wflash').classList.remove('on');
-  document.querySelectorAll('.reel-box').forEach(b=>b.classList.remove('winner','catch-try'));
+  document.querySelectorAll('.reel-box').forEach(b=>b.classList.remove('winner','catch-try','shiny'));
 
   let result=[randPoke(),randPoke(),randPoke()];
   result=applyEarlyWin(result);
 
+  // Each reel independently rolls for shiny
+  const isShiny=[
+    Math.random()<1/SHINY_RATE,
+    Math.random()<1/SHINY_RATE,
+    Math.random()<1/SHINY_RATE,
+  ];
+
   startSpin(0);startSpin(1);startSpin(2);
-  await wait(900);  stopSpin(0,result[0]);
-  await wait(300);  stopSpin(1,result[1]);
-  await wait(300);  stopSpin(2,result[2]);
+  await wait(900);  stopSpin(0,result[0],isShiny[0]);
+  await wait(300);  stopSpin(1,result[1],isShiny[1]);
+  await wait(300);  stopSpin(2,result[2],isShiny[2]);
   await wait(150);
 
   spinning=false;
   document.getElementById('spinBtn').disabled=false;
-  await evaluate(result);
+  await evaluate(result,isShiny);
 
-  // Battle event check — only if battle unlocked (has caught at least 1)
   if(spinsUntilBattle<=0 && battleUnlocked && Object.keys(caught).length>0){
     spinsUntilBattle=BATTLE_EVERY;
     updateBattleCounter();
@@ -658,8 +716,10 @@ async function spin(){
 }
 
 // ─── EVALUATE ─────────────────────────────────────────────────────────────────
-async function evaluate(poke){
+async function evaluate(poke, isShiny=[false,false,false]){
   const [p0,p1,p2]=poke;
+  const allShiny = isShiny[0]&&isShiny[1]&&isShiny[2];
+  const anyShiny = isShiny[0]||isShiny[1]||isShiny[2];
   let mult=0,rtype='lose',msg='',attemptCatch=false;
 
   const allSame  =p0.id===p1.id&&p1.id===p2.id;
@@ -668,24 +728,25 @@ async function evaluate(poke){
   const sameType =p0.types.some(t=>p1.types.includes(t)&&p2.types.includes(t));
   const anyPair  =p0.id===p1.id||p1.id===p2.id||p0.id===p2.id;
 
-  if     (allSame&&allLeg){ mult=PAYOUTS.jackpot;    rtype='jackpot'; msg=`⚡ LEGENDARY JACKPOT! ×${PAYOUTS.jackpot}`; attemptCatch=true; }
-  else if(allSame)        { mult=PAYOUTS.triple;     rtype='win';     msg=`🏆 3× ${p0.name.toUpperCase()}! ×${PAYOUTS.triple}`; attemptCatch=true; }
-  else if(allStart)       { mult=PAYOUTS.starter;    rtype='win';     msg=`💎 STARTER TRIO! ×${PAYOUTS.starter}`; }
-  else if(sameType)       { mult=PAYOUTS.typeTriple; rtype='win';     msg=`🔥 TYPE MATCH! ×${PAYOUTS.typeTriple}`; }
-  else if(anyPair)        { mult=PAYOUTS.double;     rtype='win';     msg=`✨ PAIR! ×${PAYOUTS.double}`; }
-  else                    { rtype='lose'; msg=LOSE_MSGS[Math.floor(Math.random()*LOSE_MSGS.length)]; }
+  // Shiny triple same = special jackpot path
+  if(allSame&&allShiny&&allLeg){ mult=PAYOUTS.jackpot*2;  rtype='jackpot'; msg=`✨⚡ SHINY LEGENDARY! ×${PAYOUTS.jackpot*2}`; attemptCatch=true; }
+  else if(allSame&&allShiny)   { mult=PAYOUTS.triple*2;   rtype='jackpot'; msg=`✨ SHINY ${p0.name.toUpperCase()}! ×${PAYOUTS.triple*2}`; attemptCatch=true; }
+  else if(allSame&&allLeg)     { mult=PAYOUTS.jackpot;    rtype='jackpot'; msg=`⚡ LEGENDARY JACKPOT! ×${PAYOUTS.jackpot}`; attemptCatch=true; }
+  else if(allSame)             { mult=PAYOUTS.triple;     rtype='win';     msg=`🏆 3× ${p0.name.toUpperCase()}! ×${PAYOUTS.triple}`; attemptCatch=true; }
+  else if(allStart)            { mult=PAYOUTS.starter;    rtype='win';     msg=`💎 STARTER TRIO! ×${PAYOUTS.starter}`; }
+  else if(sameType)            { mult=PAYOUTS.typeTriple; rtype='win';     msg=`🔥 TYPE MATCH! ×${PAYOUTS.typeTriple}`; }
+  else if(anyPair)             { mult=PAYOUTS.double;     rtype='win';     msg=`✨ PAIR! ×${PAYOUTS.double}`; }
+  else                         { rtype='lose'; msg=LOSE_MSGS[Math.floor(Math.random()*LOSE_MSGS.length)]; }
 
   const win=mult*bet;
   coins+=win; totalWon+=win;
 
-  // Streak
   if(rtype!=='lose'){ winStreak++; if(winStreak>0&&winStreak%5===0){ const b=50*Math.floor(winStreak/5);coins+=b;showToast(`🔥 ${winStreak} WIN STREAK! +${b} BONUS!`); } }
   else winStreak=0;
   updateStreakBadge();
 
-  // XP
   const gained=rtype==='jackpot'?20:rtype==='win'?(attemptCatch?15:8):2;
-  if(addXP(gained)) sfxLevel();
+  if(await addXP(gained)) sfxLevel();
 
   if(win>bestWin){ bestWin=win; showToast(`🏆 NEW BEST WIN: +${win} COINS!`); }
 
@@ -698,12 +759,27 @@ async function evaluate(poke){
     document.getElementById('wflash').classList.add('on');
     setTimeout(()=>document.getElementById('wflash').classList.remove('on'),2500);
     const n=rtype==='jackpot'?55:18;
-    for(let i=0;i<n;i++) setTimeout(spawnCoin,i*55);
+    const rainbow=allShiny;
+    for(let i=0;i<n;i++) setTimeout(()=>spawnCoin(rainbow),i*55);
     rtype==='jackpot'?sfxJack():sfxWin();
   } else sfxFail();
 
-  // Catch attempt
-  if(attemptCatch){
+  // Shiny catch attempt (all 3 shiny same pokemon)
+  if(allSame&&allShiny){
+    markCatchTry(0);markCatchTry(1);markCatchTry(2);
+    sfxShiny();
+    const caught_it=Math.random()*100 < SHINY_CATCH_RATE;
+    await wait(500);
+    if(caught_it){
+      await triggerShinyCatch(p0);
+      setMsg(msg,'jackpot');
+    } else {
+      setMsg(`✨ ${p0.name.toUpperCase()} SHINY BROKE FREE!`,'jackpot');
+      await showCatchFail(p0);
+    }
+  }
+  // Normal catch attempt
+  else if(attemptCatch){
     markCatchTry(0);markCatchTry(1);markCatchTry(2);
     const caught_it=rollCatch(p0);
     await wait(400);
@@ -718,7 +794,7 @@ async function evaluate(poke){
     setMsg(msg,rtype);
   }
 
-  addHistory(rtype,win,attemptCatch&&rollCatch); // pass for label
+  addHistory(rtype,win,attemptCatch||allShiny);
 
   if(coins<=0){
     coins=0; saveState(); setCooldown();
@@ -731,9 +807,12 @@ async function evaluate(poke){
 // ─── CATCH OVERLAY ────────────────────────────────────────────────────────────
 function triggerCatch(poke, fromSlot=false){
   return new Promise(resolve=>{
+    // Update caught dict
     if(caught[poke.id]) caught[poke.id].count++;
-    else caught[poke.id]={poke,count:1,wins:0};
+    else caught[poke.id]={poke,count:1,wins:0,pokeLevel:1};
     battleUnlocked=true;
+    // Save immediately so a refresh never loses the catch
+    saveState();
     updateDex(); sfxCatch();
 
     document.getElementById('catchLabel').textContent='YOU CAUGHT A POKÉMON!';
@@ -775,7 +854,44 @@ function showCatchFail(poke){
   });
 }
 
-// ─── BATTLE SYSTEM ───────────────────────────────────────────────────────────
+// ─── SHINY CATCH ──────────────────────────────────────────────────────────────
+function triggerShinyCatch(poke){
+  return new Promise(resolve=>{
+    // Store as shiny in caught dict
+    if(caught[poke.id]){
+      caught[poke.id].count++;
+      caught[poke.id].hasShiny=true;
+    } else {
+      caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:true};
+    }
+    shinyCount++;
+    battleUnlocked=true;
+    saveState();
+    updateDex();
+    document.getElementById('dShinies').textContent=shinyCount;
+    sfxShiny();
+    for(let i=0;i<60;i++) setTimeout(()=>spawnCoin(true),i*40);
+
+    const ov =document.getElementById('shinyOverlay');
+    const ball=document.getElementById('shinyBall');
+    const img =document.getElementById('shinyImg');
+    img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
+    img.src=SPRITE_SHINY(poke.id);
+    document.getElementById('shinyName').textContent='✨ '+poke.name.toUpperCase()+' ✨';
+    document.getElementById('shinySub').textContent=
+      `SHINY #${shinyCount} CAUGHT! +25% BATTLE POWER`;
+    ball.classList.remove('pb-shake');
+    ov.classList.add('show');
+    void ball.offsetWidth; ball.classList.add('pb-shake');
+
+    const btn=document.getElementById('shinyDismiss');
+    const h=()=>{ov.classList.remove('show');btn.removeEventListener('click',h);resolve();};
+    btn.addEventListener('click',h);
+    setTimeout(()=>{if(ov.classList.contains('show'))h();},6000);
+  });
+}
+
+
 let battleState={ wild:null, yours:null, wildHp:100, yourHp:100, wildMaxHp:100, yourMaxHp:100, active:false };
 let battleResolve=null;
 
@@ -815,28 +931,30 @@ function triggerBattle(){
 function buildBattleRoster(wild){
   const roster=document.getElementById('battleRoster');
   roster.innerHTML='';
-  Object.values(caught).forEach(({poke,wins=0})=>{
+  Object.values(caught).forEach(({poke,wins=0,pokeLevel=1,hasShiny=false})=>{
     const mult=typeMultiplier(poke.types,wild.types);
     const adv=mult>1?'⬆️ SUPER EFFECTIVE':mult<1?'⬇️ NOT EFFECTIVE':'';
+    const effectivePower = pokeEffectivePower(poke, pokeLevel, hasShiny);
     const card=document.createElement('div');
     card.className='br-card';
     card.innerHTML=`
-      <img src="${SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
-      <div class="bc-name">${poke.name}</div>
-      <div class="bc-type">${poke.types.join('/')}</div>
+      <img src="${hasShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+      <div class="bc-name">${hasShiny?'✨':''} ${poke.name}</div>
+      <div style="font-family:'Bungee',cursive;font-size:.52rem;color:${hasShiny?'var(--neon-p)':'var(--gold)'}">LV ${pokeLevel}</div>
+      <div class="bc-type">PWR ${effectivePower}</div>
       ${adv?`<div class="bc-adv">${adv}</div>`:''}
       ${wins>0?`<div style="font-size:.48rem;color:#3a5a3a">⚔️ ${wins}W</div>`:''}
     `;
-    card.addEventListener('click',()=>selectBattlePoke(poke,card,wild));
+    card.addEventListener('click',()=>selectBattlePoke(poke, card, wild, pokeLevel, hasShiny));
     roster.appendChild(card);
   });
 }
 
-function selectBattlePoke(poke, card, wild){
+function selectBattlePoke(poke, card, wild, pokeLevel=1, hasShiny=false){
   document.querySelectorAll('.br-card').forEach(c=>c.classList.remove('selected'));
   card.classList.add('selected');
-  const maxHp=50+poke.power;
-  battleState.yours=poke; battleState.yourHp=maxHp; battleState.yourMaxHp=maxHp;
+  const maxHp=50+pokeEffectivePower(poke,pokeLevel,hasShiny);
+  battleState.yours=poke; battleState.yoursLevel=pokeLevel; battleState.yoursShiny=hasShiny; battleState.yourHp=maxHp; battleState.yourMaxHp=maxHp;
   const yi=document.getElementById('yourImg');
   yi.onerror=()=>{yi.onerror=null;yi.src=SPRITE_FALLBACK(poke.id);};
   yi.src=SPRITE(poke.id);
@@ -859,6 +977,7 @@ async function doFight(){
   document.getElementById('fightBtn').disabled=true;
 
   const atk=battleState.yours, def=battleState.wild;
+  const atkPower=pokeEffectivePower(atk, battleState.yoursLevel||1, battleState.yoursShiny||false);
   const youMult=typeMultiplier(atk.types,def.types);
   const wildMult=typeMultiplier(def.types,atk.types);
 
@@ -869,7 +988,7 @@ async function doFight(){
     await wait(700);
 
     // Your attack
-    const yourDmg=Math.max(1,Math.floor((atk.power*youMult*0.5)*(0.85+Math.random()*0.3)));
+    const yourDmg=Math.max(1,Math.floor((atkPower*youMult*0.5)*(0.85+Math.random()*0.3)));
     battleState.wildHp=Math.max(0,battleState.wildHp-yourDmg);
     updateBattleHp();
     const effTxt=youMult>1?' It\'s super effective!':youMult<1?' It\'s not very effective...':'';
@@ -943,13 +1062,14 @@ function updateDex(){
   cnt.textContent=`${entries.length} caught`;
   if(!entries.length){ grid.innerHTML='<span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>'; return; }
   grid.innerHTML='';
-  entries.forEach(({poke,count,wins=0})=>{
+  entries.forEach(({poke,count,wins=0,pokeLevel=1,hasShiny=false})=>{
     const card=document.createElement('div');
-    card.className='dex-card';
-    card.title=`${poke.name} — Caught ×${count}${wins?' | Battle wins: '+wins:''}`;
+    card.className='dex-card'+(hasShiny?' shiny-caught':'');
+    card.title=`${poke.name} — LV ${pokeLevel} | Caught ×${count}${hasShiny?' | ✨ SHINY':''}${wins?' | Battles: '+wins:''}`;
     card.innerHTML=`
-      <img src="${SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
-      <div class="dc-name">${poke.name}</div>
+      <img src="${hasShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+      <div class="dc-name">${hasShiny?'✨ ':''} ${poke.name}</div>
+      <div style="font-family:'Bungee',cursive;font-size:.52rem;color:${hasShiny?'var(--neon-p)':'var(--gold)'}">LV ${pokeLevel}</div>
       ${count>1?`<div class="dc-cnt">×${count}</div>`:''}
       ${wins>0?`<div class="dc-wins">⚔️${wins}W</div>`:''}
     `;
@@ -959,19 +1079,93 @@ function updateDex(){
 
 // ─── XP & LEVEL ───────────────────────────────────────────────────────────────
 function xpForLevel(lv){ return Math.floor(50*Math.pow(lv,1.4)); }
-function addXP(amt){
+async function addXP(amt){
   xp+=amt; let leveled=false;
-  while(xp>=xpForLevel(level)){ xp-=xpForLevel(level); level++; leveled=true; showToast(`⬆️ TRAINER LEVEL UP! LV ${level}!`); }
-  updateLevel(); return leveled;
+  while(xp>=xpForLevel(level)){
+    xp-=xpForLevel(level); level++; leveled=true;
+    pendingLvPoints++;
+    showToast(`⬆️ TRAINER LV ${level}! Pick a Pokémon to power up!`);
+    sfxLevel();
+  }
+  updateLevel();
+  // If we leveled up AND have caught pokemon, open the picker after a short delay
+  if(leveled && Object.keys(caught).length>0){
+    saveState();
+    await wait(1200);
+    await openPokeLvPicker();
+  }
+  return leveled;
 }
 function updateLevel(){
-  document.getElementById('lvBadge').textContent=`LV ${level}`;
-  const pct=Math.min(100,Math.round(xp/xpForLevel(level)*100));
-  document.getElementById('lvFill').style.width=pct+'%';
-  document.getElementById('lvXp').textContent=`${xp}/${xpForLevel(level)} XP`;
+  // level bar removed from UI — XP/level still tracked internally for daily bonus scaling
 }
 
-// ─── STREAK ───────────────────────────────────────────────────────────────────
+// ─── POKEMON LEVELING ────────────────────────────────────────────────────────
+// Each pokemon level adds 8% of base power on top
+function pokeEffectivePower(poke, pokeLevel=1, hasShiny=false){
+  const base=Math.floor(poke.power * (1 + (pokeLevel-1)*0.08));
+  return hasShiny ? Math.floor(base*1.25) : base;
+}
+
+function openPokeLvPicker(){
+  return new Promise(resolve=>{
+    if(pendingLvPoints<=0 || Object.keys(caught).length===0){ resolve(); return; }
+
+    const overlay=document.getElementById('pklvOverlay');
+    const grid=document.getElementById('pklvGrid');
+    const ptEl=document.getElementById('pklvPoints');
+    ptEl.textContent=`${pendingLvPoints} POINT${pendingLvPoints>1?'S':''} TO SPEND`;
+    grid.innerHTML='';
+
+    Object.values(caught).forEach(entry=>{
+      const {poke, wins=0} = entry;
+      const curLv = entry.pokeLevel||1;
+      const curPwr = pokeEffectivePower(poke, curLv);
+      const newPwr = pokeEffectivePower(poke, curLv+1);
+      const gain   = newPwr - curPwr;
+
+      const card=document.createElement('div');
+      card.className='pklv-card';
+      card.innerHTML=`
+        <img src="${SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+        <div class="pk-name">${poke.name}</div>
+        <div class="pk-lv">LV ${curLv} → ${curLv+1}</div>
+        <div class="pk-pwr">PWR ${curPwr}</div>
+        <div class="pk-gain">+${gain} PWR</div>
+        ${wins>0?`<div class="pk-wins">⚔️${wins}W</div>`:''}
+      `;
+      card.addEventListener('click',()=>{
+        // Level up this pokemon
+        entry.pokeLevel = curLv+1;
+        pendingLvPoints--;
+        sfxLevel();
+        showToast(`${poke.name} powered up to LV ${curLv+1}! +${gain} power!`);
+        updateDex();
+        saveState();
+        // If more points remain and more pokemon exist, refresh; else close
+        if(pendingLvPoints>0 && Object.keys(caught).length>0){
+          openPokeLvPicker().then(resolve);
+        } else {
+          overlay.classList.remove('show');
+          resolve();
+        }
+      });
+      grid.appendChild(card);
+    });
+
+    overlay.classList.add('show');
+
+    const skipBtn=document.getElementById('pklvSkip');
+    const skipH=()=>{
+      overlay.classList.remove('show');
+      skipBtn.removeEventListener('click',skipH);
+      resolve();
+    };
+    skipBtn.addEventListener('click',skipH);
+  });
+}
+
+
 function updateStreakBadge(){
   const el=document.getElementById('streakBadge');
   el.textContent=`🔥 ${winStreak} STREAK`;
@@ -1031,7 +1225,7 @@ function renderHistory(){
 function setMsg(text,type){ const el=document.getElementById('msgEl'); el.className='msg'; void el.offsetWidth; el.textContent=text; el.className='msg '+(type||''); }
 function updateStats(){ document.getElementById('dCoins').textContent=coins.toLocaleString(); document.getElementById('dSpins').textContent=spinCount; }
 function shakeBtn(){ const b=document.getElementById('spinBtn'); b.style.transform='translateX(-7px)'; setTimeout(()=>b.style.transform='translateX(7px)',80); setTimeout(()=>b.style.transform='translateX(-4px)',160); setTimeout(()=>b.style.transform='',240); }
-function spawnCoin(){ const c=document.createElement('div'); c.className='coin-p'; c.textContent='🪙'; c.style.cssText=`left:${10+Math.random()*80}%;top:20%;animation-duration:${.65+Math.random()*.8}s;font-size:${12+Math.random()*14}px;`; document.body.appendChild(c); setTimeout(()=>c.remove(),1500); }
+function spawnCoin(rainbow=false){ const c=document.createElement('div'); c.className='coin-p'+(rainbow?' rainbow':''); c.textContent='🪙'; c.style.cssText=`left:${10+Math.random()*80}%;top:20%;animation-duration:${.65+Math.random()*.8}s;font-size:${12+Math.random()*14}px;`; document.body.appendChild(c); setTimeout(()=>c.remove(),1500); }
 let toastT=null;
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); if(toastT) clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),3200); }
 
@@ -1045,7 +1239,6 @@ document.getElementById('betSlider').addEventListener('input',e=>setBet(e.target
 document.getElementById('maxBtn').addEventListener('click',()=>setBet(100));
 document.querySelectorAll('.qb').forEach(b=>b.addEventListener('click',()=>setBet(b.dataset.v)));
 document.getElementById('spinBtn').addEventListener('click',spin);
-document.getElementById('lev').addEventListener('click',spin);
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!spinning){e.preventDefault();spin();}});
 document.getElementById('ptBtn').addEventListener('click',()=>{ document.getElementById('ptBody').classList.toggle('vis'); document.getElementById('ptBtn').classList.toggle('open'); });
 document.getElementById('soundBtn').addEventListener('click',toggleSound);
@@ -1068,6 +1261,8 @@ renderHistory();
 checkCooldown();
 document.getElementById('soundBtn').textContent=soundOn?'🔊 SFX':'🔇 SFX';
 document.getElementById('soundBtn').classList.toggle('on',soundOn);
+document.getElementById('dShinies').textContent=shinyCount;
+if(pendingLvPoints>0 && Object.keys(caught).length>0) openPokeLvPicker();
 </script>
 </body>
 </html>

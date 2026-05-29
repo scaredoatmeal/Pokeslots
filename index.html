@@ -50,6 +50,42 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .sval.g{color:var(--neon-g);text-shadow:0 0 10px rgba(57,255,20,.4)}
 
 .streak-bar{display:flex;align-items:center;gap:8px;padding:5px 20px;background:#080810;border-bottom:2px solid #1c1c2e}
+/* EGG METER */
+.egg-bar{display:flex;align-items:center;gap:10px;padding:7px 20px;background:#070710;border-bottom:2px solid #1c1c2e}
+.egg-icon{font-size:1.1rem;flex-shrink:0;animation:eggWobble 2.5s ease-in-out infinite}
+@keyframes eggWobble{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.egg-icon.ready{animation:eggShake .35s ease-in-out infinite}
+@keyframes eggShake{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.egg-label{font-family:'Bungee',cursive;font-size:.62rem;letter-spacing:1px;color:#556;flex-shrink:0}
+.egg-track{flex:1;height:9px;background:#0c0c14;border-radius:5px;overflow:hidden;border:1px solid #20203a}
+.egg-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#4ad,#7ef,#fff);transition:width .4s ease;box-shadow:0 0 8px rgba(120,230,255,.4)}
+.egg-pct{font-family:'Bungee',cursive;font-size:.58rem;color:#456;flex-shrink:0;min-width:54px;text-align:right}
+/* HATCH OVERLAY */
+.hatch-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:515;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
+.hatch-overlay.show{display:flex;animation:fadeIn .3s ease}
+.hatch-label{font-family:'Bungee',cursive;font-size:.85rem;letter-spacing:4px;color:#7ef;text-shadow:0 0 12px #7ef}
+.hatch-egg{font-size:5rem;animation:hatchShake .3s ease-in-out 6;filter:drop-shadow(0 0 20px rgba(120,230,255,.6))}
+@keyframes hatchShake{0%,100%{transform:rotate(-15deg) scale(1)}50%{transform:rotate(15deg) scale(1.08)}}
+.hatch-img{width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(120,230,255,.7));animation:catchPop .5s cubic-bezier(.36,2,.5,.8)}
+.hatch-name{font-family:'Bungee Inline',cursive;font-size:2rem;color:#7ef;text-shadow:0 0 20px #7ef,0 0 40px #4ad;letter-spacing:3px}
+.hatch-sub{font-family:'Rajdhani',sans-serif;font-size:.85rem;color:#667;letter-spacing:1px}
+/* ── BADGE CASE ── */
+.badge-section{padding:0 20px 16px}
+.badge-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.badge-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:#445;font-weight:700}
+.badge-count{font-family:'Bungee',cursive;font-size:.75rem;color:var(--gold);text-shadow:0 0 8px var(--gold)}
+.badge-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
+.badge-slot{aspect-ratio:1;border-radius:50%;border:2px solid #1c1c2a;background:#08080f;display:flex;align-items:center;justify-content:center;font-size:.9rem;position:relative;transition:all .3s;filter:grayscale(1) brightness(.4);opacity:.5}
+.badge-slot.earned{filter:none;opacity:1;border-color:var(--gold);background:radial-gradient(circle,#2a2200,#0a0a12);box-shadow:0 0 10px rgba(255,200,0,.4);animation:badgeGlow 2s ease-in-out infinite alternate}
+@keyframes badgeGlow{from{box-shadow:0 0 6px rgba(255,200,0,.3)}to{box-shadow:0 0 14px rgba(255,200,0,.6)}}
+.badge-slot .badge-tip{display:none}
+/* gym leader battle styling */
+.battle-overlay.gym .battle-title{color:var(--gold);text-shadow:0 0 20px var(--gold),0 0 40px #ff6600}
+.battle-overlay.gym .battle-arena{border-color:var(--gold);box-shadow:0 0 30px rgba(255,200,0,.15)}
+.battle-overlay.gym .battle-arena::before{content:'GYM';color:rgba(255,200,0,.1)}
+.gym-banner{font-family:'Bungee',cursive;font-size:.75rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px var(--gold);text-align:center;margin-bottom:10px;display:none}
+.battle-overlay.gym .gym-banner{display:block}
+.fighter .lvl-badge-mini{font-size:.55rem;color:var(--gold)}
 .streak-badge{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:1px;padding:3px 10px;border-radius:18px;border:1px solid #333;color:#445;transition:all .3s}
 .streak-badge.hot{border-color:#ff6600;color:#ff9900;background:rgba(255,100,0,.1);text-shadow:0 0 8px #ff6600}
 .streak-badge.fire{border-color:#ff0000;color:#ff4444;background:rgba(255,0,0,.12);text-shadow:0 0 10px #f30;animation:strk .8s ease-in-out infinite alternate}
@@ -303,10 +339,21 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <button class="ov-dismiss" id="catchDismiss">CONTINUE →</button>
 </div>
 
+<!-- EGG HATCH OVERLAY -->
+<div class="hatch-overlay" id="hatchOverlay">
+  <div class="hatch-label" id="hatchLabel">YOUR EGG IS HATCHING...</div>
+  <div class="hatch-egg" id="hatchEgg">🥚</div>
+  <img class="hatch-img" id="hatchImg" src="" alt="" style="display:none">
+  <div class="hatch-name" id="hatchName" style="display:none"></div>
+  <div class="hatch-sub" id="hatchSub" style="display:none"></div>
+  <button class="ov-dismiss" id="hatchDismiss" style="display:none">CONTINUE →</button>
+</div>
+
 <!-- BATTLE OVERLAY -->
 <div class="battle-overlay" id="battleOverlay">
-  <div class="battle-title">⚔️ WILD ENCOUNTER!</div>
-  <div class="battle-sub">BATTLE TO WIN BONUS COINS</div>
+  <div class="battle-title" id="battleTitle">⚔️ WILD ENCOUNTER!</div>
+  <div class="battle-sub" id="battleSub">BATTLE TO WIN BONUS COINS</div>
+  <div class="gym-banner" id="gymBanner"></div>
   <div class="battle-arena" id="battleArena">
     <div class="battle-fighters">
       <div class="fighter wild" id="wildFighter">
@@ -341,7 +388,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="sub">★ Casino Royale ★</div>
   </header>
   <div class="marquee-wrap">
-    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = WILD BATTLE! &nbsp;&nbsp; ★ TRADE DUPLICATES FOR COINS! &nbsp;&nbsp;</span>
+    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EGGS HATCH EVERY 25 SPINS! &nbsp;&nbsp; ★ TRADE DUPLICATES FOR COINS! &nbsp;&nbsp;</span>
   </div>
 
   <div class="machine">
@@ -349,7 +396,6 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       <div class="sign-lights"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
       <div class="sign-title">⚡ POKÉMON SLOTS ⚡</div>
       <div class="sign-lights"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div>
-      <button class="sound-btn" id="soundBtn">🔇 SFX</button>
     </div>
     <div class="stats">
       <div class="stat"><div class="slbl">🪙 Coins</div><div class="sval" id="dCoins">1,000</div></div>
@@ -361,6 +407,12 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       <div class="streak-badge" id="streakBadge">🔥 0 STREAK</div>
       <div class="battle-counter" id="battleCounter">⚔️ BATTLE IN 10</div>
       <div class="daily-badge" id="dailyBtn">🎁 DAILY</div>
+    </div>
+    <div class="egg-bar">
+      <div class="egg-icon" id="eggIcon">🥚</div>
+      <div class="egg-label">EGG</div>
+      <div class="egg-track"><div class="egg-fill" id="eggFill" style="width:0%"></div></div>
+      <div class="egg-pct" id="eggPct">0 / 25</div>
     </div>
     <button class="pt-btn" id="ptBtn">▸ PAYTABLE <span class="arr">▾</span></button>
     <div class="pt-body" id="ptBody">
@@ -402,6 +454,13 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
         <button class="spin-btn" id="spinBtn">SPIN!</button>
         <button class="max-btn" id="maxBtn">MAX<br>BET</button>
       </div>
+    </div>
+    <div class="badge-section">
+      <div class="badge-header">
+        <div class="badge-title">🏆 Gym Badges</div>
+        <div class="badge-count" id="badgeCount">0 / 8</div>
+      </div>
+      <div class="badge-grid" id="badgeGrid"></div>
     </div>
     <div class="dex-section">
       <div class="dex-header">
@@ -499,7 +558,21 @@ const SAVE_KEY        = 'pokeslots_v4';
 const COOLDOWN_MS     = 60 * 60 * 1000;
 const DAILY_MS        = 24 * 60 * 60 * 1000;
 const BATTLE_EVERY    = 10;    // spins between battles
+const GYM_EVERY       = 3;     // every Nth battle is a Gym Leader
 const PAYOUTS         = {jackpot:50, triple:10, starter:8, typeTriple:5, double:2};
+
+// ─── GYM LEADERS (8 badges, escalating difficulty) ───────────────────────────
+// Signature pokemon id references POOL; power gets a big boost in battle.
+const GYM_LEADERS = [
+  {name:"Brock",   badge:"Boulder",  emoji:"🪨", monId:74,  type:"rock",     reward:500},
+  {name:"Misty",   badge:"Cascade",  emoji:"💧", monId:131, type:"water",    reward:750},
+  {name:"Surge",   badge:"Thunder",  emoji:"⚡", monId:25,  type:"electric", reward:1000},
+  {name:"Erika",   badge:"Rainbow",  emoji:"🌈", monId:1,   type:"grass",    reward:1300},
+  {name:"Koga",    badge:"Soul",     emoji:"☠️", monId:94,  type:"poison",   reward:1700},
+  {name:"Sabrina", badge:"Marsh",    emoji:"🔮", monId:63,  type:"psychic",  reward:2200},
+  {name:"Blaine",  badge:"Volcano",  emoji:"🔥", monId:155, type:"fire",     reward:2800},
+  {name:"Giovanni",badge:"Earth",    emoji:"🌍", monId:150, type:"ground",   reward:5000},
+];
 
 // Catch rates: base % chance when 3 match
 // Legendaries are very rare even on 3 match; normals ~40%; after first catch they drop
@@ -514,13 +587,19 @@ let firstWinGiven=false;
 let battleUnlocked=false;
 let pendingLvPoints=0;
 let shinyCount=0; // total shinies ever caught
+let eggProgress=0;       // spins accumulated toward next egg
+let battlesWon=0;        // total battles won (gym pacing)
+let badges=[];           // earned badge indices (0-7)
+let battleCount=0;       // total battles triggered
+const EGG_HATCH_AT=25;   // spins needed for an egg to hatch
 
 // ─── SAVE / LOAD ─────────────────────────────────────────────────────────────
 function saveState() {
   localStorage.setItem(SAVE_KEY, JSON.stringify({
     coins,totalWon,spinCount,caught,history:history.slice(0,10),
     bestWin,xp,level,winStreak,lastDaily,soundOn,
-    spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount
+    spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount,eggProgress,
+    battlesWon,badges,battleCount
   }));
 }
 
@@ -537,6 +616,10 @@ function loadState() {
     battleUnlocked=d.battleUnlocked??false;
     pendingLvPoints=d.pendingLvPoints??0;
     shinyCount=d.shinyCount??0;
+    eggProgress=d.eggProgress??0;
+    battlesWon=d.battlesWon??0;
+    badges=d.badges??[];
+    battleCount=d.battleCount??0;
     return true;
   } catch(e){ return false; }
 }
@@ -578,31 +661,11 @@ function showCooldown(expiry) {
   if(!cdInterval) cdInterval=setInterval(tick,1000);
 }
 
-// ─── SOUND ────────────────────────────────────────────────────────────────────
-let actx=null;
-function gAC(){ if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)(); return actx; }
-function tone(freq,type,dur,vol=0.15,delay=0){
-  if(!soundOn) return;
-  try{
-    const ctx=gAC(),o=ctx.createOscillator(),g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);
-    o.type=type;o.frequency.setValueAtTime(freq,ctx.currentTime+delay);
-    g.gain.setValueAtTime(vol,ctx.currentTime+delay);
-    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+dur);
-    o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+dur);
-  }catch(e){}
-}
-const sfxSpin   =()=>tone(220,'sawtooth',.08,.07);
-const sfxStop   =()=>tone(440,'sine',.1,.1);
-const sfxWin    =()=>[523,659,784].forEach((f,i)=>tone(f,'sine',.2,.18,i*.1));
-const sfxJack   =()=>[523,659,784,1047].forEach((f,i)=>tone(f,'sine',.35,.22,i*.08));
-const sfxCatch  =()=>[392,523,659,784,1047].forEach((f,i)=>tone(f,'triangle',.3,.18,i*.07));
-const sfxFail   =()=>tone(180,'sawtooth',.3,.08);
-const sfxBattle =()=>[330,392,440,523].forEach((f,i)=>tone(f,'square',.18,.12,i*.06));
-const sfxVict   =()=>[523,659,784,880,1047].forEach((f,i)=>tone(f,'sine',.4,.2,i*.08));
-const sfxDaily  =()=>[784,880,988,1175].forEach((f,i)=>tone(f,'sine',.25,.18,i*.06));
-const sfxLevel  =()=>[523,659,784,880,1047].forEach((f,i)=>tone(f,'sine',.4,.22,i*.09));
-const sfxShiny  =()=>[1047,1319,1568,2093].forEach((f,i)=>tone(f,'sine',.5,.22,i*.07));
+// ─── SOUND (removed — kept as no-ops so existing calls don't error) ───────────
+function gAC(){ return null; }
+function tone(){ /* sound removed */ }
+const sfxSpin=()=>{}, sfxStop=()=>{}, sfxWin=()=>{}, sfxJack=()=>{}, sfxCatch=()=>{},
+      sfxFail=()=>{}, sfxBattle=()=>{}, sfxVict=()=>{}, sfxDaily=()=>{}, sfxLevel=()=>{}, sfxShiny=()=>{};
 
 // ─── REEL HELPERS ─────────────────────────────────────────────────────────────
 function randPoke(){ return POOL[Math.floor(Math.random()*POOL.length)]; }
@@ -684,8 +747,8 @@ async function spin(){
   spinning=true;
   document.getElementById('spinBtn').disabled=true;
 
-  coins-=bet; spinCount++; spinsUntilBattle--;
-  updateStats(); updateBattleCounter();
+  coins-=bet; spinCount++; spinsUntilBattle--; eggProgress++;
+  updateStats(); updateBattleCounter(); updateEggMeter();
   setMsg('SPINNING...','');
   document.getElementById('wflash').classList.remove('on');
   document.querySelectorAll('.reel-box').forEach(b=>b.classList.remove('winner','catch-try','shiny'));
@@ -718,6 +781,12 @@ async function spin(){
     saveState();
     await wait(600);
     await triggerBattle();
+  }
+
+  // Egg hatch check
+  if(eggProgress>=EGG_HATCH_AT){
+    await wait(500);
+    await hatchEgg();
   }
   saveState();
 }
@@ -894,22 +963,52 @@ function triggerShinyCatch(poke){
 let battleState={ wild:null, yours:null, wildHp:100, yourHp:100, wildMaxHp:100, yourMaxHp:100, active:false };
 let battleResolve=null;
 
+function nextGymIndex(){
+  // First gym not yet earned
+  for(let i=0;i<GYM_LEADERS.length;i++){ if(!badges.includes(i)) return i; }
+  return -1; // all earned
+}
+
 function triggerBattle(){
   return new Promise(resolve=>{
     battleResolve=resolve;
+    battleCount++;
     sfxBattle();
-    showToast('⚔️ WILD POKÉMON APPEARED!');
 
-    // Pick a wild pokemon (not from caught — more interesting)
-    const wild=POOL[Math.floor(Math.random()*POOL.length)];
-    const wildMaxHp=50+wild.power;
-    battleState={wild,yours:null,wildHp:wildMaxHp,yourHp:0,wildMaxHp,yourMaxHp:0,active:false};
+    // Decide: gym leader or wild?
+    const gymIdx=nextGymIndex();
+    const isGym = gymIdx>=0 && battleCount % GYM_EVERY === 0;
 
-    // Populate overlay
+    const overlay=document.getElementById('battleOverlay');
+
+    let wild, wildMaxHp, gymLeader=null;
+    if(isGym){
+      gymLeader=GYM_LEADERS[gymIdx];
+      const baseMon=POOL.find(p=>p.id===gymLeader.monId)||POOL[0];
+      // Signature mon: boosted power, scales slightly with which badge
+      const boostedPower=Math.floor(baseMon.power*1.6 + gymIdx*12);
+      wild={...baseMon, power:boostedPower, types:baseMon.types};
+      wildMaxHp=80+boostedPower;
+      battleState={wild,yours:null,wildHp:wildMaxHp,yourHp:0,wildMaxHp,yourMaxHp:0,active:false,over:false,isGym:true,gymIdx};
+      overlay.classList.add('gym');
+      document.getElementById('battleTitle').textContent=`${gymLeader.emoji} GYM LEADER ${gymLeader.name.toUpperCase()}!`;
+      document.getElementById('battleSub').textContent=`WIN THE ${gymLeader.badge.toUpperCase()} BADGE`;
+      document.getElementById('gymBanner').textContent=`Signature: ${wild.name} • Reward: ${gymLeader.reward} 🪙 + Badge`;
+      showToast(`${gymLeader.emoji} GYM LEADER ${gymLeader.name} challenges you!`);
+    } else {
+      wild=POOL[Math.floor(Math.random()*POOL.length)];
+      wildMaxHp=50+wild.power;
+      battleState={wild,yours:null,wildHp:wildMaxHp,yourHp:0,wildMaxHp,yourMaxHp:0,active:false,over:false,isGym:false,gymIdx:-1};
+      overlay.classList.remove('gym');
+      document.getElementById('battleTitle').textContent='⚔️ WILD ENCOUNTER!';
+      document.getElementById('battleSub').textContent='BATTLE TO WIN BONUS COINS';
+      showToast('⚔️ WILD POKÉMON APPEARED!');
+    }
+
     const wi=document.getElementById('wildImg');
     wi.onerror=()=>{wi.onerror=null;wi.src=SPRITE_FALLBACK(wild.id);};
     wi.src=SPRITE(wild.id);
-    document.getElementById('wildName').textContent=wild.name;
+    document.getElementById('wildName').textContent=isGym?`${wild.name} (Lv.Boss)`:wild.name;
     document.getElementById('wildHpFill').style.width='100%';
     document.getElementById('wildHpFill').classList.remove('low');
     document.getElementById('wildHpNum').textContent=`HP: ${wildMaxHp}`;
@@ -920,10 +1019,11 @@ function triggerBattle(){
     document.getElementById('battleLog').innerHTML='<span style="color:#334;font-style:italic">Choose your Pokémon to begin!</span>';
     document.getElementById('fightBtn').disabled=true;
     document.getElementById('fightBtn').textContent='⚔️ FIGHT!';
+    const rb=document.getElementById('runBtn');
+    rb.disabled=false; rb.style.opacity=''; rb.style.cursor='';
 
-    // Build roster from caught pokemon
     buildBattleRoster(wild);
-    document.getElementById('battleOverlay').classList.add('show');
+    overlay.classList.add('show');
   });
 }
 
@@ -973,16 +1073,22 @@ function battleLog(msg){
 async function doFight(){
   if(!battleState.yours||battleState.active) return;
   battleState.active=true;
+  battleState.over=false;
   document.getElementById('fightBtn').disabled=true;
+  // Lock the Run button — no fleeing once the fight is underway
+  document.getElementById('runBtn').disabled=true;
+  document.getElementById('runBtn').style.opacity='0.4';
+  document.getElementById('runBtn').style.cursor='not-allowed';
 
   const atk=battleState.yours, def=battleState.wild;
   const atkPower=pokeEffectivePower(atk, battleState.yoursLevel||1, battleState.yoursShiny||false);
   const youMult=typeMultiplier(atk.types,def.types);
   const wildMult=typeMultiplier(def.types,atk.types);
 
-  // Simulate up to 6 rounds
+  // Simulate rounds (more rounds for tougher gym bosses)
   let round=0;
-  while(battleState.wildHp>0 && battleState.yourHp>0 && round<6){
+  const maxRounds=battleState.isGym?9:6;
+  while(battleState.wildHp>0 && battleState.yourHp>0 && round<maxRounds){
     round++;
     await wait(700);
 
@@ -1009,19 +1115,38 @@ async function doFight(){
 
   if(battleState.wildHp<=0){
     // Victory
-    const reward=Math.floor(bet*(2+Math.random()*3));
-    coins+=reward; totalWon+=reward;
-    updateStats();
-    // Track battle wins per caught poke
+    battlesWon++;
     if(caught[atk.id]) caught[atk.id].wins=(caught[atk.id].wins||0)+1;
-    updateDex();
-    sfxVict();
-    for(let i=0;i<30;i++) setTimeout(spawnCoin,i*60);
-    document.getElementById('battleLog').innerHTML=`<span class="battle-result victory">VICTORY! +${reward} COINS!</span>`;
-    showToast(`⚔️ ${atk.name} won the battle! +${reward} coins!`);
-    addHistory('battle',reward,false);
-    addXP(15);
-    await wait(2200);
+
+    if(battleState.isGym){
+      // Award badge + big payout
+      const gym=GYM_LEADERS[battleState.gymIdx];
+      if(!badges.includes(battleState.gymIdx)) badges.push(battleState.gymIdx);
+      coins+=gym.reward; totalWon+=gym.reward;
+      updateStats(); updateDex(); updateBadgeCase();
+      sfxVict();
+      for(let i=0;i<50;i++) setTimeout(()=>spawnCoin(true),i*45);
+      document.getElementById('battleLog').innerHTML=`<span class="battle-result victory">${gym.emoji} ${gym.badge.toUpperCase()} BADGE WON! +${gym.reward} 🪙</span>`;
+      showToast(`🏆 You earned the ${gym.badge} Badge from ${gym.name}!`);
+      addHistory('battle',gym.reward,false);
+      addXP(40);
+      if(badges.length===GYM_LEADERS.length){
+        await wait(2400);
+        showToast('🏆👑 ALL 8 BADGES — YOU\'RE THE CHAMPION!');
+      }
+      await wait(2600);
+    } else {
+      const reward=Math.floor(bet*(2+Math.random()*3));
+      coins+=reward; totalWon+=reward;
+      updateStats(); updateDex();
+      sfxVict();
+      for(let i=0;i<30;i++) setTimeout(spawnCoin,i*60);
+      document.getElementById('battleLog').innerHTML=`<span class="battle-result victory">VICTORY! +${reward} COINS!</span>`;
+      showToast(`⚔️ ${atk.name} won the battle! +${reward} coins!`);
+      addHistory('battle',reward,false);
+      addXP(15);
+      await wait(2200);
+    }
   } else {
     // Defeat
     const penalty=Math.floor(bet*0.5);
@@ -1033,6 +1158,7 @@ async function doFight(){
   }
 
   battleState.active=false;
+  battleState.over=true;
   closeBattle();
   saveState();
 }
@@ -1051,6 +1177,97 @@ function updateBattleHp(){
 function closeBattle(){
   document.getElementById('battleOverlay').classList.remove('show');
   if(battleResolve){ battleResolve(); battleResolve=null; }
+}
+
+// ─── GYM BADGES ───────────────────────────────────────────────────────────────
+function updateBadgeCase(){
+  const grid=document.getElementById('badgeGrid');
+  const cnt=document.getElementById('badgeCount');
+  cnt.textContent=`${badges.length} / ${GYM_LEADERS.length}`;
+  grid.innerHTML='';
+  GYM_LEADERS.forEach((gym,i)=>{
+    const slot=document.createElement('div');
+    const earned=badges.includes(i);
+    slot.className='badge-slot'+(earned?' earned':'');
+    slot.textContent=gym.emoji;
+    slot.title=earned?`${gym.badge} Badge — beat ${gym.name}`:`${gym.badge} Badge — locked (beat ${gym.name})`;
+    grid.appendChild(slot);
+  });
+}
+
+// ─── MYSTERY EGG ──────────────────────────────────────────────────────────────
+function updateEggMeter(){
+  const pct=Math.min(100, Math.round(eggProgress/EGG_HATCH_AT*100));
+  document.getElementById('eggFill').style.width=pct+'%';
+  document.getElementById('eggPct').textContent=`${Math.min(eggProgress,EGG_HATCH_AT)} / ${EGG_HATCH_AT}`;
+  document.getElementById('eggIcon').classList.toggle('ready', eggProgress>=EGG_HATCH_AT);
+}
+
+// Egg hatches weighted toward rarer pokemon (better than random reels)
+function pickEggPokemon(){
+  const roll=Math.random();
+  let pool;
+  if(roll<0.12)      pool=POOL.filter(p=>p.leg);              // 12% legendary
+  else if(roll<0.45) pool=POOL.filter(p=>p.start);            // 33% starter
+  else               pool=POOL.filter(p=>!p.leg);             // 55% any non-legendary
+  if(!pool.length) pool=POOL;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function hatchEgg(){
+  return new Promise(resolve=>{
+    eggProgress=0;
+    updateEggMeter();
+    const poke=pickEggPokemon();
+    const isShiny=Math.random()<1/40; // eggs have a slightly higher shiny chance
+
+    const ov=document.getElementById('hatchOverlay');
+    const eggEl=document.getElementById('hatchEgg');
+    const img=document.getElementById('hatchImg');
+    const nameEl=document.getElementById('hatchName');
+    const subEl=document.getElementById('hatchSub');
+    const dismiss=document.getElementById('hatchDismiss');
+
+    // Reset overlay to "egg shaking" state
+    document.getElementById('hatchLabel').textContent='YOUR EGG IS HATCHING...';
+    eggEl.style.display='';
+    img.style.display='none';
+    nameEl.style.display='none';
+    subEl.style.display='none';
+    dismiss.style.display='none';
+    ov.classList.add('show');
+
+    // After the shake animation, reveal the pokemon
+    setTimeout(()=>{
+      // Add to caught dex
+      if(caught[poke.id]){
+        caught[poke.id].count++;
+        if(isShiny) caught[poke.id].hasShiny=true;
+      } else {
+        caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:isShiny};
+      }
+      if(isShiny) shinyCount++;
+      battleUnlocked=true;
+      saveState();
+      updateDex();
+      document.getElementById('dShinies').textContent=shinyCount;
+
+      eggEl.style.display='none';
+      document.getElementById('hatchLabel').textContent=isShiny?'✨ A SHINY HATCHED! ✨':'IT HATCHED!';
+      img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
+      img.src=isShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id);
+      img.style.display='';
+      nameEl.textContent=(isShiny?'✨ ':'')+poke.name.toUpperCase();
+      nameEl.style.display='';
+      subEl.textContent=poke.leg?'A LEGENDARY FROM THE EGG!':'Added to your Pokédex!';
+      subEl.style.display='';
+      dismiss.style.display='';
+      for(let i=0;i<25;i++) setTimeout(()=>spawnCoin(isShiny),i*50);
+    },1900);
+
+    const h=()=>{ ov.classList.remove('show'); dismiss.removeEventListener('click',h); resolve(); };
+    dismiss.addEventListener('click',h);
+  });
 }
 
 // ─── DEX ─────────────────────────────────────────────────────────────────────
@@ -1206,8 +1423,16 @@ function updateStreakBadge(){
 function updateBattleCounter(){
   const el=document.getElementById('battleCounter');
   const n=Math.max(0,spinsUntilBattle);
-  el.textContent=battleUnlocked?`⚔️ BATTLE IN ${n}`:'⚔️ CATCH TO UNLOCK';
-  el.classList.toggle('near', battleUnlocked && n<=3 && n>0);
+  if(!battleUnlocked){ el.textContent='⚔️ CATCH TO UNLOCK'; el.classList.remove('near'); return; }
+  // Is the upcoming battle a gym?
+  const gymNext = nextGymIndex()>=0 && (battleCount+1)%GYM_EVERY===0;
+  if(gymNext){
+    const g=GYM_LEADERS[nextGymIndex()];
+    el.textContent=`${g.emoji} GYM IN ${n}`;
+  } else {
+    el.textContent=`⚔️ BATTLE IN ${n}`;
+  }
+  el.classList.toggle('near', n<=3 && n>0);
 }
 
 // ─── DAILY BONUS ─────────────────────────────────────────────────────────────
@@ -1263,7 +1488,7 @@ function showToast(msg){ const t=document.getElementById('toast'); t.textContent
 // ─── BET ─────────────────────────────────────────────────────────────────────
 function setBet(v){ bet=Math.max(1,Math.min(100,parseInt(v))); document.getElementById('betSlider').value=bet; document.getElementById('betNum').textContent=bet; document.getElementById('betSlider').style.setProperty('--p',((bet-1)/99*100).toFixed(1)+'%'); document.querySelectorAll('.qb').forEach(b=>b.classList.toggle('on',parseInt(b.dataset.v)===bet)); }
 
-function toggleSound(){ soundOn=!soundOn; const btn=document.getElementById('soundBtn'); btn.textContent=soundOn?'🔊 SFX':'🔇 SFX'; btn.classList.toggle('on',soundOn); if(soundOn)try{gAC().resume();}catch(e){} saveState(); }
+function toggleSound(){ /* sound removed */ }
 
 // ─── EVENTS ───────────────────────────────────────────────────────────────────
 document.getElementById('betSlider').addEventListener('input',e=>setBet(e.target.value));
@@ -1272,10 +1497,13 @@ document.querySelectorAll('.qb').forEach(b=>b.addEventListener('click',()=>setBe
 document.getElementById('spinBtn').addEventListener('click',spin);
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!spinning){e.preventDefault();spin();}});
 document.getElementById('ptBtn').addEventListener('click',()=>{ document.getElementById('ptBody').classList.toggle('vis'); document.getElementById('ptBtn').classList.toggle('open'); });
-document.getElementById('soundBtn').addEventListener('click',toggleSound);
 document.getElementById('dailyBtn').addEventListener('click',claimDailyBonus);
 document.getElementById('fightBtn').addEventListener('click',doFight);
-document.getElementById('runBtn').addEventListener('click',()=>{ closeBattle(); showToast('You ran away safely!'); });
+document.getElementById('runBtn').addEventListener('click',()=>{
+  // Can only run BEFORE the fight has started/resolved
+  if(battleState.active || battleState.over){ return; }
+  closeBattle(); showToast('You ran away safely!');
+});
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 loadState();
@@ -1290,9 +1518,9 @@ POOL.slice(0,3).forEach((p,r)=>setReel(r,p));
 updateDex();
 renderHistory();
 checkCooldown();
-document.getElementById('soundBtn').textContent=soundOn?'🔊 SFX':'🔇 SFX';
-document.getElementById('soundBtn').classList.toggle('on',soundOn);
 document.getElementById('dShinies').textContent=shinyCount;
+updateEggMeter();
+updateBadgeCase();
 if(pendingLvPoints>0 && Object.keys(caught).length>0) openPokeLvPicker();
 </script>
 </body>

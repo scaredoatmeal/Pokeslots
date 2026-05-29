@@ -234,6 +234,11 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .dex-card .dc-name{font-family:'Bungee',cursive;font-size:.44rem;letter-spacing:1px;text-transform:uppercase;color:#667;text-align:center}
 .dex-card .dc-cnt{position:absolute;top:3px;right:5px;font-family:'Bungee',cursive;font-size:.52rem;color:var(--gold)}
 .dex-card .dc-wins{font-size:.5rem;color:#3a3;text-align:center}
+.dc-trade{margin-top:3px;font-family:'Bungee',cursive;font-size:.42rem;letter-spacing:.5px;
+  background:#1a1400;border:1px solid var(--gold2);border-radius:10px;color:var(--gold);
+  padding:2px 6px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.dc-trade:hover{background:#2a2200;box-shadow:0 0 8px rgba(255,200,0,.3)}
+.dex-hint{font-size:.55rem;color:#445;letter-spacing:1px;margin-top:4px;font-style:italic}
 
 /* ── HISTORY ── */
 .hist-section{padding:0 20px 18px}
@@ -336,7 +341,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="sub">★ Casino Royale ★</div>
   </header>
   <div class="marquee-wrap">
-    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = CATCH ATTEMPT + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = WILD BATTLE! &nbsp;&nbsp;</span>
+    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = WILD BATTLE! &nbsp;&nbsp; ★ TRADE DUPLICATES FOR COINS! &nbsp;&nbsp;</span>
   </div>
 
   <div class="machine">
@@ -361,7 +366,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="pt-body" id="ptBody">
       <div class="pt-grid">
         <div class="pt-row">⚡ 3× Legendary<span class="m">×50 JACKPOT</span></div>
-        <div class="pt-row">🏆 3× Same Pokémon<span class="m">×10 + CATCH?</span></div>
+        <div class="pt-row">🏆 3× Same Pokémon<span class="m">×10 + CATCH!</span></div>
         <div class="pt-row">💎 3× Starter Trio<span class="m">×8</span></div>
         <div class="pt-row">🔥 3× Same Type<span class="m">×5</span></div>
         <div class="pt-row">✨ Any Pair<span class="m">×2</span></div>
@@ -766,32 +771,20 @@ async function evaluate(poke, isShiny=[false,false,false]){
     rtype==='jackpot'?sfxJack():sfxWin();
   } else sfxFail();
 
-  // Shiny catch attempt (all 3 shiny same pokemon)
+  // Shiny catch (all 3 shiny same pokemon) — GUARANTEED, you earned it
   if(allSame&&allShiny){
     markCatchTry(0);markCatchTry(1);markCatchTry(2);
     sfxShiny();
-    const caught_it=Math.random()*100 < SHINY_CATCH_RATE;
     await wait(500);
-    if(caught_it){
-      await triggerShinyCatch(p0);
-      setMsg(msg,'jackpot');
-    } else {
-      setMsg(`✨ ${p0.name.toUpperCase()} SHINY BROKE FREE!`,'jackpot');
-      await showCatchFail(p0);
-    }
+    await triggerShinyCatch(p0);
+    setMsg(msg,'jackpot');
   }
-  // Normal catch attempt
+  // Normal catch (3 of the same) — GUARANTEED
   else if(attemptCatch){
     markCatchTry(0);markCatchTry(1);markCatchTry(2);
-    const caught_it=rollCatch(p0);
     await wait(400);
-    if(caught_it){
-      await triggerCatch(p0,true);
-      setMsg(msg,rtype==='jackpot'?'jackpot':'catch');
-    } else {
-      setMsg(`${p0.name.toUpperCase()} BROKE FREE! ${msg}`,'win');
-      await showCatchFail(p0);
-    }
+    await triggerCatch(p0,true);
+    setMsg(msg,rtype==='jackpot'?'jackpot':'catch');
   } else {
     setMsg(msg,rtype);
   }
@@ -820,10 +813,11 @@ function triggerCatch(poke, fromSlot=false){
     saveState();
     updateDex(); sfxCatch();
 
-    document.getElementById('catchLabel').textContent='YOU CAUGHT A POKÉMON!';
+    document.getElementById('catchLabel').textContent=
+      caught[poke.id].count>1 ? 'ANOTHER ONE CAUGHT!' : 'YOU CAUGHT A POKÉMON!';
     document.getElementById('catchSub').textContent=
       poke.leg?'A LEGENDARY! INCREDIBLY RARE!':
-      fromSlot?`CATCH RATE: ${poke.leg?BASE_CATCH_RATE.leg:poke.start?BASE_CATCH_RATE.start:BASE_CATCH_RATE.normal}%`:'';
+      caught[poke.id].count>1?`You now have ${caught[poke.id].count} — trade duplicates for coins!`:'';
     const img=document.getElementById('catchImg');
     img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
     img.src=SPRITE(poke.id);
@@ -1060,6 +1054,25 @@ function closeBattle(){
 }
 
 // ─── DEX ─────────────────────────────────────────────────────────────────────
+function tradeValue(poke){
+  // Coins you get for trading one duplicate
+  return poke.leg ? 400 : poke.start ? 180 : 150;
+}
+
+function tradeDuplicate(id){
+  const entry=caught[id];
+  if(!entry || entry.count<=1) return;
+  const value=tradeValue(entry.poke);
+  entry.count--;
+  coins+=value;
+  sfxDaily();
+  for(let i=0;i<15;i++) setTimeout(spawnCoin,i*50);
+  showToast(`Traded a ${entry.poke.name} for +${value} coins!`);
+  updateStats();
+  updateDex();
+  saveState();
+}
+
 function updateDex(){
   const grid=document.getElementById('dexGrid');
   const cnt=document.getElementById('dexCount');
@@ -1067,6 +1080,7 @@ function updateDex(){
   cnt.textContent=`${entries.length} caught`;
   if(!entries.length){ grid.innerHTML='<span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>'; return; }
   grid.innerHTML='';
+  const hasDupes=entries.some(e=>e.count>1);
   entries.forEach(({poke,count,wins=0,pokeLevel=1,hasShiny=false})=>{
     const card=document.createElement('div');
     card.className='dex-card'+(hasShiny?' shiny-caught':'');
@@ -1077,8 +1091,20 @@ function updateDex(){
       <div style="font-family:'Bungee',cursive;font-size:.52rem;color:${hasShiny?'var(--neon-p)':'var(--gold)'}">LV ${pokeLevel}</div>
       ${count>1?`<div class="dc-cnt">×${count}</div>`:''}
       ${wins>0?`<div class="dc-wins">⚔️${wins}W</div>`:''}
+      ${count>1?`<button class="dc-trade" data-trade="${poke.id}">TRADE +${tradeValue(poke)}🪙</button>`:''}
     `;
     grid.appendChild(card);
+  });
+  if(hasDupes){
+    const hint=document.createElement('div');
+    hint.className='dex-hint';
+    hint.style.cssText='width:100%';
+    hint.textContent='💡 Trade duplicate Pokémon for coins (keeps at least 1)';
+    grid.appendChild(hint);
+  }
+  // Wire up trade buttons
+  grid.querySelectorAll('.dc-trade').forEach(btn=>{
+    btn.addEventListener('click',e=>{ e.stopPropagation(); tradeDuplicate(parseInt(btn.dataset.trade)); });
   });
 }
 

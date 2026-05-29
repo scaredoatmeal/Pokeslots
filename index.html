@@ -275,6 +275,49 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   padding:2px 6px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .dc-trade:hover{background:#2a2200;box-shadow:0 0 8px rgba(255,200,0,.3)}
 .dex-hint{font-size:.55rem;color:#445;letter-spacing:1px;margin-top:4px;font-style:italic}
+.manage-btn{font-family:'Bungee',cursive;font-size:.6rem;letter-spacing:1px;color:var(--neon-b);
+  background:#001f33;border:1px solid var(--neon-b);border-radius:8px;padding:3px 10px;cursor:pointer;
+  transition:all .15s;text-shadow:0 0 6px var(--neon-b)}
+.manage-btn:hover{background:#002d4d;box-shadow:0 0 10px rgba(0,229,255,.3)}
+
+/* ── MANAGE POKÉDEX OVERLAY ── */
+.manage-overlay{position:fixed;inset:0;background:rgba(0,0,5,.94);z-index:530;display:none;
+  flex-direction:column;align-items:center;padding:20px 14px 30px;overflow-y:auto}
+.manage-overlay.show{display:flex;animation:fadeIn .3s ease}
+.manage-title{font-family:'Bungee Inline',cursive;font-size:1.6rem;color:var(--neon-b);
+  text-shadow:0 0 18px var(--neon-b);letter-spacing:2px;margin-bottom:4px;text-align:center}
+.manage-sub{font-family:'Bungee',cursive;font-size:.65rem;letter-spacing:2px;color:#556;margin-bottom:16px;text-align:center}
+.manage-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%;max-width:560px;margin-bottom:16px}
+.mg-card{background:#0a0a14;border:2px solid #1e1e2e;border-radius:12px;padding:10px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;width:120px;position:relative}
+.mg-card.shiny-caught{border-color:#ff00ff;background:linear-gradient(135deg,#0a0018,#150028)}
+.mg-card img{width:64px;height:64px;object-fit:contain}
+.mg-card .mg-name{font-family:'Bungee',cursive;font-size:.55rem;letter-spacing:.5px;text-transform:uppercase;color:#889;text-align:center}
+.mg-card .mg-stats{font-size:.6rem;color:#667;text-align:center;line-height:1.4}
+.mg-card .mg-stats b{color:var(--gold)}
+.mg-actions{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:2px}
+.mg-act{font-family:'Bungee',cursive;font-size:.5rem;letter-spacing:.5px;border-radius:8px;padding:4px;cursor:pointer;transition:all .15s;border:1px solid;text-align:center}
+.mg-act.trade{background:#1a1400;border-color:var(--gold2);color:var(--gold)}
+.mg-act.trade:hover{background:#2a2200;box-shadow:0 0 8px rgba(255,200,0,.3)}
+.mg-act.trade:disabled{opacity:.3;cursor:not-allowed;background:#111;border-color:#333;color:#555}
+.mg-act.evolve{background:#1a0030;border-color:var(--neon-p);color:#e090ff}
+.mg-act.evolve:hover{background:#2a0050;box-shadow:0 0 10px rgba(255,0,255,.4)}
+.mg-act.evolve:disabled{opacity:.3;cursor:not-allowed;background:#111;border-color:#333;color:#555}
+.manage-close{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:#667;
+  background:none;border:1px solid #2a2a3a;border-radius:20px;padding:8px 22px;cursor:pointer;transition:all .2s}
+.manage-close:hover{color:#99a;border-color:#444}
+.manage-empty{color:#445;font-size:.85rem;letter-spacing:1px;margin:30px 0}
+
+/* evolution animation overlay reuses hatch styling */
+.evo-overlay{position:fixed;inset:0;background:rgba(0,0,10,.93);z-index:540;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
+.evo-overlay.show{display:flex;animation:fadeIn .3s ease}
+.evo-label{font-family:'Bungee',cursive;font-size:.85rem;letter-spacing:4px;color:#e090ff;text-shadow:0 0 12px #ff00ff}
+.evo-img{width:130px;height:130px;object-fit:contain;transition:filter .4s}
+.evo-img.glowing{animation:evoGlow .5s linear infinite}
+@keyframes evoGlow{0%,100%{filter:brightness(2) drop-shadow(0 0 20px #fff)}50%{filter:brightness(4) drop-shadow(0 0 40px #ff00ff) contrast(0)}}
+.evo-name{font-family:'Bungee Inline',cursive;font-size:1.8rem;color:#e090ff;text-shadow:0 0 20px #ff00ff;letter-spacing:2px}
+.evo-sub{font-family:'Rajdhani',sans-serif;font-size:.85rem;color:#667;letter-spacing:1px}
 
 /* ── HISTORY ── */
 .hist-section{padding:0 20px 18px}
@@ -349,6 +392,23 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <button class="ov-dismiss" id="hatchDismiss" style="display:none">CONTINUE →</button>
 </div>
 
+<!-- MANAGE POKÉDEX OVERLAY -->
+<div class="manage-overlay" id="manageOverlay">
+  <div class="manage-title">📖 MANAGE POKÉDEX</div>
+  <div class="manage-sub">TRADE DUPLICATES FOR COINS • EVOLVE WITH 3+ COPIES</div>
+  <div class="manage-grid" id="manageGrid"></div>
+  <button class="manage-close" id="manageClose">← CLOSE</button>
+</div>
+
+<!-- EVOLUTION OVERLAY -->
+<div class="evo-overlay" id="evoOverlay">
+  <div class="evo-label">WHAT? YOUR POKÉMON IS EVOLVING!</div>
+  <img class="evo-img" id="evoImg" src="" alt="">
+  <div class="evo-name" id="evoName" style="display:none"></div>
+  <div class="evo-sub" id="evoSub" style="display:none"></div>
+  <button class="ov-dismiss" id="evoDismiss" style="display:none">CONTINUE →</button>
+</div>
+
 <!-- BATTLE OVERLAY -->
 <div class="battle-overlay" id="battleOverlay">
   <div class="battle-title" id="battleTitle">⚔️ WILD ENCOUNTER!</div>
@@ -388,7 +448,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="sub">★ Casino Royale ★</div>
   </header>
   <div class="marquee-wrap">
-    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EGGS HATCH EVERY 25 SPINS! &nbsp;&nbsp; ★ TRADE DUPLICATES FOR COINS! &nbsp;&nbsp;</span>
+    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EVOLVE POKÉMON WITH 3 COPIES! &nbsp;&nbsp; ★ EGGS = MOSTLY COINS, RARELY A POKÉMON! &nbsp;&nbsp;</span>
   </div>
 
   <div class="machine">
@@ -465,7 +525,10 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="dex-section">
       <div class="dex-header">
         <div class="dex-title">📖 Caught Pokédex</div>
-        <div class="dex-count" id="dexCount">0 caught</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="dex-count" id="dexCount">0 caught</div>
+          <button class="manage-btn" id="manageBtn">⚙️ MANAGE</button>
+        </div>
       </div>
       <div class="dex-grid" id="dexGrid"><span class="dex-empty">Catch Pokémon by landing 3 of the same!</span></div>
     </div>
@@ -485,32 +548,69 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 <script>
 // ─── POKEMON POOL ─────────────────────────────────────────────────────────────
 const POOL = [
-  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  leg:false,start:true,  power:45},
-  {id:4,  name:"Charmander", types:["fire"],             leg:false,start:true,  power:52},
-  {id:7,  name:"Squirtle",   types:["water"],            leg:false,start:true,  power:48},
-  {id:25, name:"Pikachu",    types:["electric"],         leg:false,start:false, power:55},
-  {id:39, name:"Jigglypuff", types:["normal","fairy"],   leg:false,start:false, power:35},
-  {id:52, name:"Meowth",     types:["normal"],           leg:false,start:false, power:40},
-  {id:54, name:"Psyduck",    types:["water"],            leg:false,start:false, power:52},
-  {id:63, name:"Abra",       types:["psychic"],          leg:false,start:false, power:60},
-  {id:66, name:"Machop",     types:["fighting"],         leg:false,start:false, power:80},
-  {id:74, name:"Geodude",    types:["rock","ground"],    leg:false,start:false, power:60},
-  {id:92, name:"Gastly",     types:["ghost","poison"],   leg:false,start:false, power:50},
+  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  leg:false,start:true,  power:45,  evolvesTo:2},
+  {id:4,  name:"Charmander", types:["fire"],             leg:false,start:true,  power:52,  evolvesTo:5},
+  {id:7,  name:"Squirtle",   types:["water"],            leg:false,start:true,  power:48,  evolvesTo:8},
+  {id:25, name:"Pikachu",    types:["electric"],         leg:false,start:false, power:55,  evolvesTo:26},
+  {id:39, name:"Jigglypuff", types:["normal","fairy"],   leg:false,start:false, power:35,  evolvesTo:40},
+  {id:52, name:"Meowth",     types:["normal"],           leg:false,start:false, power:40,  evolvesTo:53},
+  {id:54, name:"Psyduck",    types:["water"],            leg:false,start:false, power:52,  evolvesTo:55},
+  {id:63, name:"Abra",       types:["psychic"],          leg:false,start:false, power:60,  evolvesTo:64},
+  {id:66, name:"Machop",     types:["fighting"],         leg:false,start:false, power:80,  evolvesTo:67},
+  {id:74, name:"Geodude",    types:["rock","ground"],    leg:false,start:false, power:60,  evolvesTo:75},
+  {id:92, name:"Gastly",     types:["ghost","poison"],   leg:false,start:false, power:50,  evolvesTo:93},
   {id:94, name:"Gengar",     types:["ghost","poison"],   leg:false,start:false, power:95},
-  {id:113,name:"Chansey",    types:["normal"],           leg:false,start:false, power:30},
-  {id:129,name:"Magikarp",   types:["water"],            leg:false,start:false, power:10},
+  {id:113,name:"Chansey",    types:["normal"],           leg:false,start:false, power:30,  evolvesTo:242},
+  {id:129,name:"Magikarp",   types:["water"],            leg:false,start:false, power:10,  evolvesTo:130},
   {id:131,name:"Lapras",     types:["water","ice"],      leg:false,start:false, power:85},
-  {id:133,name:"Eevee",      types:["normal"],           leg:false,start:false, power:45},
+  {id:133,name:"Eevee",      types:["normal"],           leg:false,start:false, power:45,  evolvesTo:134},
   {id:143,name:"Snorlax",    types:["normal"],           leg:false,start:false, power:90},
-  {id:147,name:"Dratini",    types:["dragon"],           leg:false,start:false, power:64},
+  {id:147,name:"Dratini",    types:["dragon"],           leg:false,start:false, power:64,  evolvesTo:148},
   {id:150,name:"Mewtwo",     types:["psychic"],          leg:true, start:false, power:154},
   {id:151,name:"Mew",        types:["psychic"],          leg:true, start:false, power:100},
-  {id:152,name:"Chikorita",  types:["grass"],            leg:false,start:true,  power:49},
-  {id:155,name:"Cyndaquil",  types:["fire"],             leg:false,start:true,  power:52},
-  {id:158,name:"Totodile",   types:["water"],            leg:false,start:true,  power:65},
+  {id:152,name:"Chikorita",  types:["grass"],            leg:false,start:true,  power:49,  evolvesTo:153},
+  {id:155,name:"Cyndaquil",  types:["fire"],             leg:false,start:true,  power:52,  evolvesTo:156},
+  {id:158,name:"Totodile",   types:["water"],            leg:false,start:true,  power:65,  evolvesTo:159},
   {id:249,name:"Lugia",      types:["psychic","flying"], leg:true, start:false, power:130},
   {id:250,name:"Ho-Oh",      types:["fire","flying"],    leg:true, start:false, power:130},
 ];
+
+// Evolved forms — referenced only when a Pokémon evolves (not on the reels)
+const EVOLUTIONS = {
+  2:  {id:2,  name:"Ivysaur",   types:["grass","poison"], leg:false,start:false,power:62,  evolvesTo:3},
+  3:  {id:3,  name:"Venusaur",  types:["grass","poison"], leg:false,start:false,power:100},
+  5:  {id:5,  name:"Charmeleon",types:["fire"],           leg:false,start:false,power:64,  evolvesTo:6},
+  6:  {id:6,  name:"Charizard", types:["fire","flying"],  leg:false,start:false,power:109},
+  8:  {id:8,  name:"Wartortle", types:["water"],          leg:false,start:false,power:63,  evolvesTo:9},
+  9:  {id:9,  name:"Blastoise", types:["water"],          leg:false,start:false,power:103},
+  26: {id:26, name:"Raichu",    types:["electric"],       leg:false,start:false,power:90},
+  40: {id:40, name:"Wigglytuff",types:["normal","fairy"], leg:false,start:false,power:70},
+  53: {id:53, name:"Persian",   types:["normal"],         leg:false,start:false,power:75},
+  55: {id:55, name:"Golduck",   types:["water"],          leg:false,start:false,power:85},
+  64: {id:64, name:"Kadabra",   types:["psychic"],        leg:false,start:false,power:88,  evolvesTo:65},
+  65: {id:65, name:"Alakazam",  types:["psychic"],        leg:false,start:false,power:120},
+  67: {id:67, name:"Machoke",   types:["fighting"],       leg:false,start:false,power:105, evolvesTo:68},
+  68: {id:68, name:"Machamp",   types:["fighting"],       leg:false,start:false,power:130},
+  75: {id:75, name:"Graveler",  types:["rock","ground"],  leg:false,start:false,power:85,  evolvesTo:76},
+  76: {id:76, name:"Golem",     types:["rock","ground"],  leg:false,start:false,power:110},
+  93: {id:93, name:"Haunter",   types:["ghost","poison"], leg:false,start:false,power:80,  evolvesTo:94},
+  130:{id:130,name:"Gyarados",  types:["water","flying"], leg:false,start:false,power:125},
+  134:{id:134,name:"Vaporeon",  types:["water"],          leg:false,start:false,power:95},
+  148:{id:148,name:"Dragonair", types:["dragon"],         leg:false,start:false,power:88,  evolvesTo:149},
+  149:{id:149,name:"Dragonite", types:["dragon","flying"],leg:false,start:false,power:134},
+  153:{id:153,name:"Bayleef",   types:["grass"],          leg:false,start:false,power:66,  evolvesTo:154},
+  154:{id:154,name:"Meganium",  types:["grass"],          leg:false,start:false,power:100},
+  156:{id:156,name:"Quilava",   types:["fire"],           leg:false,start:false,power:68,  evolvesTo:157},
+  157:{id:157,name:"Typhlosion",types:["fire"],           leg:false,start:false,power:109},
+  159:{id:159,name:"Croconaw",  types:["water"],          leg:false,start:false,power:80,  evolvesTo:160},
+  160:{id:160,name:"Feraligatr",types:["water"],          leg:false,start:false,power:105},
+  242:{id:242,name:"Blissey",   types:["normal"],         leg:false,start:false,power:75},
+};
+
+// Look up a pokemon definition by id (in POOL or EVOLUTIONS)
+function pokeById(id){ return POOL.find(p=>p.id===id) || EVOLUTIONS[id] || null; }
+
+const EVOLVE_COST = 3; // duplicates needed to evolve (consumes them)
 
 // Type effectiveness chart (attacker → defender types it's strong/weak against)
 const TYPE_ADV = {
@@ -1204,22 +1304,19 @@ function updateEggMeter(){
 }
 
 // Egg hatches weighted toward rarer pokemon (better than random reels)
-function pickEggPokemon(){
-  const roll=Math.random();
-  let pool;
-  if(roll<0.12)      pool=POOL.filter(p=>p.leg);              // 12% legendary
-  else if(roll<0.45) pool=POOL.filter(p=>p.start);            // 33% starter
-  else               pool=POOL.filter(p=>!p.leg);             // 55% any non-legendary
-  if(!pool.length) pool=POOL;
-  return pool[Math.floor(Math.random()*pool.length)];
-}
-
 function hatchEgg(){
   return new Promise(resolve=>{
     eggProgress=0;
     updateEggMeter();
-    const poke=pickEggPokemon();
-    const isShiny=Math.random()<1/40; // eggs have a slightly higher shiny chance
+
+    // Egg outcome roll — mostly coins, Pokémon is RARE
+    const roll=Math.random();
+    let outcome;
+    if(roll<0.55)      outcome={type:'coins', amount:10};                                  // 55% — tiny 10 coins
+    else if(roll<0.80) outcome={type:'coins', amount:25+Math.floor(Math.random()*50)};     // 25% — 25-75 coins
+    else if(roll<0.92) outcome={type:'coins', amount:100+Math.floor(Math.random()*150)};   // 12% — 100-250 coins
+    else if(roll<0.985)outcome={type:'poke', tier:'normal'};                               // 6.5% — a Pokémon
+    else               outcome={type:'poke', tier:'rare'};                                 // 1.5% — starter/legendary
 
     const ov=document.getElementById('hatchOverlay');
     const eggEl=document.getElementById('hatchEgg');
@@ -1228,7 +1325,6 @@ function hatchEgg(){
     const subEl=document.getElementById('hatchSub');
     const dismiss=document.getElementById('hatchDismiss');
 
-    // Reset overlay to "egg shaking" state
     document.getElementById('hatchLabel').textContent='YOUR EGG IS HATCHING...';
     eggEl.style.display='';
     img.style.display='none';
@@ -1237,32 +1333,54 @@ function hatchEgg(){
     dismiss.style.display='none';
     ov.classList.add('show');
 
-    // After the shake animation, reveal the pokemon
     setTimeout(()=>{
-      // Add to caught dex
-      if(caught[poke.id]){
-        caught[poke.id].count++;
-        if(isShiny) caught[poke.id].hasShiny=true;
-      } else {
-        caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:isShiny};
-      }
-      if(isShiny) shinyCount++;
-      battleUnlocked=true;
-      saveState();
-      updateDex();
-      document.getElementById('dShinies').textContent=shinyCount;
-
       eggEl.style.display='none';
-      document.getElementById('hatchLabel').textContent=isShiny?'✨ A SHINY HATCHED! ✨':'IT HATCHED!';
-      img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
-      img.src=isShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id);
-      img.style.display='';
-      nameEl.textContent=(isShiny?'✨ ':'')+poke.name.toUpperCase();
-      nameEl.style.display='';
-      subEl.textContent=poke.leg?'A LEGENDARY FROM THE EGG!':'Added to your Pokédex!';
-      subEl.style.display='';
-      dismiss.style.display='';
-      for(let i=0;i<25;i++) setTimeout(()=>spawnCoin(isShiny),i*50);
+
+      if(outcome.type==='coins'){
+        coins+=outcome.amount;
+        updateStats();
+        saveState();
+        document.getElementById('hatchLabel').textContent='THE EGG WAS EMPTY...';
+        nameEl.textContent=`+${outcome.amount} 🪙`;
+        nameEl.style.display='';
+        nameEl.style.color='var(--gold)';
+        subEl.textContent=outcome.amount>=100?'A decent coin stash inside!':'Just a few coins inside. Better luck next egg!';
+        subEl.style.display='';
+        dismiss.style.display='';
+        const n=outcome.amount>=100?20:8;
+        for(let i=0;i<n;i++) setTimeout(()=>spawnCoin(),i*50);
+      } else {
+        // Pokémon hatch
+        const pool = outcome.tier==='rare'
+          ? POOL.filter(p=>p.start||p.leg)
+          : POOL.filter(p=>!p.leg && !p.start);
+        const poke = (pool.length?pool:POOL)[Math.floor(Math.random()*(pool.length?pool.length:POOL.length))];
+        const isShiny=Math.random()<1/50;
+
+        if(caught[poke.id]){
+          caught[poke.id].count++;
+          if(isShiny) caught[poke.id].hasShiny=true;
+        } else {
+          caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:isShiny};
+        }
+        if(isShiny) shinyCount++;
+        battleUnlocked=true;
+        saveState();
+        updateDex();
+        document.getElementById('dShinies').textContent=shinyCount;
+
+        document.getElementById('hatchLabel').textContent=isShiny?'✨ A SHINY HATCHED! ✨':'A POKÉMON HATCHED!';
+        img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(poke.id);};
+        img.src=isShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id);
+        img.style.display='';
+        nameEl.textContent=(isShiny?'✨ ':'')+poke.name.toUpperCase();
+        nameEl.style.display='';
+        nameEl.style.color='';
+        subEl.textContent=poke.leg?'A LEGENDARY FROM THE EGG! 🤯':'Added to your Pokédex!';
+        subEl.style.display='';
+        dismiss.style.display='';
+        for(let i=0;i<25;i++) setTimeout(()=>spawnCoin(isShiny),i*50);
+      }
     },1900);
 
     const h=()=>{ ov.classList.remove('show'); dismiss.removeEventListener('click',h); resolve(); };
@@ -1297,7 +1415,6 @@ function updateDex(){
   cnt.textContent=`${entries.length} caught`;
   if(!entries.length){ grid.innerHTML='<span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>'; return; }
   grid.innerHTML='';
-  const hasDupes=entries.some(e=>e.count>1);
   entries.forEach(({poke,count,wins=0,pokeLevel=1,hasShiny=false})=>{
     const card=document.createElement('div');
     card.className='dex-card'+(hasShiny?' shiny-caught':'');
@@ -1308,20 +1425,126 @@ function updateDex(){
       <div style="font-family:'Bungee',cursive;font-size:.52rem;color:${hasShiny?'var(--neon-p)':'var(--gold)'}">LV ${pokeLevel}</div>
       ${count>1?`<div class="dc-cnt">×${count}</div>`:''}
       ${wins>0?`<div class="dc-wins">⚔️${wins}W</div>`:''}
-      ${count>1?`<button class="dc-trade" data-trade="${poke.id}">TRADE +${tradeValue(poke)}🪙</button>`:''}
     `;
     grid.appendChild(card);
   });
-  if(hasDupes){
-    const hint=document.createElement('div');
-    hint.className='dex-hint';
-    hint.style.cssText='width:100%';
-    hint.textContent='💡 Trade duplicate Pokémon for coins (keeps at least 1)';
-    grid.appendChild(hint);
+}
+
+// ─── MANAGE POKÉDEX (trade + evolve) ─────────────────────────────────────────
+function openManage(){
+  buildManageGrid();
+  document.getElementById('manageOverlay').classList.add('show');
+}
+function closeManage(){
+  document.getElementById('manageOverlay').classList.remove('show');
+}
+
+function buildManageGrid(){
+  const grid=document.getElementById('manageGrid');
+  const entries=Object.values(caught);
+  if(!entries.length){
+    grid.innerHTML='<div class="manage-empty">No Pokémon caught yet. Land 3 of the same on the reels!</div>';
+    return;
   }
-  // Wire up trade buttons
-  grid.querySelectorAll('.dc-trade').forEach(btn=>{
-    btn.addEventListener('click',e=>{ e.stopPropagation(); tradeDuplicate(parseInt(btn.dataset.trade)); });
+  grid.innerHTML='';
+  entries.forEach(entry=>{
+    const {poke,count,wins=0,pokeLevel=1,hasShiny=false}=entry;
+    const canTrade=count>1;
+    const evoTargetId=poke.evolvesTo;
+    const canEvolve=evoTargetId && count>=EVOLVE_COST;
+    const evoName=evoTargetId?(pokeById(evoTargetId)?.name||'???'):null;
+
+    const card=document.createElement('div');
+    card.className='mg-card'+(hasShiny?' shiny-caught':'');
+    card.innerHTML=`
+      <img src="${hasShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+      <div class="mg-name">${hasShiny?'✨ ':''}${poke.name}</div>
+      <div class="mg-stats">LV <b>${pokeLevel}</b> • ×<b>${count}</b>${wins?` • ⚔️${wins}W`:''}</div>
+      <div class="mg-actions">
+        <button class="mg-act trade" data-trade="${poke.id}" ${canTrade?'':'disabled'}>TRADE 1 → +${tradeValue(poke)}🪙</button>
+        ${evoTargetId
+          ? `<button class="mg-act evolve" data-evolve="${poke.id}" ${canEvolve?'':'disabled'}>EVOLVE → ${evoName} (${count}/${EVOLVE_COST})</button>`
+          : `<div style="font-size:.46rem;color:#445;text-align:center">Max evolution</div>`}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll('.mg-act.trade').forEach(b=>b.addEventListener('click',()=>{ tradeDuplicate(parseInt(b.dataset.trade)); buildManageGrid(); }));
+  grid.querySelectorAll('.mg-act.evolve').forEach(b=>b.addEventListener('click',()=>{ evolvePokemon(parseInt(b.dataset.evolve)); }));
+}
+
+async function evolvePokemon(id){
+  const entry=caught[id];
+  if(!entry || !entry.poke.evolvesTo || entry.count<EVOLVE_COST) return;
+  const evolved=pokeById(entry.poke.evolvesTo);
+  if(!evolved) return;
+
+  const oldName=entry.poke.name;
+  const keptLevel=entry.pokeLevel||1;
+  const keptShiny=entry.hasShiny||false;
+  const keptWins=entry.wins||0;
+
+  // Consume copies
+  entry.count-=EVOLVE_COST;
+
+  // Merge into evolved-form entry (or create it)
+  if(caught[evolved.id]){
+    caught[evolved.id].count++;
+    caught[evolved.id].pokeLevel=Math.max(caught[evolved.id].pokeLevel||1, keptLevel);
+    if(keptShiny) caught[evolved.id].hasShiny=true;
+    caught[evolved.id].wins=(caught[evolved.id].wins||0)+keptWins;
+  } else {
+    caught[evolved.id]={poke:evolved,count:1,wins:keptWins,pokeLevel:keptLevel,hasShiny:keptShiny};
+  }
+  // Remove base entry if no copies left
+  if(entry.count<=0) delete caught[id];
+
+  saveState();
+  updateDex();
+
+  // Evolution animation
+  closeManage();
+  await playEvolution(entry.poke, evolved, keptShiny);
+  buildManageGrid();
+  document.getElementById('manageOverlay').classList.add('show');
+}
+
+function playEvolution(fromPoke, toPoke, shiny){
+  return new Promise(resolve=>{
+    const ov=document.getElementById('evoOverlay');
+    const img=document.getElementById('evoImg');
+    const nameEl=document.getElementById('evoName');
+    const subEl=document.getElementById('evoSub');
+    const dismiss=document.getElementById('evoDismiss');
+
+    img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(fromPoke.id);};
+    img.src=shiny?SPRITE_SHINY(fromPoke.id):SPRITE(fromPoke.id);
+    img.classList.add('glowing');
+    nameEl.style.display='none';
+    subEl.style.display='none';
+    dismiss.style.display='none';
+    ov.classList.add('show');
+    sfxLevel();
+
+    // Swap to evolved sprite mid-glow
+    setTimeout(()=>{
+      img.onerror=()=>{img.onerror=null;img.src=SPRITE_FALLBACK(toPoke.id);};
+      img.src=shiny?SPRITE_SHINY(toPoke.id):SPRITE(toPoke.id);
+    },1500);
+
+    setTimeout(()=>{
+      img.classList.remove('glowing');
+      nameEl.textContent=(shiny?'✨ ':'')+toPoke.name.toUpperCase()+'!';
+      nameEl.style.display='';
+      subEl.textContent=`${fromPoke.name} evolved into ${toPoke.name}! Power ${fromPoke.power} → ${toPoke.power}`;
+      subEl.style.display='';
+      dismiss.style.display='';
+      sfxVict();
+      for(let i=0;i<35;i++) setTimeout(()=>spawnCoin(true),i*45);
+    },2600);
+
+    const h=()=>{ ov.classList.remove('show'); dismiss.removeEventListener('click',h); resolve(); };
+    dismiss.addEventListener('click',h);
   });
 }
 
@@ -1504,6 +1727,8 @@ document.getElementById('runBtn').addEventListener('click',()=>{
   if(battleState.active || battleState.over){ return; }
   closeBattle(); showToast('You ran away safely!');
 });
+document.getElementById('manageBtn').addEventListener('click',openManage);
+document.getElementById('manageClose').addEventListener('click',closeManage);
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 loadState();

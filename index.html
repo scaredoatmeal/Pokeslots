@@ -535,12 +535,35 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .dex-bonus-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .dex-bonus-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:#445;font-weight:700}
 .dex-bonus-count{font-family:'Bungee',cursive;font-size:.72rem;color:var(--neon-b);text-shadow:0 0 8px rgba(0,229,255,.35)}
-.dex-bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px}
-.dex-bonus{background:#090912;border:1px solid #222233;border-radius:9px;padding:7px 8px;opacity:.55;filter:grayscale(.8)}
+.dex-bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:7px}
+.dex-bonus{background:#090912;border:1px solid #222233;border-radius:10px;padding:8px 9px;opacity:.58;filter:grayscale(.75);display:flex;flex-direction:column;gap:4px;min-height:108px}
 .dex-bonus.on{opacity:1;filter:none;border-color:rgba(57,255,20,.5);box-shadow:0 0 10px rgba(57,255,20,.1)}
+.dex-bonus.claimed{border-color:rgba(255,215,0,.6);background:linear-gradient(180deg,#120f05,#08080f);box-shadow:0 0 12px rgba(255,215,0,.12)}
 .dex-bonus b{font-family:'Bungee',cursive;font-size:.54rem;color:#778;letter-spacing:.5px}
 .dex-bonus.on b{color:var(--neon-g)}
-.dex-bonus div{font-size:.65rem;color:#556;margin-top:2px;line-height:1.25}
+.dex-bonus.claimed b{color:var(--gold)}
+.dex-bonus div{font-size:.65rem;color:#556;line-height:1.25}
+.dex-bonus .set-progress{font-family:'Bungee',cursive;font-size:.5rem;color:#667;margin-top:auto}
+.set-claim{border:1px solid var(--gold2);border-radius:8px;background:#1a1400;color:var(--gold);font-family:'Bungee',cursive;font-size:.5rem;letter-spacing:.5px;padding:5px 6px;cursor:pointer;transition:all .15s}
+.set-claim:hover{transform:translateY(-1px);box-shadow:0 0 9px rgba(255,215,0,.28)}
+.set-claim:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.party-section{padding:0 20px 16px}
+.party-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.party-title{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:#445;font-weight:700}
+.party-count{font-family:'Bungee',cursive;font-size:.72rem;color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.35)}
+.party-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.party-slot{min-height:88px;background:#090912;border:1px solid #222233;border-radius:11px;padding:7px;display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:center;position:relative;overflow:hidden}
+.party-slot.empty{display:flex;align-items:center;justify-content:center;text-align:center;color:#445;font-size:.72rem;font-style:italic;border-style:dashed}
+.party-slot img{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 0 9px rgba(255,255,255,.15))}
+.party-main{min-width:0;display:flex;flex-direction:column;gap:2px}
+.party-name{font-family:'Bungee',cursive;font-size:.56rem;color:#dde;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.party-meta{font-size:.65rem;color:#667;line-height:1.15}
+.party-manage{font-family:'Bungee',cursive;font-size:.56rem;letter-spacing:.7px;color:var(--neon-b);background:#001f33;border:1px solid var(--neon-b);border-radius:8px;padding:3px 9px;cursor:pointer;transition:all .15s}
+.party-manage:hover{background:#002d4d;box-shadow:0 0 10px rgba(0,229,255,.25)}
+.mg-act.team{background:#001f33;border-color:var(--neon-b);color:var(--neon-b)}
+.mg-act.team:hover{background:#00395c;box-shadow:0 0 9px rgba(0,229,255,.3)}
+.mg-act.team.on{background:#102000;border-color:var(--neon-g);color:var(--neon-g)}
+@media(max-width:560px){.party-grid{grid-template-columns:1fr}.party-slot{min-height:76px}}
 .ability-flash{animation:abilityFlash .55s ease-in-out 2!important}
 @keyframes abilityFlash{0%,100%{box-shadow:0 0 0 rgba(0,229,255,0)}50%{box-shadow:0 0 28px var(--neon-b), inset 0 0 16px rgba(0,229,255,.22);border-color:var(--neon-b)}}
 .reel-box.held{border-color:var(--neon-p)!important;box-shadow:0 0 18px rgba(255,0,255,.35)!important}
@@ -576,8 +599,8 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 
 <!-- POKEMON LEVEL PICKER -->
 <div class="pklv-overlay" id="pklvOverlay">
-  <div class="pklv-title">⬆️ TRAINER LEVEL UP!</div>
-  <div class="pklv-sub">CHOOSE ONE POKÉMON TO POWER UP</div>
+  <div class="pklv-title">⬆️ POKÉMON LEVEL UP!</div>
+  <div class="pklv-sub">Pokémon level themselves through catches and battles</div>
   <div class="pklv-points" id="pklvPoints">1 POINT TO SPEND</div>
   <div class="pklv-grid" id="pklvGrid"></div>
   <button class="pklv-skip" id="pklvSkip">SKIP FOR NOW →</button>
@@ -625,7 +648,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 <!-- MANAGE POKÉDEX OVERLAY -->
 <div class="manage-overlay" id="manageOverlay">
   <div class="manage-title">📖 MANAGE POKÉDEX</div>
-  <div class="manage-sub">TRADE DUPLICATES FOR COINS • EVOLVE WITH 3+ COPIES</div>
+  <div class="manage-sub">BUILD YOUR 3-POKÉMON BATTLE TEAM • TRADE DUPLICATES • EVOLVE WITH 3+ COPIES</div>
   <div class="manage-grid" id="manageGrid"></div>
   <button class="manage-close" id="manageClose">← CLOSE</button>
 </div>
@@ -872,6 +895,16 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       </div>
       <div class="badge-grid" id="badgeGrid"></div>
     </div>
+    <div class="party-section">
+      <div class="party-head">
+        <div class="party-title">⚔️ Battle Team</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="party-count" id="partyCount">0 / 3</div>
+          <button class="party-manage" id="partyManageBtn">EDIT TEAM</button>
+        </div>
+      </div>
+      <div class="party-grid" id="partyGrid"></div>
+    </div>
     <div class="dex-bonus-section">
       <div class="dex-bonus-head">
         <div class="dex-bonus-title">🧬 Pokédex Set Bonuses</div>
@@ -905,68 +938,181 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 
 <script>
 // ─── POKEMON POOL ─────────────────────────────────────────────────────────────
-const POOL = [
-  {id:1,  name:"Bulbasaur",  types:["grass","poison"],  leg:false,start:true,  power:45,  evolvesTo:2},
-  {id:4,  name:"Charmander", types:["fire"],             leg:false,start:true,  power:52,  evolvesTo:5},
-  {id:7,  name:"Squirtle",   types:["water"],            leg:false,start:true,  power:48,  evolvesTo:8},
-  {id:25, name:"Pikachu",    types:["electric"],         leg:false,start:false, power:55,  evolvesTo:26},
-  {id:39, name:"Jigglypuff", types:["normal","fairy"],   leg:false,start:false, power:35,  evolvesTo:40},
-  {id:52, name:"Meowth",     types:["normal"],           leg:false,start:false, power:40,  evolvesTo:53},
-  {id:54, name:"Psyduck",    types:["water"],            leg:false,start:false, power:52,  evolvesTo:55},
-  {id:63, name:"Abra",       types:["psychic"],          leg:false,start:false, power:60,  evolvesTo:64},
-  {id:66, name:"Machop",     types:["fighting"],         leg:false,start:false, power:80,  evolvesTo:67},
-  {id:74, name:"Geodude",    types:["rock","ground"],    leg:false,start:false, power:60,  evolvesTo:75},
-  {id:92, name:"Gastly",     types:["ghost","poison"],   leg:false,start:false, power:50,  evolvesTo:93},
-  {id:94, name:"Gengar",     types:["ghost","poison"],   leg:false,start:false, power:95},
-  {id:113,name:"Chansey",    types:["normal"],           leg:false,start:false, power:30,  evolvesTo:242},
-  {id:129,name:"Magikarp",   types:["water"],            leg:false,start:false, power:10,  evolvesTo:130},
-  {id:131,name:"Lapras",     types:["water","ice"],      leg:false,start:false, power:85},
-  {id:133,name:"Eevee",      types:["normal"],           leg:false,start:false, power:45,  evolvesTo:134},
-  {id:143,name:"Snorlax",    types:["normal"],           leg:false,start:false, power:90},
-  {id:147,name:"Dratini",    types:["dragon"],           leg:false,start:false, power:64,  evolvesTo:148},
-  {id:150,name:"Mewtwo",     types:["psychic"],          leg:true, start:false, power:154},
-  {id:151,name:"Mew",        types:["psychic"],          leg:true, start:false, power:100},
-  {id:152,name:"Chikorita",  types:["grass"],            leg:false,start:true,  power:49,  evolvesTo:153},
-  {id:155,name:"Cyndaquil",  types:["fire"],             leg:false,start:true,  power:52,  evolvesTo:156},
-  {id:158,name:"Totodile",   types:["water"],            leg:false,start:true,  power:65,  evolvesTo:159},
-  {id:249,name:"Lugia",      types:["psychic","flying"], leg:true, start:false, power:130},
-  {id:250,name:"Ho-Oh",      types:["fire","flying"],    leg:true, start:false, power:130},
-];
+// Full Kanto pool. Sprites load from PokéAPI's official-artwork URLs, with classic sprites as fallback.
+const POOL = [{"id":1,"name":"Bulbasaur","types":["grass","poison"],"leg":false,"start":true,"power":45,"rarity":"starter","evolvesTo":2},
+  {"id":2,"name":"Ivysaur","types":["grass","poison"],"leg":false,"start":false,"power":62,"rarity":"uncommon","evolvesTo":3},
+  {"id":3,"name":"Venusaur","types":["grass","poison"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":4,"name":"Charmander","types":["fire"],"leg":false,"start":true,"power":52,"rarity":"starter","evolvesTo":5},
+  {"id":5,"name":"Charmeleon","types":["fire"],"leg":false,"start":false,"power":64,"rarity":"uncommon","evolvesTo":6},
+  {"id":6,"name":"Charizard","types":["fire","flying"],"leg":false,"start":false,"power":109,"rarity":"rare"},
+  {"id":7,"name":"Squirtle","types":["water"],"leg":false,"start":true,"power":48,"rarity":"starter","evolvesTo":8},
+  {"id":8,"name":"Wartortle","types":["water"],"leg":false,"start":false,"power":63,"rarity":"uncommon","evolvesTo":9},
+  {"id":9,"name":"Blastoise","types":["water"],"leg":false,"start":false,"power":103,"rarity":"rare"},
+  {"id":10,"name":"Caterpie","types":["bug"],"leg":false,"start":false,"power":20,"rarity":"common","evolvesTo":11},
+  {"id":11,"name":"Metapod","types":["bug"],"leg":false,"start":false,"power":25,"rarity":"common","evolvesTo":12},
+  {"id":12,"name":"Butterfree","types":["bug","flying"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":13,"name":"Weedle","types":["bug","poison"],"leg":false,"start":false,"power":35,"rarity":"common","evolvesTo":14},
+  {"id":14,"name":"Kakuna","types":["bug","poison"],"leg":false,"start":false,"power":25,"rarity":"common","evolvesTo":15},
+  {"id":15,"name":"Beedrill","types":["bug","poison"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":16,"name":"Pidgey","types":["normal","flying"],"leg":false,"start":false,"power":45,"rarity":"common","evolvesTo":17},
+  {"id":17,"name":"Pidgeotto","types":["normal","flying"],"leg":false,"start":false,"power":60,"rarity":"common","evolvesTo":18},
+  {"id":18,"name":"Pidgeot","types":["normal","flying"],"leg":false,"start":false,"power":80,"rarity":"uncommon"},
+  {"id":19,"name":"Rattata","types":["normal"],"leg":false,"start":false,"power":56,"rarity":"common","evolvesTo":20},
+  {"id":20,"name":"Raticate","types":["normal"],"leg":false,"start":false,"power":81,"rarity":"common"},
+  {"id":21,"name":"Spearow","types":["normal","flying"],"leg":false,"start":false,"power":60,"rarity":"common","evolvesTo":22},
+  {"id":22,"name":"Fearow","types":["normal","flying"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":23,"name":"Ekans","types":["poison"],"leg":false,"start":false,"power":60,"rarity":"common","evolvesTo":24},
+  {"id":24,"name":"Arbok","types":["poison"],"leg":false,"start":false,"power":95,"rarity":"uncommon"},
+  {"id":25,"name":"Pikachu","types":["electric"],"leg":false,"start":false,"power":55,"rarity":"rare","evolvesTo":26},
+  {"id":26,"name":"Raichu","types":["electric"],"leg":false,"start":false,"power":90,"rarity":"rare"},
+  {"id":27,"name":"Sandshrew","types":["ground"],"leg":false,"start":false,"power":75,"rarity":"common","evolvesTo":28},
+  {"id":28,"name":"Sandslash","types":["ground"],"leg":false,"start":false,"power":100,"rarity":"uncommon"},
+  {"id":29,"name":"Nidoran♀","types":["poison"],"leg":false,"start":false,"power":47,"rarity":"common","evolvesTo":30},
+  {"id":30,"name":"Nidorina","types":["poison"],"leg":false,"start":false,"power":62,"rarity":"uncommon","evolvesTo":31},
+  {"id":31,"name":"Nidoqueen","types":["poison","ground"],"leg":false,"start":false,"power":92,"rarity":"rare"},
+  {"id":32,"name":"Nidoran♂","types":["poison"],"leg":false,"start":false,"power":57,"rarity":"common","evolvesTo":33},
+  {"id":33,"name":"Nidorino","types":["poison"],"leg":false,"start":false,"power":72,"rarity":"uncommon","evolvesTo":34},
+  {"id":34,"name":"Nidoking","types":["poison","ground"],"leg":false,"start":false,"power":102,"rarity":"rare"},
+  {"id":35,"name":"Clefairy","types":["fairy"],"leg":false,"start":false,"power":45,"rarity":"uncommon","evolvesTo":36},
+  {"id":36,"name":"Clefable","types":["fairy"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":37,"name":"Vulpix","types":["fire"],"leg":false,"start":false,"power":41,"rarity":"uncommon","evolvesTo":38},
+  {"id":38,"name":"Ninetales","types":["fire"],"leg":false,"start":false,"power":76,"rarity":"rare"},
+  {"id":39,"name":"Jigglypuff","types":["normal","fairy"],"leg":false,"start":false,"power":45,"rarity":"uncommon","evolvesTo":40},
+  {"id":40,"name":"Wigglytuff","types":["normal","fairy"],"leg":false,"start":false,"power":70,"rarity":"rare"},
+  {"id":41,"name":"Zubat","types":["poison","flying"],"leg":false,"start":false,"power":45,"rarity":"common","evolvesTo":42},
+  {"id":42,"name":"Golbat","types":["poison","flying"],"leg":false,"start":false,"power":80,"rarity":"uncommon"},
+  {"id":43,"name":"Oddish","types":["grass","poison"],"leg":false,"start":false,"power":50,"rarity":"common","evolvesTo":44},
+  {"id":44,"name":"Gloom","types":["grass","poison"],"leg":false,"start":false,"power":65,"rarity":"uncommon","evolvesTo":45},
+  {"id":45,"name":"Vileplume","types":["grass","poison"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":46,"name":"Paras","types":["bug","grass"],"leg":false,"start":false,"power":70,"rarity":"common","evolvesTo":47},
+  {"id":47,"name":"Parasect","types":["bug","grass"],"leg":false,"start":false,"power":95,"rarity":"uncommon"},
+  {"id":48,"name":"Venonat","types":["bug","poison"],"leg":false,"start":false,"power":55,"rarity":"common","evolvesTo":49},
+  {"id":49,"name":"Venomoth","types":["bug","poison"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":50,"name":"Diglett","types":["ground"],"leg":false,"start":false,"power":55,"rarity":"common","evolvesTo":51},
+  {"id":51,"name":"Dugtrio","types":["ground"],"leg":false,"start":false,"power":100,"rarity":"uncommon"},
+  {"id":52,"name":"Meowth","types":["normal"],"leg":false,"start":false,"power":45,"rarity":"common","evolvesTo":53},
+  {"id":53,"name":"Persian","types":["normal"],"leg":false,"start":false,"power":70,"rarity":"uncommon"},
+  {"id":54,"name":"Psyduck","types":["water"],"leg":false,"start":false,"power":52,"rarity":"common","evolvesTo":55},
+  {"id":55,"name":"Golduck","types":["water"],"leg":false,"start":false,"power":95,"rarity":"uncommon"},
+  {"id":56,"name":"Mankey","types":["fighting"],"leg":false,"start":false,"power":80,"rarity":"common","evolvesTo":57},
+  {"id":57,"name":"Primeape","types":["fighting"],"leg":false,"start":false,"power":105,"rarity":"uncommon"},
+  {"id":58,"name":"Growlithe","types":["fire"],"leg":false,"start":false,"power":70,"rarity":"uncommon","evolvesTo":59},
+  {"id":59,"name":"Arcanine","types":["fire"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":60,"name":"Poliwag","types":["water"],"leg":false,"start":false,"power":50,"rarity":"common","evolvesTo":61},
+  {"id":61,"name":"Poliwhirl","types":["water"],"leg":false,"start":false,"power":65,"rarity":"uncommon","evolvesTo":62},
+  {"id":62,"name":"Poliwrath","types":["water","fighting"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":63,"name":"Abra","types":["psychic"],"leg":false,"start":false,"power":60,"rarity":"uncommon","evolvesTo":64},
+  {"id":64,"name":"Kadabra","types":["psychic"],"leg":false,"start":false,"power":88,"rarity":"rare","evolvesTo":65},
+  {"id":65,"name":"Alakazam","types":["psychic"],"leg":false,"start":false,"power":120,"rarity":"rare"},
+  {"id":66,"name":"Machop","types":["fighting"],"leg":false,"start":false,"power":80,"rarity":"common","evolvesTo":67},
+  {"id":67,"name":"Machoke","types":["fighting"],"leg":false,"start":false,"power":105,"rarity":"uncommon","evolvesTo":68},
+  {"id":68,"name":"Machamp","types":["fighting"],"leg":false,"start":false,"power":130,"rarity":"rare"},
+  {"id":69,"name":"Bellsprout","types":["grass","poison"],"leg":false,"start":false,"power":75,"rarity":"common","evolvesTo":70},
+  {"id":70,"name":"Weepinbell","types":["grass","poison"],"leg":false,"start":false,"power":90,"rarity":"uncommon","evolvesTo":71},
+  {"id":71,"name":"Victreebel","types":["grass","poison"],"leg":false,"start":false,"power":105,"rarity":"rare"},
+  {"id":72,"name":"Tentacool","types":["water","poison"],"leg":false,"start":false,"power":50,"rarity":"common","evolvesTo":73},
+  {"id":73,"name":"Tentacruel","types":["water","poison"],"leg":false,"start":false,"power":100,"rarity":"uncommon"},
+  {"id":74,"name":"Geodude","types":["rock","ground"],"leg":false,"start":false,"power":80,"rarity":"common","evolvesTo":75},
+  {"id":75,"name":"Graveler","types":["rock","ground"],"leg":false,"start":false,"power":95,"rarity":"uncommon","evolvesTo":76},
+  {"id":76,"name":"Golem","types":["rock","ground"],"leg":false,"start":false,"power":120,"rarity":"rare"},
+  {"id":77,"name":"Ponyta","types":["fire"],"leg":false,"start":false,"power":85,"rarity":"common","evolvesTo":78},
+  {"id":78,"name":"Rapidash","types":["fire"],"leg":false,"start":false,"power":100,"rarity":"uncommon"},
+  {"id":79,"name":"Slowpoke","types":["water","psychic"],"leg":false,"start":false,"power":65,"rarity":"common","evolvesTo":80},
+  {"id":80,"name":"Slowbro","types":["water","psychic"],"leg":false,"start":false,"power":100,"rarity":"uncommon"},
+  {"id":81,"name":"Magnemite","types":["electric","steel"],"leg":false,"start":false,"power":65,"rarity":"common","evolvesTo":82},
+  {"id":82,"name":"Magneton","types":["electric","steel"],"leg":false,"start":false,"power":95,"rarity":"uncommon"},
+  {"id":83,"name":"Farfetch'd","types":["normal","flying"],"leg":false,"start":false,"power":90,"rarity":"rare"},
+  {"id":84,"name":"Doduo","types":["normal","flying"],"leg":false,"start":false,"power":85,"rarity":"common","evolvesTo":85},
+  {"id":85,"name":"Dodrio","types":["normal","flying"],"leg":false,"start":false,"power":110,"rarity":"uncommon"},
+  {"id":86,"name":"Seel","types":["water"],"leg":false,"start":false,"power":45,"rarity":"common","evolvesTo":87},
+  {"id":87,"name":"Dewgong","types":["water","ice"],"leg":false,"start":false,"power":70,"rarity":"uncommon"},
+  {"id":88,"name":"Grimer","types":["poison"],"leg":false,"start":false,"power":80,"rarity":"common","evolvesTo":89},
+  {"id":89,"name":"Muk","types":["poison"],"leg":false,"start":false,"power":105,"rarity":"uncommon"},
+  {"id":90,"name":"Shellder","types":["water"],"leg":false,"start":false,"power":65,"rarity":"common","evolvesTo":91},
+  {"id":91,"name":"Cloyster","types":["water","ice"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":92,"name":"Gastly","types":["ghost","poison"],"leg":false,"start":false,"power":50,"rarity":"uncommon","evolvesTo":93},
+  {"id":93,"name":"Haunter","types":["ghost","poison"],"leg":false,"start":false,"power":80,"rarity":"rare","evolvesTo":94},
+  {"id":94,"name":"Gengar","types":["ghost","poison"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":95,"name":"Onix","types":["rock","ground"],"leg":false,"start":false,"power":45,"rarity":"rare"},
+  {"id":96,"name":"Drowzee","types":["psychic"],"leg":false,"start":false,"power":48,"rarity":"common","evolvesTo":97},
+  {"id":97,"name":"Hypno","types":["psychic"],"leg":false,"start":false,"power":73,"rarity":"uncommon"},
+  {"id":98,"name":"Krabby","types":["water"],"leg":false,"start":false,"power":105,"rarity":"common","evolvesTo":99},
+  {"id":99,"name":"Kingler","types":["water"],"leg":false,"start":false,"power":130,"rarity":"uncommon"},
+  {"id":100,"name":"Voltorb","types":["electric"],"leg":false,"start":false,"power":50,"rarity":"common","evolvesTo":101},
+  {"id":101,"name":"Electrode","types":["electric"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":102,"name":"Exeggcute","types":["grass","psychic"],"leg":false,"start":false,"power":60,"rarity":"common","evolvesTo":103},
+  {"id":103,"name":"Exeggutor","types":["grass","psychic"],"leg":false,"start":false,"power":125,"rarity":"rare"},
+  {"id":104,"name":"Cubone","types":["ground"],"leg":false,"start":false,"power":50,"rarity":"uncommon","evolvesTo":105},
+  {"id":105,"name":"Marowak","types":["ground"],"leg":false,"start":false,"power":80,"rarity":"rare"},
+  {"id":106,"name":"Hitmonlee","types":["fighting"],"leg":false,"start":false,"power":120,"rarity":"rare"},
+  {"id":107,"name":"Hitmonchan","types":["fighting"],"leg":false,"start":false,"power":105,"rarity":"rare"},
+  {"id":108,"name":"Lickitung","types":["normal"],"leg":false,"start":false,"power":55,"rarity":"rare"},
+  {"id":109,"name":"Koffing","types":["poison"],"leg":false,"start":false,"power":65,"rarity":"common","evolvesTo":110},
+  {"id":110,"name":"Weezing","types":["poison"],"leg":false,"start":false,"power":90,"rarity":"uncommon"},
+  {"id":111,"name":"Rhyhorn","types":["ground","rock"],"leg":false,"start":false,"power":85,"rarity":"uncommon","evolvesTo":112},
+  {"id":112,"name":"Rhydon","types":["ground","rock"],"leg":false,"start":false,"power":130,"rarity":"rare"},
+  {"id":113,"name":"Chansey","types":["normal"],"leg":false,"start":false,"power":35,"rarity":"rare"},
+  {"id":114,"name":"Tangela","types":["grass"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":115,"name":"Kangaskhan","types":["normal"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":116,"name":"Horsea","types":["water"],"leg":false,"start":false,"power":70,"rarity":"common","evolvesTo":117},
+  {"id":117,"name":"Seadra","types":["water"],"leg":false,"start":false,"power":95,"rarity":"uncommon"},
+  {"id":118,"name":"Goldeen","types":["water"],"leg":false,"start":false,"power":67,"rarity":"common","evolvesTo":119},
+  {"id":119,"name":"Seaking","types":["water"],"leg":false,"start":false,"power":92,"rarity":"uncommon"},
+  {"id":120,"name":"Staryu","types":["water"],"leg":false,"start":false,"power":70,"rarity":"uncommon","evolvesTo":121},
+  {"id":121,"name":"Starmie","types":["water","psychic"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":122,"name":"Mr. Mime","types":["psychic","fairy"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":123,"name":"Scyther","types":["bug","flying"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":124,"name":"Jynx","types":["ice","psychic"],"leg":false,"start":false,"power":115,"rarity":"rare"},
+  {"id":125,"name":"Electabuzz","types":["electric"],"leg":false,"start":false,"power":95,"rarity":"rare"},
+  {"id":126,"name":"Magmar","types":["fire"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":127,"name":"Pinsir","types":["bug"],"leg":false,"start":false,"power":125,"rarity":"rare"},
+  {"id":128,"name":"Tauros","types":["normal"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":129,"name":"Magikarp","types":["water"],"leg":false,"start":false,"power":10,"rarity":"common","evolvesTo":130},
+  {"id":130,"name":"Gyarados","types":["water","flying"],"leg":false,"start":false,"power":125,"rarity":"rare"},
+  {"id":131,"name":"Lapras","types":["water","ice"],"leg":false,"start":false,"power":100,"rarity":"rare"},
+  {"id":132,"name":"Ditto","types":["normal"],"leg":false,"start":false,"power":48,"rarity":"rare"},
+  {"id":133,"name":"Eevee","types":["normal"],"leg":false,"start":false,"power":55,"rarity":"rare","evolvesTo":134},
+  {"id":134,"name":"Vaporeon","types":["water"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":135,"name":"Jolteon","types":["electric"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":136,"name":"Flareon","types":["fire"],"leg":false,"start":false,"power":130,"rarity":"rare"},
+  {"id":137,"name":"Porygon","types":["normal"],"leg":false,"start":false,"power":85,"rarity":"rare"},
+  {"id":138,"name":"Omanyte","types":["rock","water"],"leg":false,"start":false,"power":90,"rarity":"rare","evolvesTo":139},
+  {"id":139,"name":"Omastar","types":["rock","water"],"leg":false,"start":false,"power":115,"rarity":"rare"},
+  {"id":140,"name":"Kabuto","types":["rock","water"],"leg":false,"start":false,"power":80,"rarity":"rare","evolvesTo":141},
+  {"id":141,"name":"Kabutops","types":["rock","water"],"leg":false,"start":false,"power":115,"rarity":"rare"},
+  {"id":142,"name":"Aerodactyl","types":["rock","flying"],"leg":false,"start":false,"power":105,"rarity":"rare"},
+  {"id":143,"name":"Snorlax","types":["normal"],"leg":false,"start":false,"power":110,"rarity":"rare"},
+  {"id":144,"name":"Articuno","types":["ice","flying"],"leg":true,"start":false,"power":125,"rarity":"legendary"},
+  {"id":145,"name":"Zapdos","types":["electric","flying"],"leg":true,"start":false,"power":125,"rarity":"legendary"},
+  {"id":146,"name":"Moltres","types":["fire","flying"],"leg":true,"start":false,"power":125,"rarity":"legendary"},
+  {"id":147,"name":"Dratini","types":["dragon"],"leg":false,"start":false,"power":64,"rarity":"rare","evolvesTo":148},
+  {"id":148,"name":"Dragonair","types":["dragon"],"leg":false,"start":false,"power":88,"rarity":"rare","evolvesTo":149},
+  {"id":149,"name":"Dragonite","types":["dragon","flying"],"leg":false,"start":false,"power":134,"rarity":"rare"},
+  {"id":150,"name":"Mewtwo","types":["psychic"],"leg":true,"start":false,"power":154,"rarity":"legendary"},
+  {"id":151,"name":"Mew","types":["psychic"],"leg":true,"start":false,"power":100,"rarity":"legendary"}];
 
-// Evolved forms — referenced only when a Pokémon evolves (not on the reels)
+// Legacy Pokémon kept so older saves from previous versions do not break.
+// They no longer appear on the reels unless already caught in an existing save.
 const EVOLUTIONS = {
-  2:  {id:2,  name:"Ivysaur",   types:["grass","poison"], leg:false,start:false,power:62,  evolvesTo:3},
-  3:  {id:3,  name:"Venusaur",  types:["grass","poison"], leg:false,start:false,power:100},
-  5:  {id:5,  name:"Charmeleon",types:["fire"],           leg:false,start:false,power:64,  evolvesTo:6},
-  6:  {id:6,  name:"Charizard", types:["fire","flying"],  leg:false,start:false,power:109},
-  8:  {id:8,  name:"Wartortle", types:["water"],          leg:false,start:false,power:63,  evolvesTo:9},
-  9:  {id:9,  name:"Blastoise", types:["water"],          leg:false,start:false,power:103},
-  26: {id:26, name:"Raichu",    types:["electric"],       leg:false,start:false,power:90},
-  40: {id:40, name:"Wigglytuff",types:["normal","fairy"], leg:false,start:false,power:70},
-  53: {id:53, name:"Persian",   types:["normal"],         leg:false,start:false,power:75},
-  55: {id:55, name:"Golduck",   types:["water"],          leg:false,start:false,power:85},
-  64: {id:64, name:"Kadabra",   types:["psychic"],        leg:false,start:false,power:88,  evolvesTo:65},
-  65: {id:65, name:"Alakazam",  types:["psychic"],        leg:false,start:false,power:120},
-  67: {id:67, name:"Machoke",   types:["fighting"],       leg:false,start:false,power:105, evolvesTo:68},
-  68: {id:68, name:"Machamp",   types:["fighting"],       leg:false,start:false,power:130},
-  75: {id:75, name:"Graveler",  types:["rock","ground"],  leg:false,start:false,power:85,  evolvesTo:76},
-  76: {id:76, name:"Golem",     types:["rock","ground"],  leg:false,start:false,power:110},
-  93: {id:93, name:"Haunter",   types:["ghost","poison"], leg:false,start:false,power:80,  evolvesTo:94},
-  130:{id:130,name:"Gyarados",  types:["water","flying"], leg:false,start:false,power:125},
-  134:{id:134,name:"Vaporeon",  types:["water"],          leg:false,start:false,power:95},
-  148:{id:148,name:"Dragonair", types:["dragon"],         leg:false,start:false,power:88,  evolvesTo:149},
-  149:{id:149,name:"Dragonite", types:["dragon","flying"],leg:false,start:false,power:134},
-  153:{id:153,name:"Bayleef",   types:["grass"],          leg:false,start:false,power:66,  evolvesTo:154},
-  154:{id:154,name:"Meganium",  types:["grass"],          leg:false,start:false,power:100},
-  156:{id:156,name:"Quilava",   types:["fire"],           leg:false,start:false,power:68,  evolvesTo:157},
-  157:{id:157,name:"Typhlosion",types:["fire"],           leg:false,start:false,power:109},
-  159:{id:159,name:"Croconaw",  types:["water"],          leg:false,start:false,power:80,  evolvesTo:160},
-  160:{id:160,name:"Feraligatr",types:["water"],          leg:false,start:false,power:105},
-  242:{id:242,name:"Blissey",   types:["normal"],         leg:false,start:false,power:75},
+  152: {"id":152,"name":"Chikorita","types":["grass"],"leg":false,"start":true,"power":49,"rarity":"legacy","evolvesTo":153},
+  153: {"id":153,"name":"Bayleef","types":["grass"],"leg":false,"start":false,"power":66,"rarity":"legacy","evolvesTo":154},
+  154: {"id":154,"name":"Meganium","types":["grass"],"leg":false,"start":false,"power":100,"rarity":"legacy"},
+  155: {"id":155,"name":"Cyndaquil","types":["fire"],"leg":false,"start":true,"power":52,"rarity":"legacy","evolvesTo":156},
+  156: {"id":156,"name":"Quilava","types":["fire"],"leg":false,"start":false,"power":68,"rarity":"legacy","evolvesTo":157},
+  157: {"id":157,"name":"Typhlosion","types":["fire"],"leg":false,"start":false,"power":109,"rarity":"legacy"},
+  158: {"id":158,"name":"Totodile","types":["water"],"leg":false,"start":true,"power":65,"rarity":"legacy","evolvesTo":159},
+  159: {"id":159,"name":"Croconaw","types":["water"],"leg":false,"start":false,"power":80,"rarity":"legacy","evolvesTo":160},
+  160: {"id":160,"name":"Feraligatr","types":["water"],"leg":false,"start":false,"power":105,"rarity":"legacy"},
+  242: {"id":242,"name":"Blissey","types":["normal"],"leg":false,"start":false,"power":75,"rarity":"legacy"},
+  249: {"id":249,"name":"Lugia","types":["psychic","flying"],"leg":true,"start":false,"power":130,"rarity":"legacy"},
+  250: {"id":250,"name":"Ho-Oh","types":["fire","flying"],"leg":true,"start":false,"power":130,"rarity":"legacy"}
 };
 
-// Look up a pokemon definition by id (in POOL or EVOLUTIONS)
-function pokeById(id){ return POOL.find(p=>p.id===id) || EVOLUTIONS[id] || null; }
+const POKE_BY_ID = new Map(POOL.map(p => [p.id, p]));
+const KANTO_IDS = new Set(POOL.map(p => p.id));
+
+// Look up a pokemon definition by id (Kanto pool or legacy saved Pokémon)
+function pokeById(id){ return POKE_BY_ID.get(Number(id)) || EVOLUTIONS[Number(id)] || null; }
 
 const EVOLVE_COST = 3; // duplicates needed to evolve (consumes them)
 
@@ -986,6 +1132,8 @@ const TYPE_ADV = {
   poison:  {strong:["grass","fairy"],    weak:["ground","psychic"]},
   flying:  {strong:["grass","fighting"], weak:["electric","rock"]},
   fairy:   {strong:["dragon","fighting"],weak:["steel","poison"]},
+  bug:     {strong:["grass","psychic"],  weak:["fire","flying"]},
+  steel:   {strong:["ice","fairy"],      weak:["fire","ground"]},
   normal:  {strong:[],                   weak:["fighting"]},
 };
 
@@ -1039,6 +1187,14 @@ const GYM_LEADERS = [
 // Legendaries are very rare even on 3 match; normals ~40%; after first catch they drop
 const BASE_CATCH_RATE = { leg: 8, start: 35, normal: 40 };
 
+// Kanto is huge compared to the old pool, so pure random can feel repetitive.
+// These controls gently push the reels toward Pokémon you have not even seen yet,
+// while still letting common Pokémon stay common and legendaries stay rare.
+const REEL_RECENT_MEMORY = 96;
+const REEL_DISCOVERY_CHANCE = 0.78;
+const NATURAL_PAIR_CHANCE = 0.18;
+const NATURAL_TRIPLE_CHANCE = 0.025;
+
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let coins=1000, totalWon=0, spinCount=0, bet=10;
 let spinning=false, history=[], caught={}, spinIntervals=[null,null,null];
@@ -1053,6 +1209,11 @@ let battlesWon=0;        // total battles won (gym pacing)
 let badges=[];           // earned badge indices (0-7)
 let battleCount=0;       // total battles triggered
 let activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0, reelLocks:0};
+let activeParty=[];           // Up to 3 Pokémon ids used for battles
+let collectionSetClaims={};   // One-time reward claims for completed collection sets
+let reelRecentIds=[];         // Recently displayed final reel Pokémon, used to reduce repeats
+let reelSeenIds=[];           // Pokémon the player has actually seen on final reels
+let reelDiscoveryBag=[];       // shuffled unseen Kanto list so new faces rotate in instead of pure RNG repeats
 let upgrades={loose:0, shiny:0, greedy:0, haunted:0};
 const LOCKS_PER_DAY=2;
 let lockPurchaseDay=localDayKey(), lockPurchasesToday=0;
@@ -1069,7 +1230,7 @@ const EGG_HATCH_AT=25;   // spins needed for an egg to hatch
 let eventActive=false;
 const BLOCKING_OVERLAYS=[
   'rocketOverlay','battleOverlay','battlePickerOverlay','catchOverlay','shinyOverlay','hatchOverlay',
-  'pklvOverlay','cooldownOverlay','manageOverlay','shopOverlay','upgradeOverlay','achievementOverlay','lockOfferOverlay'
+  'cooldownOverlay','manageOverlay','shopOverlay','upgradeOverlay','achievementOverlay','lockOfferOverlay'
 ];
 function blockingOverlayOpen(){
   return BLOCKING_OVERLAYS.some(id=>{
@@ -1088,8 +1249,8 @@ function saveState() {
   localStorage.setItem(SAVE_KEY, JSON.stringify({
     coins,totalWon,spinCount,caught,history:history.slice(0,10),
     bestWin,xp,level,winStreak,lastDaily,soundOn,
-    spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount,eggProgress,
-    battlesWon,badges,battleCount,activeItems,upgrades,reputationStats,achievementStats,heldReel,
+    spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints:0,shinyCount,eggProgress,
+    battlesWon,badges,battleCount,activeItems,activeParty,collectionSetClaims,reelRecentIds,reelSeenIds,reelDiscoveryBag,upgrades,reputationStats,achievementStats,heldReel,
     lockPurchaseDay,lockPurchasesToday
   }));
 }
@@ -1105,13 +1266,18 @@ function loadState() {
     spinsUntilBattle=d.spinsUntilBattle??BATTLE_EVERY;
     firstWinGiven=d.firstWinGiven??false;
     battleUnlocked=d.battleUnlocked??false;
-    pendingLvPoints=d.pendingLvPoints??0;
+    pendingLvPoints=0; // trainer point system removed; Pokémon now level themselves
     shinyCount=d.shinyCount??0;
     eggProgress=d.eggProgress??0;
     battlesWon=d.battlesWon??0;
     badges=d.badges??[];
     battleCount=d.battleCount??0;
     activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0, reelLocks:0, ...(d.activeItems||{})};
+    activeParty=Array.isArray(d.activeParty)?d.activeParty.map(Number).filter(Boolean).slice(0,3):[];
+    collectionSetClaims=d.collectionSetClaims||{};
+    reelRecentIds=Array.isArray(d.reelRecentIds)?d.reelRecentIds.map(Number).filter(Boolean).slice(-REEL_RECENT_MEMORY):[];
+    reelSeenIds=Array.isArray(d.reelSeenIds)?[...new Set(d.reelSeenIds.map(Number).filter(Boolean))]:[];
+    reelDiscoveryBag=Array.isArray(d.reelDiscoveryBag)?d.reelDiscoveryBag.map(Number).filter(Boolean):[];
     upgrades={loose:0, shiny:0, greedy:0, haunted:0};
     reputationStats={maxBets:0, smallBets:0, shopBuys:0, pairLocks:0, spins:0, ...(d.reputationStats||{})};
     achievementStats={pairMatches:0,tripleMatches:0,jackpots:0,wins:0,losses:0,maxBetWins:0,eggsHatched:0,evolutions:0,trades:0,rocketWins:0,rocketBlocks:0,rocketLosses:0,itemsBought:0,upgradesBought:0,reelLocks:0,dailyClaims:0,bigWins:0, ...(d.achievementStats||{})};
@@ -1167,7 +1333,105 @@ const sfxSpin=()=>{}, sfxStop=()=>{}, sfxWin=()=>{}, sfxJack=()=>{}, sfxCatch=()
       sfxFail=()=>{}, sfxBattle=()=>{}, sfxVict=()=>{}, sfxDaily=()=>{}, sfxLevel=()=>{}, sfxShiny=()=>{};
 
 // ─── REEL HELPERS ─────────────────────────────────────────────────────────────
-function randPoke(){ return POOL[Math.floor(Math.random()*POOL.length)]; }
+function pokemonWeight(p, opts={}){
+  // Used only when the game intentionally creates a match.
+  // Normal reel variety now comes from a rotating Kanto bag instead of pure RNG.
+  if(p.leg) return 0.18;
+  if(p.start) return 0.95;
+  if(p.rarity==='rare') return 0.55;
+  if(p.rarity==='uncommon') return 0.90;
+  return 1.10;
+}
+function weightedPick(pool, opts={}){
+  const list=(pool&&pool.length)?pool:POOL;
+  const total=list.reduce((sum,p)=>sum+pokemonWeight(p,opts),0);
+  let roll=Math.random()*total;
+  for(const p of list){
+    roll-=pokemonWeight(p,opts);
+    if(roll<=0) return p;
+  }
+  return list[Math.floor(Math.random()*list.length)];
+}
+function refillDiscoveryBag(){
+  // This is the actual fix for “same Pokémon over and over.”
+  // Instead of asking RNG for every reel, we cycle through a shuffled Kanto bag.
+  // Legendaries are kept out of the normal bag and added back only as rare match rolls.
+  const recent=new Set((reelRecentIds||[]).slice(-REEL_RECENT_MEMORY));
+  let pool=POOL.filter(p=>!p.leg && !recent.has(p.id));
+  if(pool.length<30) pool=POOL.filter(p=>!p.leg);
+  reelDiscoveryBag=shuffleArray(pool.map(p=>p.id));
+}
+function drawVarietyPoke(usedIds=new Set()){
+  let tries=0;
+  while(tries<220){
+    if(!Array.isArray(reelDiscoveryBag) || !reelDiscoveryBag.length) refillDiscoveryBag();
+    const id=Number(reelDiscoveryBag.shift());
+    const p=pokeById(id);
+    if(p && KANTO_IDS.has(p.id) && !p.leg && !usedIds.has(p.id)) return p;
+    tries++;
+  }
+  const fallback=POOL.filter(p=>!p.leg && !usedIds.has(p.id));
+  return fallback.length ? fallback[Math.floor(Math.random()*fallback.length)] : weightedPick(POOL);
+}
+function randPoke(opts={}){
+  // Animation-only random display can still be weighted, but final stopped reels use rollReelResult().
+  return weightedPick(POOL, opts);
+}
+function rollReelResult(){
+  const used=new Set();
+  let result=[drawVarietyPoke(used), null, null];
+  used.add(result[0].id);
+  result[1]=drawVarietyPoke(used); used.add(result[1].id);
+  result[2]=drawVarietyPoke(used);
+
+  // Matches are now deliberate and controlled instead of coming from a tiny-looking random pool.
+  // This keeps the game slot-like while still showing a lot more of the Kanto dex.
+  const roll=Math.random();
+  if(roll<NATURAL_TRIPLE_CHANCE){
+    const p=weightedPick(POOL,{match:true});
+    result=[p,p,p];
+  } else if(roll<NATURAL_TRIPLE_CHANCE+NATURAL_PAIR_CHANCE){
+    const pairIndex=Math.floor(Math.random()*3);
+    const copyTo=(pairIndex+1+Math.floor(Math.random()*2))%3;
+    result[copyTo]=result[pairIndex];
+  }
+  return result;
+}
+function unseenReelPokemon(){
+  return POOL.filter(p=>!p.leg && !reelSeenIds.includes(p.id));
+}
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function discoveryPick(){
+  return drawVarietyPoke(new Set());
+}
+function applyDiscoveryNudge(result){
+  // Kept as a final guard, but the main variety work now happens in rollReelResult().
+  if(hasPair(result)) return result;
+  const ids=new Set(result.map(p=>p.id));
+  for(let i=0;i<result.length;i++){
+    if(Math.random()<0.35){
+      const fresh=drawVarietyPoke(ids);
+      if(fresh){ result[i]=fresh; ids.add(fresh.id); }
+    }
+  }
+  return result;
+}
+function recordReelVariety(result){
+  result.forEach(p=>{
+    if(!p||!p.id) return;
+    reelRecentIds.push(p.id);
+    if(!reelSeenIds.includes(p.id)) reelSeenIds.push(p.id);
+  });
+  reelRecentIds=reelRecentIds.slice(-REEL_RECENT_MEMORY);
+  reelSeenIds=[...new Set(reelSeenIds)].filter(id=>KANTO_IDS.has(Number(id)));
+}
+
 
 function setReel(r,poke){
   const img=document.getElementById(`ri${r}`);
@@ -1230,6 +1494,8 @@ function applyEarlyWin(result) {
 // ─── CATCH RATE ───────────────────────────────────────────────────────────────
 function rollCatch(poke){
   let rate = poke.leg ? BASE_CATCH_RATE.leg : poke.start ? BASE_CATCH_RATE.start : BASE_CATCH_RATE.normal;
+  if(poke.rarity==='rare') rate = Math.min(rate, 24);
+  if(poke.rarity==='uncommon') rate = Math.min(rate, 34);
   // If already caught, halve the rate (diminishing returns)
   if (caught[poke.id]) rate = Math.max(5, rate * 0.5);
   return Math.random()*100 < rate;
@@ -1242,16 +1508,71 @@ const UPGRADE_ITEMS = []; // Permanent machine upgrades retired. Use PokéMart i
 function countCaughtByType(type){
   return Object.values(caught).filter(e => (e.poke.types||[]).includes(type)).length;
 }
+function countCaughtByIds(ids){ return ids.filter(id=>!!caught[id]).length; }
+function countShinyCaught(){ return Object.values(caught).filter(e=>e.hasShiny).length; }
 function hasCaught(id){ return !!caught[id]; }
+
 function getSetBonuses(){
-  return [
-    {key:'kantoStarters', icon:'🌱🔥💧', name:'Kanto Starter Set', on:hasCaught(1)&&hasCaught(4)&&hasCaught(7), desc:'Starter Trio wins pay +25%.'},
-    {key:'waterFive', icon:'💧', name:'Water Crew', on:countCaughtByType('water')>=5, desc:'Water symbols can splash extra egg progress.'},
-    {key:'ghostDex', icon:'👻', name:'Haunted Dex', on:countCaughtByType('ghost')>=2, desc:'Some losses get a ghost refund.'},
-    {key:'meowthPersian', icon:'🐱', name:'Cat Burglar Duo', on:hasCaught(52)&&hasCaught(53), desc:'PokéMart prices are 10% cheaper.'},
+  const sets=[
+    {
+      key:'kantoStarters', icon:'🌱🔥💧', name:'Starter Squad',
+      goal:3, progress:countCaughtByIds([1,4,7]), on:hasCaught(1)&&hasCaught(4)&&hasCaught(7),
+      desc:'Catch Bulbasaur, Charmander, and Squirtle. Starter Trio wins pay +25%.',
+      reward:'+600 coins + 1 Reel Lock Token',
+      applyReward:()=>{ coins+=600; activeItems.reelLocks=(activeItems.reelLocks||0)+1; }
+    },
+    {
+      key:'bugCatcher', icon:'🐛', name:'Bug Catcher Set',
+      goal:3, progress:countCaughtByType('bug'), on:countCaughtByType('bug')>=3,
+      desc:'Catch 3 Bug types. Adds a little bug energy to the reels.',
+      reward:'+450 coins + 5 Lucky Charm spins',
+      applyReward:()=>{ coins+=450; activeItems.luckyCharmSpins=(activeItems.luckyCharmSpins||0)+5; }
+    },
+    {
+      key:'electricPack', icon:'⚡', name:'Electric Pack',
+      goal:3, progress:countCaughtByType('electric'), on:countCaughtByType('electric')>=3,
+      desc:'Catch 3 Electric types. Great for charging battle runs.',
+      reward:'+550 coins + 1 Master Ball',
+      applyReward:()=>{ coins+=550; activeItems.masterBall=(activeItems.masterBall||0)+1; }
+    },
+    {
+      key:'poisonPals', icon:'☠️', name:'Poison Pals',
+      goal:3, progress:countCaughtByType('poison'), on:countCaughtByType('poison')>=3,
+      desc:'Catch 3 Poison types. Poison Pals sometimes refund losses.',
+      reward:'+500 coins + 1 Rocket Repel block',
+      applyReward:()=>{ coins+=500; activeItems.rocketRepel=(activeItems.rocketRepel||0)+1; }
+    },
+    {
+      key:'tinyAngry', icon:'😤', name:'Tiny but Angry',
+      goal:3, progress:countCaughtByIds([10,25,52,100,129]), on:countCaughtByIds([10,25,52,100,129])>=3,
+      desc:'Catch 3 tiny troublemakers: Caterpie, Pikachu, Meowth, Voltorb, or Magikarp.',
+      reward:'+400 coins + 2 Reel Lock Tokens',
+      applyReward:()=>{ coins+=400; activeItems.reelLocks=(activeItems.reelLocks||0)+2; }
+    },
+    {
+      key:'shinyShowcase', icon:'✨', name:'Shiny Showcase',
+      goal:3, progress:countShinyCaught(), on:countShinyCaught()>=3,
+      desc:'Catch 3 different shiny Pokémon. Pure bragging rights with a big payout.',
+      reward:'+1,500 coins + 10 Lucky Charm spins',
+      applyReward:()=>{ coins+=1500; activeItems.luckyCharmSpins=(activeItems.luckyCharmSpins||0)+10; }
+    },
   ];
+  return sets.map(s=>({...s, progress:Math.min(s.goal,s.progress||0), claimed:!!collectionSetClaims[s.key]}));
 }
 function hasSetBonus(key){ return !!getSetBonuses().find(b=>b.key===key&&b.on); }
+function claimCollectionSet(key){
+  const set=getSetBonuses().find(s=>s.key===key);
+  if(!set || !set.on || collectionSetClaims[key]) return;
+  collectionSetClaims[key]=true;
+  set.applyReward();
+  achievementStats.setClaims=(achievementStats.setClaims||0)+1;
+  updateStats();
+  updateDexBonuses();
+  updateShopButton();
+  updatePartyDisplay();
+  saveState();
+  showToast(`🧩 ${set.name} claimed! ${set.reward}`);
+}
 
 function getReputation(){
   const r=reputationStats;
@@ -1302,9 +1623,104 @@ function updateDexBonuses(){
   const count=document.getElementById('dexBonusCount');
   if(!grid||!count) return;
   const bonuses=getSetBonuses();
-  const active=bonuses.filter(b=>b.on).length;
-  count.textContent=`${active} active`;
-  grid.innerHTML=bonuses.map(b=>`<div class="dex-bonus ${b.on?'on':''}"><b>${b.icon} ${b.name}</b><div>${b.desc}</div></div>`).join('');
+  const complete=bonuses.filter(b=>b.on).length;
+  const claimed=bonuses.filter(b=>b.claimed).length;
+  count.textContent=`${complete} complete • ${claimed} claimed`;
+  grid.innerHTML='';
+  bonuses.forEach(b=>{
+    const card=document.createElement('div');
+    card.className='dex-bonus '+(b.claimed?'claimed':b.on?'on':'');
+    card.innerHTML=`
+      <b>${b.icon} ${b.name}</b>
+      <div>${b.desc}</div>
+      <div class="set-progress">${b.progress} / ${b.goal} • ${b.reward}</div>
+      <button class="set-claim" data-set="${b.key}" ${(!b.on||b.claimed)?'disabled':''}>${b.claimed?'CLAIMED':b.on?'CLAIM REWARD':'LOCKED'}</button>
+    `;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll('.set-claim').forEach(btn=>btn.addEventListener('click',()=>claimCollectionSet(btn.dataset.set)));
+}
+
+function cleanActiveParty(){
+  activeParty=[...new Set((activeParty||[]).map(Number).filter(id=>caught[id]))].slice(0,3);
+}
+function strongestCaughtEntries(limit=3){
+  return Object.values(caught).sort((a,b)=>{
+    const ap=pokeEffectivePower(a.poke,a.pokeLevel||1,a.hasShiny||false)+(a.wins||0)*3;
+    const bp=pokeEffectivePower(b.poke,b.pokeLevel||1,b.hasShiny||false)+(b.wins||0)*3;
+    return bp-ap || a.poke.name.localeCompare(b.poke.name);
+  }).slice(0,limit);
+}
+function ensureActiveParty(){
+  cleanActiveParty();
+  if(!activeParty.length){
+    activeParty=strongestCaughtEntries(3).map(e=>e.poke.id);
+  }
+  cleanActiveParty();
+}
+function isPartyMember(id){ cleanActiveParty(); return activeParty.includes(Number(id)); }
+function addToParty(id){
+  id=Number(id);
+  if(!caught[id]) return;
+  cleanActiveParty();
+  if(activeParty.includes(id)) return;
+  if(activeParty.length>=3){ showToast('Your battle team is full. Remove someone first.'); return; }
+  activeParty.push(id);
+  updatePartyDisplay();
+  buildManageGrid();
+  saveState();
+  showToast(`${caught[id].poke.name} joined your battle team!`);
+}
+function removeFromParty(id){
+  id=Number(id);
+  activeParty=(activeParty||[]).filter(pid=>pid!==id);
+  updatePartyDisplay();
+  buildManageGrid();
+  saveState();
+  const name=caught[id]?.poke?.name || 'Pokémon';
+  showToast(`${name} left your battle team.`);
+}
+function togglePartyMember(id){
+  if(isPartyMember(id)) removeFromParty(id);
+  else addToParty(id);
+}
+function autoAddToPartyIfRoom(id){
+  id=Number(id);
+  cleanActiveParty();
+  if(caught[id] && activeParty.length<3 && !activeParty.includes(id)) activeParty.push(id);
+}
+function partyEntries(){
+  ensureActiveParty();
+  return activeParty.map(id=>caught[id]).filter(Boolean);
+}
+function updatePartyDisplay(){
+  cleanActiveParty();
+  const grid=document.getElementById('partyGrid');
+  const cnt=document.getElementById('partyCount');
+  if(!grid||!cnt) return;
+  cnt.textContent=`${activeParty.length} / 3`;
+  grid.innerHTML='';
+  for(let i=0;i<3;i++){
+    const entry=caught[activeParty[i]];
+    if(!entry){
+      const empty=document.createElement('div');
+      empty.className='party-slot empty';
+      empty.textContent='Empty team slot';
+      grid.appendChild(empty);
+      continue;
+    }
+    const {poke,pokeLevel=1,wins=0,hasShiny=false}=entry;
+    const card=document.createElement('div');
+    card.className='party-slot';
+    card.innerHTML=`
+      <img src="${hasShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
+      <div class="party-main">
+        <div class="party-name">${hasShiny?'✨ ':''}${poke.name}</div>
+        <div class="party-meta">LV ${pokeLevel} • PWR ${pokeEffectivePower(poke,pokeLevel,hasShiny)}</div>
+        <div class="party-meta">${poke.types.join(' / ')}${wins?` • ⚔️${wins}W`:''}</div>
+      </div>`;
+    grid.appendChild(card);
+  }
 }
 
 function openUpgrades(){ buildUpgrades(); document.getElementById('upgradeOverlay').classList.add('show'); }
@@ -1447,10 +1863,10 @@ function applyReelAbilitiesPreEvaluate(result){
   return result;
 }
 function applySetProgressAfterSpin(result){
-  if(hasSetBonus('waterFive') && result.some(p=>p.types.includes('water')) && Math.random()<0.45){
+  if(hasSetBonus('bugCatcher') && result.some(p=>p.types.includes('bug')) && Math.random()<0.45){
     eggProgress=Math.min(EGG_HATCH_AT, eggProgress+1);
     updateEggMeter();
-    showToast('💧 Water Crew splashed +1 egg progress!');
+    showToast('🐛 Bug Catcher set found +1 egg progress!');
   }
 }
 function payoutBoostForSpin(result, rtype, allSame, allStart){
@@ -1463,7 +1879,7 @@ function payoutBoostForSpin(result, rtype, allSame, allStart){
 function applyLossSystemRefunds(result){
   let refund=0;
   const rep=getReputation();
-  if(hasSetBonus('ghostDex') && Math.random()<0.20) refund+=Math.max(1,Math.floor(bet*0.25));
+  if(hasSetBonus('poisonPals') && Math.random()<0.20) refund+=Math.max(1,Math.floor(bet*0.25));
   if(rep.key==='careful' && Math.random()<0.20) refund+=Math.max(1,Math.floor(bet*0.15));
   if((upgrades.haunted||0)>0 && Math.random()<0.10*(upgrades.haunted||0)) refund+=Math.max(1,Math.floor(bet*0.4));
   if(result.some(p=>p.id===94) && Math.random()<0.25) refund+=Math.max(1,Math.floor(bet*0.3));
@@ -1506,12 +1922,13 @@ async function spin(){
   document.getElementById('wflash').classList.remove('on');
   document.querySelectorAll('.reel-box').forEach(b=>b.classList.remove('winner','catch-try','shiny','held','ability-flash'));
 
-  let result=[randPoke(),randPoke(),randPoke()];
+  let result=rollReelResult();
   result=applyHeldReel(result);
   result=applyEarlyWin(result);
   result=applyMachineUpgrades(result);
   result=applyLuckyCharm(result);
   result=applyReelAbilitiesPreEvaluate(result);
+  result=applyDiscoveryNudge(result);
 
   const shinyRate=effectiveShinyRate();
   let isShiny=[
@@ -1529,6 +1946,7 @@ async function spin(){
   const lockedResult = await maybeOfferReelLock(result,isShiny);
   result = lockedResult.result;
   isShiny = lockedResult.isShiny;
+  recordReelVariety(result);
   applySetProgressAfterSpin(result);
 
   // ⚠️ Spin stays LOCKED through entire evaluate — catches, overlays, level pickers all finish first
@@ -1699,7 +2117,7 @@ function shouldTriggerRocket(){
 }
 
 function strongestCaughtEntry(){
-  const entries=Object.values(caught);
+  const entries=partyEntries();
   if(!entries.length) return null;
   return entries.reduce((best,entry)=>{
     const cur=pokeEffectivePower(entry.poke, entry.pokeLevel||1, entry.hasShiny||false) + (entry.wins||0)*3;
@@ -1843,8 +2261,10 @@ function triggerCatch(poke, fromSlot=false){
     // Update caught dict
     if(caught[poke.id]) caught[poke.id].count++;
     else caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0};
+    autoAddToPartyIfRoom(poke.id);
     battleUnlocked=true;
     achievementStats.catches=(achievementStats.catches||0)+1;
+    grantCatchXP(poke.id, caught[poke.id].count>1 ? 10 : 18);
     // Save immediately so a refresh never loses the catch
     saveState();
     updateDex(); sfxCatch();
@@ -1899,7 +2319,9 @@ function triggerShinyCatch(poke){
     } else {
       caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0,hasShiny:true};
     }
+    autoAddToPartyIfRoom(poke.id);
     shinyCount++;
+    grantCatchXP(poke.id, 28);
     achievementStats.shinyCatches=(achievementStats.shinyCatches||0)+1;
     achievementStats.catches=(achievementStats.catches||0)+1;
     battleUnlocked=true;
@@ -2027,15 +2449,15 @@ function buildBattleRoster(wild){
   if(roster) roster.innerHTML='';
   const list=document.getElementById('battlePickerList');
   if(!list) return;
-  const entries=Object.values(caught).sort((a,b)=>{
-    const ap=pokeEffectivePower(a.poke,a.pokeLevel||1,a.hasShiny||false);
-    const bp=pokeEffectivePower(b.poke,b.pokeLevel||1,b.hasShiny||false);
+  const entries=partyEntries().sort((a,b)=>{
+    const ap=pokeEffectivePower(a.poke,a.pokeLevel||1,a.hasShiny||false)+(a.wins||0)*3;
+    const bp=pokeEffectivePower(b.poke,b.pokeLevel||1,b.hasShiny||false)+(b.wins||0)*3;
     return bp-ap;
   });
   const sub=document.getElementById('battlePickerSub');
-  if(sub) sub.textContent=`Pick one fighter for ${wild.name}. Strongest Pokémon are listed first.`;
+  if(sub) sub.textContent=`Pick one from your active team for ${wild.name}. Edit the team from Manage Pokédex.`;
   if(!entries.length){
-    list.innerHTML='<div class="manage-empty">No Pokémon caught yet.</div>';
+    list.innerHTML='<div class="manage-empty">No battle team yet. Catch Pokémon, then use Manage Pokédex to add up to 3.</div>';
     return;
   }
   list.innerHTML='';
@@ -2091,7 +2513,7 @@ function battleLog(msg){
 
 
 function pokeXpNeeded(lv){ return Math.floor(24 + lv*lv*10); }
-function grantBattleXP(pokeId, amount){
+function grantBattleXP(pokeId, amount, opts={}){
   const entry=caught[pokeId];
   if(!entry) return {leveled:false, level:1};
   entry.pokeXP=(entry.pokeXP||0)+amount;
@@ -2102,17 +2524,23 @@ function grantBattleXP(pokeId, amount){
     leveled=true;
   }
   updateDex();
-  if(leveled){
-    sfxLevel();
-    showToast(`⬆️ ${entry.poke.name} leveled up to LV ${entry.pokeLevel}!`);
-    const yourImg=document.getElementById('yourImg');
-    if(yourImg) yourImg.classList.add('level-flash');
-    setTimeout(()=>yourImg&&yourImg.classList.remove('level-flash'),1500);
-  } else {
-    showToast(`⚔️ ${entry.poke.name} gained ${amount} XP!`);
+  updatePartyDisplay();
+  if(!opts.silent){
+    if(leveled){
+      sfxLevel();
+      showToast(`⬆️ ${entry.poke.name} leveled up to LV ${entry.pokeLevel}!`);
+      const yourImg=document.getElementById('yourImg');
+      if(yourImg) yourImg.classList.add('level-flash');
+      setTimeout(()=>yourImg&&yourImg.classList.remove('level-flash'),1500);
+    } else {
+      showToast(`⚔️ ${entry.poke.name} gained ${amount} XP!`);
+    }
   }
   saveState();
   return {leveled, level:entry.pokeLevel||1};
+}
+function grantCatchXP(pokeId, amount){
+  return grantBattleXP(pokeId, amount, {silent:true});
 }
 
 async function doFight(){
@@ -2233,9 +2661,9 @@ function closeBattle(){
 
 
 // ─── ACHIEVEMENTS ───────────────────────────────────────────────────────────
-function uniqueCaughtCount(){ return Object.keys(caught).length; }
+function uniqueCaughtCount(){ return Object.keys(caught).filter(id=>KANTO_IDS.has(Number(id))).length; }
 function totalCaughtCopies(){ return Object.values(caught).reduce((sum,e)=>sum+(e.count||0),0); }
-function totalPokemonPossible(){ return POOL.length + Object.keys(EVOLUTIONS).length; }
+function totalPokemonPossible(){ return POOL.length; }
 function totalUpgradeLevels(){ return Object.values(upgrades).reduce((sum,v)=>sum+(v||0),0); }
 function activeSetBonusCount(){ return getSetBonuses().filter(b=>b.on).length; }
 function capProgress(v,goal){ return Math.max(0, Math.min(goal, v||0)); }
@@ -2256,7 +2684,7 @@ function achievementDefinitions(){
     {id:'first_catch',icon:'📖',name:'First Catch',desc:'Catch any Pokémon.',progress:copies,goal:1},
     {id:'dex_5',icon:'🧢',name:'Small Dex',desc:'Catch 5 unique Pokémon.',progress:unique,goal:5},
     {id:'dex_15',icon:'📚',name:'Dex Builder',desc:'Catch 15 unique Pokémon.',progress:unique,goal:15},
-    {id:'collect_all',icon:'👑',name:'Collect Them All',desc:'Catch every Pokémon available in the game.',progress:unique,goal:totalPossible},
+    {id:'collect_all',icon:'👑',name:'Collect Them All',desc:'Catch every original Kanto Pokémon in the game.',progress:unique,goal:totalPossible},
     {id:'shiny',icon:'✨',name:'Shiny Hunter',desc:'Catch one shiny Pokémon.',progress:shinyCount,goal:1},
     {id:'shiny_3',icon:'🌈',name:'Sparkle Problem',desc:'Catch 3 shiny Pokémon.',progress:shinyCount,goal:3},
     {id:'battle_win',icon:'⚔️',name:'Battle Winner',desc:'Win your first battle.',progress:battlesWon,goal:1},
@@ -2393,8 +2821,8 @@ function hatchEgg(){
       } else {
         // Pokémon hatch
         const pool = outcome.tier==='rare'
-          ? POOL.filter(p=>p.start||p.leg)
-          : POOL.filter(p=>!p.leg && !p.start);
+          ? POOL.filter(p=>p.start||p.leg||p.rarity==='rare')
+          : POOL.filter(p=>!p.leg && !p.start && p.rarity!=='rare');
         const poke = (pool.length?pool:POOL)[Math.floor(Math.random()*(pool.length?pool.length:POOL.length))];
         const isShiny=Math.random()<1/50;
 
@@ -2404,6 +2832,7 @@ function hatchEgg(){
         } else {
           caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0,hasShiny:isShiny};
         }
+        autoAddToPartyIfRoom(poke.id);
         if(isShiny) shinyCount++;
         battleUnlocked=true;
         saveState();
@@ -2447,6 +2876,7 @@ function tradeDuplicate(id){
   showToast(`Traded a ${entry.poke.name} for +${value} coins!`);
   updateStats();
   updateDex();
+  updatePartyDisplay();
   saveState();
 }
 
@@ -2454,8 +2884,9 @@ function updateDex(){
   const grid=document.getElementById('dexGrid');
   const cnt=document.getElementById('dexCount');
   const entries=Object.values(caught);
-  cnt.textContent=`${entries.length} caught`;
-  if(!entries.length){ grid.innerHTML='<span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>'; updateDexBonuses(); updateSystemsPanel(); return; }
+  cnt.textContent=`Kanto ${uniqueCaughtCount()} / ${POOL.length} caught • ${reelSeenIds.length} seen${entries.length!==uniqueCaughtCount()?` • ${entries.length} total`:''}`;
+  if(!entries.length){ grid.innerHTML='<span class="dex-empty">Catch Pokémon by landing 3 of the same!</span>'; activeParty=[]; updatePartyDisplay(); updateDexBonuses(); updateSystemsPanel(); return; }
+  ensureActiveParty();
   grid.innerHTML='';
   entries.forEach(({poke,count,wins=0,pokeLevel=1,hasShiny=false})=>{
     const card=document.createElement('div');
@@ -2471,6 +2902,7 @@ function updateDex(){
     `;
     grid.appendChild(card);
   });
+  updatePartyDisplay();
   updateDexBonuses();
   updateSystemsPanel();
   updateAchievementButton();
@@ -2500,6 +2932,8 @@ function buildManageGrid(){
   entries.forEach(entry=>{
     const {poke,count,wins=0,pokeLevel=1,hasShiny=false}=entry;
     const canTrade=count>1;
+    const onTeam=isPartyMember(poke.id);
+    const teamFull=activeParty.length>=3 && !onTeam;
     const evoTargetId=poke.evolvesTo;
     const canEvolve=evoTargetId && count>=EVOLVE_COST;
     const evoName=evoTargetId?(pokeById(evoTargetId)?.name||'???'):null;
@@ -2511,6 +2945,7 @@ function buildManageGrid(){
       <div class="mg-name">${hasShiny?'✨ ':''}${poke.name}</div>
       <div class="mg-stats">LV <b>${pokeLevel}</b> • XP <b>${entry.pokeXP||0}/${pokeXpNeeded(pokeLevel)}</b> • ×<b>${count}</b>${wins?` • ⚔️${wins}W`:''}</div>
       <div class="mg-actions">
+        <button class="mg-act team ${onTeam?'on':''}" data-team="${poke.id}" ${teamFull?'disabled':''}>${onTeam?'REMOVE FROM TEAM':'ADD TO TEAM'}${teamFull?' • FULL':''}</button>
         <button class="mg-act trade" data-trade="${poke.id}" ${canTrade?'':'disabled'}>TRADE 1 → +${tradeValue(poke)}🪙</button>
         ${evoTargetId
           ? `<button class="mg-act evolve" data-evolve="${poke.id}" ${canEvolve?'':'disabled'}>EVOLVE → ${evoName} (${count}/${EVOLVE_COST})</button>`
@@ -2519,6 +2954,7 @@ function buildManageGrid(){
     `;
     grid.appendChild(card);
   });
+  grid.querySelectorAll('.mg-act.team').forEach(b=>b.addEventListener('click',()=>{ togglePartyMember(parseInt(b.dataset.team)); }));
   grid.querySelectorAll('.mg-act.trade').forEach(b=>b.addEventListener('click',()=>{ tradeDuplicate(parseInt(b.dataset.trade)); buildManageGrid(); }));
   grid.querySelectorAll('.mg-act.evolve').forEach(b=>b.addEventListener('click',()=>{ evolvePokemon(parseInt(b.dataset.evolve)); }));
 }
@@ -2534,6 +2970,7 @@ async function evolvePokemon(id){
   const keptShiny=entry.hasShiny||false;
   const keptWins=entry.wins||0;
 
+  const wasOnTeam=isPartyMember(id);
   // Consume copies
   entry.count-=EVOLVE_COST;
 
@@ -2548,6 +2985,10 @@ async function evolvePokemon(id){
   }
   // Remove base entry if no copies left
   if(entry.count<=0) delete caught[id];
+  if(wasOnTeam){
+    activeParty=(activeParty||[]).map(pid=>pid===id?evolved.id:pid);
+    cleanActiveParty();
+  }
   achievementStats.evolutions=(achievementStats.evolutions||0)+1;
 
   saveState();
@@ -2605,7 +3046,6 @@ const SHOP_ITEMS = [
   {key:'lock', icon:'🔒', name:'Reel Lock Token', cost:150, desc:'Use 1 token to lock a pair and respin the odd reel. Limit 2 purchases per day.'},
   {key:'lucky', icon:'🍀', name:'Lucky Charm', cost:175, desc:'Next 5 spins have a better chance to force at least a pair.'},
   {key:'repel', icon:'🛡️', name:'Rocket Repel Pack', cost:90, desc:'Blocks the next 3 Team Rocket ambushes. Cheaper per block and less annoying.'},
-  {key:'candy', icon:'🍬', name:'Rare Candy', cost:250, desc:'Adds 1 power up point. Pick any caught Pokémon to level.'},
   {key:'master', icon:'🔴', name:'Master Ball', cost:350, desc:'The next triple match gets a 35% shiny boost.'},
   {key:'amulet', icon:'🪙', name:'Coin Amulet', cost:200, desc:'Your next 3 winning spins pay 1.5× coins.'},
 ];
@@ -2721,10 +3161,6 @@ async function buyShopItem(key){
     buildShop();
     return;
   }
-  if(key==='candy' && Object.keys(caught).length===0){
-    showToast('Catch a Pokémon before buying Rare Candy.');
-    return;
-  }
   coins-=cost;
   reputationStats.shopBuys=(reputationStats.shopBuys||0)+1;
   achievementStats.itemsBought=(achievementStats.itemsBought||0)+1;
@@ -2736,15 +3172,6 @@ async function buyShopItem(key){
   updateStats();
   sfxDaily();
   showToast(`🛒 Bought ${item.name}!`);
-  if(key==='candy'){
-    pendingLvPoints++;
-    saveState();
-    updateShopButton();
-    buildShop();
-    closeShop();
-    await wait(300);
-    await openPokeLvPicker();
-  }
   saveState();
   updateShopButton();
   buildShop();
@@ -2767,27 +3194,10 @@ function applyLuckyCharm(result){
 }
 
 // ─── XP & LEVEL ───────────────────────────────────────────────────────────────
-function xpForLevel(lv){ return Math.floor(50*Math.pow(lv,1.4)); }
-async function addXP(amt){
-  xp+=amt; let leveled=false;
-  while(xp>=xpForLevel(level)){
-    xp-=xpForLevel(level); level++; leveled=true;
-    pendingLvPoints++;
-    showToast(`⬆️ TRAINER LV ${level}! Pick a Pokémon to power up!`);
-    sfxLevel();
-  }
-  updateLevel();
-  // If we leveled up AND have caught pokemon, open the picker after a short delay
-  if(leveled && Object.keys(caught).length>0){
-    saveState();
-    await wait(1200);
-    await openPokeLvPicker();
-  }
-  return leveled;
-}
-function updateLevel(){
-  // level bar removed from UI — XP/level still tracked internally for daily bonus scaling
-}
+// Trainer leveling was removed. Pokémon now level from their own catch/battle XP only.
+function xpForLevel(lv){ return 999999; }
+async function addXP(amt){ return false; }
+function updateLevel(){ }
 
 // ─── POKEMON LEVELING ────────────────────────────────────────────────────────
 // Each pokemon level adds 8% of base power on top
@@ -2795,64 +3205,7 @@ function pokeEffectivePower(poke, pokeLevel=1, hasShiny=false){
   const base=Math.floor(poke.power * (1 + (pokeLevel-1)*0.08));
   return hasShiny ? Math.floor(base*1.25) : base;
 }
-
-function openPokeLvPicker(){
-  return new Promise(resolve=>{
-    if(pendingLvPoints<=0 || Object.keys(caught).length===0){ resolve(); return; }
-
-    const overlay=document.getElementById('pklvOverlay');
-    const grid=document.getElementById('pklvGrid');
-    const ptEl=document.getElementById('pklvPoints');
-    ptEl.textContent=`${pendingLvPoints} POINT${pendingLvPoints>1?'S':''} TO SPEND`;
-    grid.innerHTML='';
-
-    Object.values(caught).forEach(entry=>{
-      const {poke, wins=0} = entry;
-      const curLv = entry.pokeLevel||1;
-      const curPwr = pokeEffectivePower(poke, curLv);
-      const newPwr = pokeEffectivePower(poke, curLv+1);
-      const gain   = newPwr - curPwr;
-
-      const card=document.createElement('div');
-      card.className='pklv-card';
-      card.innerHTML=`
-        <img src="${SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
-        <div class="pk-name">${poke.name}</div>
-        <div class="pk-lv">LV ${curLv} → ${curLv+1}</div>
-        <div class="pk-pwr">PWR ${curPwr}</div>
-        <div class="pk-gain">+${gain} PWR</div>
-        ${wins>0?`<div class="pk-wins">⚔️${wins}W</div>`:''}
-      `;
-      card.addEventListener('click',()=>{
-        // Level up this pokemon
-        entry.pokeLevel = curLv+1;
-        pendingLvPoints--;
-        sfxLevel();
-        showToast(`${poke.name} powered up to LV ${curLv+1}! +${gain} power!`);
-        updateDex();
-        saveState();
-        // If more points remain and more pokemon exist, refresh; else close
-        if(pendingLvPoints>0 && Object.keys(caught).length>0){
-          openPokeLvPicker().then(resolve);
-        } else {
-          overlay.classList.remove('show');
-          resolve();
-        }
-      });
-      grid.appendChild(card);
-    });
-
-    overlay.classList.add('show');
-
-    const skipBtn=document.getElementById('pklvSkip');
-    const skipH=()=>{
-      overlay.classList.remove('show');
-      skipBtn.removeEventListener('click',skipH);
-      resolve();
-    };
-    skipBtn.addEventListener('click',skipH);
-  });
-}
+function openPokeLvPicker(){ return Promise.resolve(); }
 
 
 function updateStreakBadge(){
@@ -2890,7 +3243,7 @@ function checkDailyBonus(){
 }
 function claimDailyBonus(){
   if(Date.now()-lastDaily<DAILY_MS) return;
-  const bonus=500+level*50;
+  const bonus=500;
   coins+=bonus; lastDaily=Date.now(); achievementStats.dailyClaims=(achievementStats.dailyClaims||0)+1;
   sfxDaily(); for(let i=0;i<30;i++) setTimeout(spawnCoin,i*60);
   showToast(`🎁 DAILY BONUS! +${bonus} COINS!`);
@@ -2946,6 +3299,7 @@ document.getElementById('runBtn').addEventListener('click',()=>{
   closeBattle(); showToast('You ran away safely!');
 });
 document.getElementById('manageBtn').addEventListener('click',openManage);
+document.getElementById('partyManageBtn').addEventListener('click',openManage);
 document.getElementById('manageClose').addEventListener('click',closeManage);
 document.getElementById('battlePickerClose').addEventListener('click',closeBattlePicker);
 document.querySelectorAll('.shop-trigger').forEach(btn=>btn.addEventListener('click',openShop));
@@ -3007,7 +3361,7 @@ updateBadgeCase();
 updateShopButton();
 updateSystemsPanel();
 updateAchievementButton();
-if(pendingLvPoints>0 && Object.keys(caught).length>0) openPokeLvPicker();
+pendingLvPoints=0;
 </script>
 </body>
 </html>

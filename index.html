@@ -1018,8 +1018,8 @@ const DAILY_MS        = 24 * 60 * 60 * 1000;
 const BATTLE_EVERY    = 10;    // spins between battles
 const GYM_EVERY       = 3;     // every Nth battle is a Gym Leader
 const PAYOUTS         = {jackpot:50, triple:10, starter:8, typeTriple:5, double:2};
-const ROCKET_CHANCE   = 0.055;  // much rarer, so it stops feeling like Rocket spam
-const ROCKET_COOLDOWN = 12;     // extra hidden breathing room between ambushes
+const ROCKET_CHANCE   = 0.025;  // rarer so Rocket feels like an event, not a punishment loop
+const ROCKET_COOLDOWN = 20;     // hard minimum spins between ambush checks
 let lastRocketSpin    = -ROCKET_COOLDOWN;
 
 // ─── GYM LEADERS (8 badges, escalating difficulty) ───────────────────────────
@@ -1063,6 +1063,25 @@ let reputationStats={maxBets:0, smallBets:0, shopBuys:0, pairLocks:0, spins:0};
 let achievementStats={pairMatches:0,tripleMatches:0,jackpots:0,wins:0,losses:0,maxBetWins:0,eggsHatched:0,evolutions:0,trades:0,rocketWins:0,rocketBlocks:0,rocketLosses:0,itemsBought:0,upgradesBought:0,reelLocks:0,dailyClaims:0,bigWins:0};
 let heldReel=null; // Snorlax can hold a reel for the next spin
 const EGG_HATCH_AT=25;   // spins needed for an egg to hatch
+
+// One modal/event at a time. This prevents Rocket, battles, eggs, catches, shop/manage,
+// and level-up screens from stacking on top of each other.
+let eventActive=false;
+const BLOCKING_OVERLAYS=[
+  'rocketOverlay','battleOverlay','battlePickerOverlay','catchOverlay','shinyOverlay','hatchOverlay',
+  'pklvOverlay','cooldownOverlay','manageOverlay','shopOverlay','upgradeOverlay','achievementOverlay','lockOfferOverlay'
+];
+function blockingOverlayOpen(){
+  return BLOCKING_OVERLAYS.some(id=>{
+    const el=document.getElementById(id);
+    return el && el.classList.contains('show');
+  });
+}
+function canStartSpin(){ return !spinning && !eventActive && !blockingOverlayOpen(); }
+function setSpinButtonLocked(locked){
+  const btn=document.getElementById('spinBtn');
+  if(btn) btn.disabled=!!locked;
+}
 
 // ─── SAVE / LOAD ─────────────────────────────────────────────────────────────
 function saveState() {
@@ -1258,7 +1277,7 @@ function discountMultiplier(){
 function effectiveItemCost(item){ return Math.max(1, Math.ceil(item.cost*discountMultiplier())); }
 function effectiveUpgradeCost(item){ return Math.ceil(item.baseCost * Math.pow(1.55, upgrades[item.key]||0)); }
 function effectiveShinyRate(){ return Math.max(28, SHINY_RATE - (upgrades.shiny||0)*12); }
-function effectiveRocketChance(){ return ROCKET_CHANCE + (upgrades.shiny||0)*0.01; }
+function effectiveRocketChance(){ return ROCKET_CHANCE; }
 function boostBattleReward(amount){ return getReputation().key==='battleManiac' ? Math.floor(amount*1.15) : amount; }
 
 function updateSystemsPanel(){
@@ -1470,12 +1489,13 @@ function applyLossSystemRefunds(result){
 const wait = ms => new Promise(r=>setTimeout(r,ms));
 
 async function spin(){
-  if(spinning) return;
+  if(!canStartSpin()) return;
   if(checkCooldown()) return;
   if(bet>coins){ setMsg('NOT ENOUGH COINS!','lose'); shakeBtn(); sfxFail(); return; }
 
   spinning=true;
-  document.getElementById('spinBtn').disabled=true;
+  eventActive=true;
+  setSpinButtonLocked(true);
 
   coins-=bet; spinCount++; spinsUntilBattle--; eggProgress++;
   reputationStats.spins=(reputationStats.spins||0)+1;
@@ -1514,29 +1534,28 @@ async function spin(){
   // ⚠️ Spin stays LOCKED through entire evaluate — catches, overlays, level pickers all finish first
   await evaluate(result,isShiny);
 
-  if(coins>0 && shouldTriggerRocket()){
-    await wait(450);
-    await triggerRocketAmbush();
-  }
-
-  // Only unlock AFTER evaluate fully completes
-  spinning=false;
-  document.getElementById('spinBtn').disabled=false;
-
-  if(spinsUntilBattle<=0 && battleUnlocked && Object.keys(caught).length>0){
-    spinsUntilBattle=BATTLE_EVERY;
-    updateBattleCounter();
+  // Post-spin events are intentionally exclusive. One spin can trigger battle OR egg OR Rocket,
+  // never a stack of multiple modal events on top of each other.
+  try {
+    if(spinsUntilBattle<=0 && battleUnlocked && Object.keys(caught).length>0){
+      spinsUntilBattle=BATTLE_EVERY;
+      updateBattleCounter();
+      saveState();
+      await wait(600);
+      await triggerBattle();
+    } else if(eggProgress>=EGG_HATCH_AT){
+      await wait(500);
+      await hatchEgg();
+    } else if(coins>0 && shouldTriggerRocket()){
+      await wait(450);
+      await triggerRocketAmbush();
+    }
+  } finally {
+    spinning=false;
+    eventActive=false;
+    setSpinButtonLocked(false);
     saveState();
-    await wait(600);
-    await triggerBattle();
   }
-
-  // Egg hatch check
-  if(eggProgress>=EGG_HATCH_AT){
-    await wait(500);
-    await hatchEgg();
-  }
-  saveState();
 }
 
 // ─── EVALUATE ─────────────────────────────────────────────────────────────────
@@ -1659,8 +1678,9 @@ async function evaluate(poke, isShiny=[false,false,false]){
 
 // ─── TEAM ROCKET AMBUSH ─────────────────────────────────────────────────────
 function shouldTriggerRocket(){
+  if(blockingOverlayOpen()) return false;
   if(spinCount-lastRocketSpin<ROCKET_COOLDOWN) return false;
-  if(spinCount<4) return false;
+  if(spinCount<8) return false;
   if(coins<=0) return false;
   if(Math.random()<effectiveRocketChance()){
     if(activeItems.rocketRepel>0){
@@ -2916,7 +2936,7 @@ document.getElementById('betSlider').addEventListener('input',e=>setBet(e.target
 document.getElementById('maxBtn').addEventListener('click',()=>setBet(100));
 document.querySelectorAll('.qb').forEach(b=>b.addEventListener('click',()=>setBet(b.dataset.v)));
 document.getElementById('spinBtn').addEventListener('click',spin);
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&!spinning){e.preventDefault();spin();}});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&canStartSpin()){e.preventDefault();spin();}});
 document.getElementById('ptBtn').addEventListener('click',()=>{ document.getElementById('ptBody').classList.toggle('vis'); document.getElementById('ptBtn').classList.toggle('open'); });
 document.getElementById('dailyBtn').addEventListener('click',claimDailyBonus);
 document.getElementById('fightBtn').addEventListener('click',doFight);

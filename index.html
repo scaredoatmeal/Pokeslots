@@ -436,6 +436,33 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .shop-buy:disabled{opacity:.35;cursor:not-allowed;transform:none;filter:none;box-shadow:none}
 .shop-close{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:#667;background:none;border:1px solid #2a2a3a;border-radius:20px;padding:8px 24px;cursor:pointer;transition:all .2s}
 .shop-close:hover{color:#99a;border-color:#444}
+
+/* ── ACHIEVEMENTS ── */
+.ach-overlay{position:fixed;inset:0;background:rgba(0,0,5,.94);z-index:585;display:none;flex-direction:column;align-items:center;padding:22px 14px 34px;overflow-y:auto;text-align:center}
+.ach-overlay.show{display:flex;animation:fadeIn .3s ease}
+.ach-title{font-family:'Bungee Inline',cursive;font-size:1.8rem;color:var(--gold);text-shadow:0 0 20px var(--gold),0 0 40px #ff6600;letter-spacing:3px;margin-bottom:4px}
+.ach-sub{font-family:'Bungee',cursive;font-size:.7rem;letter-spacing:2px;color:#667;margin-bottom:12px;text-transform:uppercase}
+.ach-summary{font-family:'Bungee',cursive;font-size:.85rem;color:var(--neon-g);text-shadow:0 0 9px rgba(57,255,20,.45);margin-bottom:14px}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;width:100%;max-width:900px;margin-bottom:18px}
+.ach-card{background:linear-gradient(180deg,#10101a,#07070d);border:2px solid #242438;border-radius:14px;padding:12px;text-align:left;box-shadow:0 14px 35px rgba(0,0,0,.45);position:relative;overflow:hidden;min-height:138px;transition:all .2s}
+.ach-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(255,215,0,.08),transparent 55%);pointer-events:none}
+.ach-card.unlocked{border-color:rgba(255,215,0,.78);box-shadow:0 14px 35px rgba(0,0,0,.45),0 0 18px rgba(255,215,0,.18)}
+.ach-card.locked{opacity:.58;filter:grayscale(.85)}
+.ach-top{display:flex;align-items:center;gap:9px;margin-bottom:6px;position:relative;z-index:1}
+.ach-icon{font-size:1.7rem;filter:drop-shadow(0 0 8px rgba(255,215,0,.35));width:32px;text-align:center}
+.ach-name{font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:.7px;color:var(--gold);line-height:1.15;text-shadow:0 0 7px rgba(255,215,0,.25)}
+.ach-card.locked .ach-name{color:#778;text-shadow:none}
+.ach-desc{font-size:.76rem;color:#778;line-height:1.25;min-height:34px;position:relative;z-index:1}
+.ach-progress-text{display:flex;justify-content:space-between;align-items:center;font-family:'Bungee',cursive;font-size:.55rem;color:#556;margin:8px 0 4px;position:relative;z-index:1}
+.ach-card.unlocked .ach-progress-text{color:var(--neon-g)}
+.ach-bar{height:8px;background:#080812;border:1px solid #20203a;border-radius:999px;overflow:hidden;position:relative;z-index:1}
+.ach-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#4ad,#7ef,#fff);box-shadow:0 0 8px rgba(120,230,255,.35);transition:width .3s ease}
+.ach-card.unlocked .ach-fill{background:linear-gradient(90deg,var(--gold2),var(--gold),#fff);box-shadow:0 0 10px rgba(255,215,0,.45)}
+.ach-status{position:absolute;top:8px;right:10px;font-family:'Bungee',cursive;font-size:.48rem;letter-spacing:.8px;color:#445;z-index:2}
+.ach-card.unlocked .ach-status{color:var(--neon-g);text-shadow:0 0 8px rgba(57,255,20,.45)}
+.ach-close{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:#667;background:none;border:1px solid #2a2a3a;border-radius:20px;padding:8px 24px;cursor:pointer;transition:all .2s}
+.ach-close:hover{color:#99a;border-color:#444}
+
 .poke-xp{width:58px;height:5px;background:#111827;border:1px solid #22283a;border-radius:4px;overflow:hidden;margin-top:2px}
 .poke-xp-fill{height:100%;background:linear-gradient(90deg,var(--neon-b),var(--neon-g));box-shadow:0 0 7px rgba(0,229,255,.35)}
 .level-flash{animation:levelFlash .7s ease-in-out 2}
@@ -500,6 +527,28 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .reel-box.held{border-color:var(--neon-p)!important;box-shadow:0 0 18px rgba(255,0,255,.35)!important}
 @media(max-width:1040px){.systems-panel{position:static;width:min(680px,calc(100% - 24px));margin:0 auto 10px;order:2}}
 @media(max-width:760px){.upgrade-trigger{font-size:14px}.lock-actions{grid-template-columns:1fr}.reel-lock-title,.upgrade-title{font-size:1.35rem}}
+
+
+
+/* ── CLEANUP PASS: less clutter + safer upgrade modal ── */
+#shopStrip,
+#shopFloatBtn{display:none!important}
+.systems-panel{display:none!important}
+.item-panel{display:none!important}
+.item-panel.has-items{display:block!important}
+.clean-action-row{display:grid!important;grid-template-columns:1fr 74px!important;gap:12px!important;align-items:center!important}
+.menu-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:2px}
+.menu-trigger{min-height:42px;border-radius:11px;border:2px solid #2a2a3a;background:#0d0d18;color:#99a;font-family:'Bungee',cursive;font-size:.62rem;letter-spacing:1px;cursor:pointer;transition:all .15s;text-shadow:none;box-shadow:none}
+.menu-trigger:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.menu-trigger.shop-trigger{border-color:var(--gold2);background:linear-gradient(135deg,#211600,#4a3100);color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.35)}
+.menu-trigger.achievement-trigger{border-color:var(--neon-g);background:linear-gradient(135deg,#041d06,#0b3310);color:var(--neon-g);text-shadow:0 0 8px rgba(57,255,20,.3)}
+.menu-trigger.upgrade-trigger{border-color:var(--neon-p);background:linear-gradient(135deg,#18001f,#31003b);color:#f4a7ff;text-shadow:0 0 8px rgba(255,0,255,.32);font-family:'Bungee',cursive;font-weight:700;font-size:.62rem;box-shadow:none;min-height:42px}
+.upgrade-overlay{overflow-y:auto!important;justify-content:flex-start!important;align-items:center!important;padding:18px 12px 30px!important}
+.upgrade-overlay.show{display:flex!important}
+.upgrade-card{position:relative!important;width:min(760px,100%)!important;margin:auto 0!important;max-height:none!important;padding-top:46px!important}
+.upgrade-close-x{position:absolute;top:10px;right:12px;width:34px;height:34px;border-radius:999px;border:1px solid #3a3a4a;background:#11111c;color:#ccd;font-family:Arial,sans-serif;font-size:22px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 0 12px rgba(0,0,0,.35)}
+.upgrade-close-x:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,.25)}
+@media(max-width:760px){.menu-row{grid-template-columns:1fr}.clean-action-row{grid-template-columns:1fr 74px!important}.item-panel.has-items{position:static!important;width:min(680px,calc(100% - 24px))!important;margin:0 auto 10px!important}}
 
 </style>
 </head>
@@ -583,6 +632,17 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <button class="shop-close" id="shopClose">← CLOSE SHOP</button>
 </div>
 
+
+
+<!-- ACHIEVEMENTS OVERLAY -->
+<div class="ach-overlay" id="achOverlay">
+  <div class="ach-title">🏆 ACHIEVEMENTS</div>
+  <div class="ach-sub">Unlocked and locked goals</div>
+  <div class="ach-summary" id="achSummary">0 / 0 unlocked</div>
+  <div class="ach-grid" id="achGrid"></div>
+  <button class="ach-close" id="achClose">← CLOSE ACHIEVEMENTS</button>
+</div>
+
 <!-- ACTIVE ITEM STATUS PANEL -->
 <div class="item-panel" id="itemPanel">
   <div class="item-panel-head">
@@ -613,6 +673,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 <!-- MACHINE UPGRADES OVERLAY -->
 <div class="upgrade-overlay" id="upgradeOverlay">
   <div class="upgrade-card">
+    <button class="upgrade-close-x" id="upgradeCloseX" type="button" aria-label="Close upgrades">×</button>
     <div class="upgrade-title">SUSPICIOUS UPGRADES</div>
     <div class="upgrade-sub">Make the machine better, weirder, and maybe worse</div>
     <div class="shop-coins" id="upgradeCoins">Coins: 0 🪙</div>
@@ -710,8 +771,9 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       <div class="stat" data-c="g"><div class="slbl">Total Won</div><div class="sval g" id="dTotalWon">0</div></div>
     </div>
 
-    <div id="shopStrip" style="padding:10px 20px;background:#070710;border-bottom:2px solid #1c1c2e;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;">
+    <div id="shopStrip" style="padding:10px 20px;background:#070710;border-bottom:2px solid #1c1c2e;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:center;">
       <button class="shop-trigger" id="shopBtn" type="button" style="display:block;width:100%;min-height:48px;border-radius:12px;border:3px solid #FFD700;background:linear-gradient(135deg,#3a2500,#9b6500 55%,#241600);color:#FFD700;font-family:Arial,sans-serif;font-weight:900;font-size:18px;letter-spacing:1px;cursor:pointer;text-shadow:0 0 10px rgba(255,215,0,.85);box-shadow:0 0 22px rgba(255,215,0,.35);">🛒 OPEN SHOP</button>
+      <button class="achievement-trigger" id="achBtn" type="button" style="display:block;width:100%;min-height:48px;border-radius:12px;border:3px solid #39ff14;background:linear-gradient(135deg,#06300a,#116b1b 55%,#061b08);color:#39ff14;font-family:Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;text-shadow:0 0 10px rgba(57,255,20,.85);box-shadow:0 0 22px rgba(57,255,20,.28);">🏆 ACHIEVEMENTS</button>
       <button class="upgrade-trigger" id="upgradeBtn" type="button">⚙️ UPGRADES</button>
     </div>
     <div class="streak-bar">
@@ -761,10 +823,14 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
         <button class="qb" data-v="50">50</button>
         <button class="qb" data-v="100">MAX<br>100</button>
       </div>
-      <div class="action-row" style="display:grid;grid-template-columns:1fr 120px 74px;gap:12px;align-items:center;">
+      <div class="action-row clean-action-row">
         <button class="spin-btn" id="spinBtn">SPIN!</button>
-        <button class="shop-trigger" id="shopHardBtn" type="button" style="height:62px;border-radius:13px;border:3px solid #FFD700;background:linear-gradient(135deg,#3a2500,#ad7100 55%,#2a1a00);color:#FFD700;font-family:Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(255,215,0,.45),0 5px 0 #1b1100;text-shadow:0 0 9px #FFD700;">🛒 SHOP</button>
         <button class="max-btn" id="maxBtn">MAX<br>BET</button>
+      </div>
+      <div class="menu-row" aria-label="Game menus">
+        <button class="menu-trigger shop-trigger" id="shopHardBtn" type="button">🛒 SHOP</button>
+        <button class="menu-trigger achievement-trigger" id="achBtnMain" type="button">🏆 ACHIEVEMENTS</button>
+        <button class="menu-trigger upgrade-trigger" id="upgradeBtnMain" type="button">⚙️ UPGRADES</button>
       </div>
     </div>
     <div class="badge-section">
@@ -957,6 +1023,7 @@ let battleCount=0;       // total battles triggered
 let activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0};
 let upgrades={loose:0, shiny:0, greedy:0, haunted:0};
 let reputationStats={maxBets:0, smallBets:0, shopBuys:0, pairLocks:0, spins:0};
+let achievementStats={pairMatches:0,tripleMatches:0,jackpots:0,wins:0,losses:0,maxBetWins:0,eggsHatched:0,evolutions:0,trades:0,rocketWins:0,rocketBlocks:0,rocketLosses:0,itemsBought:0,upgradesBought:0,reelLocks:0,dailyClaims:0,bigWins:0};
 let heldReel=null; // Snorlax can hold a reel for the next spin
 const EGG_HATCH_AT=25;   // spins needed for an egg to hatch
 
@@ -966,7 +1033,7 @@ function saveState() {
     coins,totalWon,spinCount,caught,history:history.slice(0,10),
     bestWin,xp,level,winStreak,lastDaily,soundOn,
     spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount,eggProgress,
-    battlesWon,badges,battleCount,activeItems,upgrades,reputationStats,heldReel
+    battlesWon,badges,battleCount,activeItems,upgrades,reputationStats,achievementStats,heldReel
   }));
 }
 
@@ -990,6 +1057,7 @@ function loadState() {
     activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0, ...(d.activeItems||{})};
     upgrades={loose:0, shiny:0, greedy:0, haunted:0, ...(d.upgrades||{})};
     reputationStats={maxBets:0, smallBets:0, shopBuys:0, pairLocks:0, spins:0, ...(d.reputationStats||{})};
+    achievementStats={pairMatches:0,tripleMatches:0,jackpots:0,wins:0,losses:0,maxBetWins:0,eggsHatched:0,evolutions:0,trades:0,rocketWins:0,rocketBlocks:0,rocketLosses:0,itemsBought:0,upgradesBought:0,reelLocks:0,dailyClaims:0,bigWins:0, ...(d.achievementStats||{})};
     heldReel=d.heldReel||null;
     return true;
   } catch(e){ return false; }
@@ -1215,6 +1283,7 @@ function buyUpgrade(key){
   if(lv>=item.max || coins<cost) return;
   coins-=cost;
   upgrades[key]=lv+1;
+  achievementStats.upgradesBought=(achievementStats.upgradesBought||0)+1;
   showToast(`⚙️ ${item.name} upgraded to LV ${upgrades[key]}!`);
   updateStats(); updateSystemsPanel(); buildUpgrades(); saveState();
 }
@@ -1251,7 +1320,8 @@ function maybeOfferReelLock(result,isShiny){
       if(!useLock){ resolve({result,isShiny}); return; }
       coins-=cost;
       reputationStats.pairLocks=(reputationStats.pairLocks||0)+1;
-      updateStats(); updateSystemsPanel();
+      achievementStats.reelLocks=(achievementStats.reelLocks||0)+1;
+      updateStats(); updateSystemsPanel(); updateAchievementButton();
       showToast(`🎰 Locked ${info.poke.name} pair. Respining reel ${info.odd+1}!`);
       document.getElementById(`rb${info.pair[0]}`).classList.add('winner');
       document.getElementById(`rb${info.pair[1]}`).classList.add('winner');
@@ -1539,6 +1609,7 @@ async function evaluate(poke, isShiny=[false,false,false]){
   }
 
   addHistory(rtype,win,attemptCatch||allShiny);
+  recordSpinAchievement({rtype,win,allSame,anyPair,allShiny});
 
   if(coins<=0){
     coins=0; saveState(); setCooldown();
@@ -1561,6 +1632,7 @@ function shouldTriggerRocket(){
   if(Math.random()<effectiveRocketChance()){
     if(activeItems.rocketRepel>0){
       activeItems.rocketRepel--;
+      achievementStats.rocketBlocks=(achievementStats.rocketBlocks||0)+1;
       lastRocketSpin=spinCount;
       const left=activeItems.rocketRepel;
       showToast(left>0 ? `🛡️ Rocket Repel blocked Team Rocket! ${left} block${left>1?'s':''} left.` : '🛡️ Rocket Repel blocked Team Rocket!');
@@ -1656,6 +1728,7 @@ function triggerRocketAmbush(){
       if(Math.random()<winChance){
         const reward=boostBattleReward(penalty+Math.floor(bet*(2+Math.random()*4)));
         coins+=reward;
+        achievementStats.rocketWins=(achievementStats.rocketWins||0)+1;
         if(caught[strongest.poke.id]) caught[strongest.poke.id].wins=(caught[strongest.poke.id].wins||0)+1;
         grantBattleXP(strongest.poke.id, 20);
         for(let i=0;i<25;i++) setTimeout(()=>spawnCoin(true),i*45);
@@ -1663,6 +1736,7 @@ function triggerRocketAmbush(){
         finish('good',`BLASTED OFF! +${reward} 🪙`,reward);
       } else {
         coins=Math.max(0,coins-penalty);
+        achievementStats.rocketLosses=(achievementStats.rocketLosses||0)+1;
         showToast(`Team Rocket got away with ${penalty} coins...`);
         grantBattleXP(strongest.poke.id, 8);
         finish('bad',`THEY GOT AWAY! -${penalty} 🪙`,-penalty);
@@ -1693,12 +1767,14 @@ function triggerRocketAmbush(){
         reelEl.textContent=symbol;
         const reward=penalty*2;
         coins+=reward;
+        achievementStats.rocketWins=(achievementStats.rocketWins||0)+1;
         for(let i=0;i<30;i++) setTimeout(()=>spawnCoin(true),i*40);
         showToast(`Emergency reel hit! Team Rocket blasted off!`);
         finish('good',`LUCKY HIT! +${reward} 🪙`,reward);
       } else {
         reelEl.textContent='R';
         coins=Math.max(0,coins-penalty);
+        achievementStats.rocketLosses=(achievementStats.rocketLosses||0)+1;
         showToast(`Bad roll. Team Rocket robbed you for ${penalty} coins.`);
         finish('bad',`ROBBED! -${penalty} 🪙`,-penalty);
       }
@@ -1715,6 +1791,7 @@ function triggerCatch(poke, fromSlot=false){
     if(caught[poke.id]) caught[poke.id].count++;
     else caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0};
     battleUnlocked=true;
+    achievementStats.catches=(achievementStats.catches||0)+1;
     // Save immediately so a refresh never loses the catch
     saveState();
     updateDex(); sfxCatch();
@@ -1770,6 +1847,8 @@ function triggerShinyCatch(poke){
       caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0,hasShiny:true};
     }
     shinyCount++;
+    achievementStats.shinyCatches=(achievementStats.shinyCatches||0)+1;
+    achievementStats.catches=(achievementStats.catches||0)+1;
     battleUnlocked=true;
     saveState();
     updateDex();
@@ -2058,6 +2137,96 @@ function closeBattle(){
   if(battleResolve){ battleResolve(); battleResolve=null; }
 }
 
+
+// ─── ACHIEVEMENTS ───────────────────────────────────────────────────────────
+function uniqueCaughtCount(){ return Object.keys(caught).length; }
+function totalCaughtCopies(){ return Object.values(caught).reduce((sum,e)=>sum+(e.count||0),0); }
+function totalPokemonPossible(){ return POOL.length + Object.keys(EVOLUTIONS).length; }
+function totalUpgradeLevels(){ return Object.values(upgrades).reduce((sum,v)=>sum+(v||0),0); }
+function activeSetBonusCount(){ return getSetBonuses().filter(b=>b.on).length; }
+function capProgress(v,goal){ return Math.max(0, Math.min(goal, v||0)); }
+function achievementDefinitions(){
+  const unique=uniqueCaughtCount();
+  const copies=totalCaughtCopies();
+  const totalPossible=totalPokemonPossible();
+  const shopBuys=Math.max(achievementStats.itemsBought||0, reputationStats.shopBuys||0);
+  const locks=Math.max(achievementStats.reelLocks||0, reputationStats.pairLocks||0);
+  const upgradeLv=totalUpgradeLevels();
+  return [
+    {id:'first_spin',icon:'🎰',name:'First Pull',desc:'Spin the machine once.',progress:spinCount,goal:1},
+    {id:'pair',icon:'✨',name:'Pair Pressure',desc:'Land your first pair.',progress:achievementStats.pairMatches||0,goal:1},
+    {id:'triple',icon:'🏆',name:'Triple Threat',desc:'Land 3 of the same Pokémon.',progress:achievementStats.tripleMatches||0,goal:1},
+    {id:'ten_pairs',icon:'💫',name:'Pair Goblin',desc:'Land 10 pair or better results.',progress:achievementStats.pairMatches||0,goal:10},
+    {id:'jackpot',icon:'⚡',name:'Jackpot Rookie',desc:'Hit any jackpot result.',progress:achievementStats.jackpots||0,goal:1},
+    {id:'big_win',icon:'💰',name:'Big Win Energy',desc:'Win 500+ coins on one result.',progress:bestWin,goal:500},
+    {id:'first_catch',icon:'📖',name:'First Catch',desc:'Catch any Pokémon.',progress:copies,goal:1},
+    {id:'dex_5',icon:'🧢',name:'Small Dex',desc:'Catch 5 unique Pokémon.',progress:unique,goal:5},
+    {id:'dex_15',icon:'📚',name:'Dex Builder',desc:'Catch 15 unique Pokémon.',progress:unique,goal:15},
+    {id:'collect_all',icon:'👑',name:'Collect Them All',desc:'Catch every Pokémon available in the game.',progress:unique,goal:totalPossible},
+    {id:'shiny',icon:'✨',name:'Shiny Hunter',desc:'Catch one shiny Pokémon.',progress:shinyCount,goal:1},
+    {id:'shiny_3',icon:'🌈',name:'Sparkle Problem',desc:'Catch 3 shiny Pokémon.',progress:shinyCount,goal:3},
+    {id:'battle_win',icon:'⚔️',name:'Battle Winner',desc:'Win your first battle.',progress:battlesWon,goal:1},
+    {id:'battle_10',icon:'🥊',name:'Battle Maniac',desc:'Win 10 battles.',progress:battlesWon,goal:10},
+    {id:'badge_1',icon:'🏅',name:'First Badge',desc:'Earn any Gym Badge.',progress:badges.length,goal:1},
+    {id:'all_badges',icon:'🏆',name:'All Badged Up',desc:'Earn all 8 Gym Badges.',progress:badges.length,goal:GYM_LEADERS.length},
+    {id:'egg',icon:'🥚',name:'Egg Cracker',desc:'Hatch one egg.',progress:achievementStats.eggsHatched||0,goal:1},
+    {id:'rocket_win',icon:'🚀',name:'Rocket Blaster',desc:'Beat Team Rocket in an ambush.',progress:achievementStats.rocketWins||0,goal:1},
+    {id:'rocket_block',icon:'🛡️',name:'Not Today Rocket',desc:'Block Team Rocket with Rocket Repel.',progress:achievementStats.rocketBlocks||0,goal:1},
+    {id:'shop',icon:'🛒',name:'PokéMart Regular',desc:'Buy 5 shop items.',progress:shopBuys,goal:5},
+    {id:'upgrade',icon:'⚙️',name:'Questionable Upgrade',desc:'Buy any suspicious machine upgrade.',progress:Math.max(achievementStats.upgradesBought||0, upgradeLv),goal:1},
+    {id:'upgrade_all',icon:'🧪',name:'Machine Gremlin',desc:'Buy 6 total machine upgrade levels.',progress:upgradeLv,goal:6},
+    {id:'reel_lock',icon:'🔒',name:'Lock In',desc:'Use Reel Lock once.',progress:locks,goal:1},
+    {id:'evolve',icon:'🧬',name:'It Is Evolving',desc:'Evolve one Pokémon.',progress:achievementStats.evolutions||0,goal:1},
+    {id:'trade',icon:'💱',name:'Trade Bait',desc:'Trade one duplicate Pokémon for coins.',progress:achievementStats.trades||0,goal:1},
+    {id:'set_bonus',icon:'🧩',name:'Set Bonus Online',desc:'Unlock any Pokédex set bonus.',progress:activeSetBonusCount(),goal:1},
+    {id:'high_roller',icon:'🎲',name:'High Roller',desc:'Win while betting 100 coins.',progress:achievementStats.maxBetWins||0,goal:1},
+    {id:'coin_goblin',icon:'🪙',name:'Coin Goblin',desc:'Win 10,000 total coins.',progress:totalWon,goal:10000},
+    {id:'daily',icon:'🎁',name:'Comeback Kid',desc:'Claim the daily bonus.',progress:achievementStats.dailyClaims||0,goal:1}
+  ];
+}
+function achievementUnlocked(a){ return (a.progress||0) >= a.goal; }
+function achievementCount(){ const defs=achievementDefinitions(); return {unlocked:defs.filter(achievementUnlocked).length,total:defs.length}; }
+function progressLabel(a){ return `${Math.min(a.progress||0,a.goal).toLocaleString()} / ${a.goal.toLocaleString()}`; }
+function updateAchievementButton(){
+  const btn=document.getElementById('achBtn');
+  if(!btn) return;
+  const c=achievementCount();
+  btn.textContent=`🏆 ACHIEVEMENTS ${c.unlocked}/${c.total}`;
+}
+function openAchievements(){ buildAchievements(); document.getElementById('achOverlay').classList.add('show'); }
+function closeAchievements(){ document.getElementById('achOverlay').classList.remove('show'); }
+function buildAchievements(){
+  const defs=achievementDefinitions();
+  const c=achievementCount();
+  const grid=document.getElementById('achGrid');
+  document.getElementById('achSummary').textContent=`${c.unlocked} / ${c.total} unlocked`;
+  grid.innerHTML='';
+  defs.forEach(a=>{
+    const unlocked=achievementUnlocked(a);
+    const pct=Math.min(100,Math.round(((a.progress||0)/a.goal)*100));
+    const card=document.createElement('div');
+    card.className='ach-card '+(unlocked?'unlocked':'locked');
+    card.innerHTML=`
+      <div class="ach-status">${unlocked?'UNLOCKED':'LOCKED'}</div>
+      <div class="ach-top"><div class="ach-icon">${unlocked?a.icon:'🔒'}</div><div class="ach-name">${a.name}</div></div>
+      <div class="ach-desc">${a.desc}</div>
+      <div class="ach-progress-text"><span>Progress</span><span>${progressLabel(a)}</span></div>
+      <div class="ach-bar"><div class="ach-fill" style="width:${pct}%"></div></div>`;
+    grid.appendChild(card);
+  });
+  updateAchievementButton();
+}
+function recordSpinAchievement({rtype,win,allSame,anyPair,allShiny}){
+  if(anyPair) achievementStats.pairMatches=(achievementStats.pairMatches||0)+1;
+  if(allSame) achievementStats.tripleMatches=(achievementStats.tripleMatches||0)+1;
+  if(rtype==='jackpot') achievementStats.jackpots=(achievementStats.jackpots||0)+1;
+  if(rtype!=='lose') achievementStats.wins=(achievementStats.wins||0)+1;
+  else achievementStats.losses=(achievementStats.losses||0)+1;
+  if(bet>=100 && win>0) achievementStats.maxBetWins=(achievementStats.maxBetWins||0)+1;
+  if(win>=500) achievementStats.bigWins=(achievementStats.bigWins||0)+1;
+  updateAchievementButton();
+}
+
 // ─── GYM BADGES ───────────────────────────────────────────────────────────────
 function updateBadgeCase(){
   const grid=document.getElementById('badgeGrid');
@@ -2086,6 +2255,7 @@ function updateEggMeter(){
 function hatchEgg(){
   return new Promise(resolve=>{
     eggProgress=0;
+    achievementStats.eggsHatched=(achievementStats.eggsHatched||0)+1;
     updateEggMeter();
 
     // Egg outcome roll — mostly coins, Pokémon is RARE
@@ -2178,6 +2348,7 @@ function tradeDuplicate(id){
   if(!entry || entry.count<=1) return;
   const value=tradeValue(entry.poke);
   entry.count--;
+  achievementStats.trades=(achievementStats.trades||0)+1;
   coins+=value;
   sfxDaily();
   for(let i=0;i<15;i++) setTimeout(spawnCoin,i*50);
@@ -2210,6 +2381,7 @@ function updateDex(){
   });
   updateDexBonuses();
   updateSystemsPanel();
+  updateAchievementButton();
 }
 
 // ─── MANAGE POKÉDEX (trade + evolve) ─────────────────────────────────────────
@@ -2280,6 +2452,7 @@ async function evolvePokemon(id){
   }
   // Remove base entry if no copies left
   if(entry.count<=0) delete caught[id];
+  achievementStats.evolutions=(achievementStats.evolutions||0)+1;
 
   saveState();
   updateDex();
@@ -2441,6 +2614,7 @@ async function buyShopItem(key){
   }
   coins-=cost;
   reputationStats.shopBuys=(reputationStats.shopBuys||0)+1;
+  achievementStats.itemsBought=(achievementStats.itemsBought||0)+1;
   if(key==='lucky') activeItems.luckyCharmSpins+=5;
   if(key==='repel') activeItems.rocketRepel+=3;
   if(key==='master') activeItems.masterBall+=1;
@@ -2603,7 +2777,7 @@ function checkDailyBonus(){
 function claimDailyBonus(){
   if(Date.now()-lastDaily<DAILY_MS) return;
   const bonus=500+level*50;
-  coins+=bonus; lastDaily=Date.now();
+  coins+=bonus; lastDaily=Date.now(); achievementStats.dailyClaims=(achievementStats.dailyClaims||0)+1;
   sfxDaily(); for(let i=0;i<30;i++) setTimeout(spawnCoin,i*60);
   showToast(`🎁 DAILY BONUS! +${bonus} COINS!`);
   setMsg(`🎁 DAILY BONUS! +${bonus} COINS!`,'win');
@@ -2632,7 +2806,7 @@ function renderHistory(){
 
 // ─── UI ───────────────────────────────────────────────────────────────────────
 function setMsg(text,type){ const el=document.getElementById('msgEl'); el.className='msg'; void el.offsetWidth; el.textContent=text; el.className='msg '+(type||''); }
-function updateStats(){ document.getElementById('dCoins').textContent=coins.toLocaleString(); document.getElementById('dSpins').textContent=spinCount; }
+function updateStats(){ document.getElementById('dCoins').textContent=coins.toLocaleString(); document.getElementById('dSpins').textContent=spinCount; updateAchievementButton(); }
 function shakeBtn(){ const b=document.getElementById('spinBtn'); b.style.transform='translateX(-7px)'; setTimeout(()=>b.style.transform='translateX(7px)',80); setTimeout(()=>b.style.transform='translateX(-4px)',160); setTimeout(()=>b.style.transform='',240); }
 function spawnCoin(rainbow=false){ const c=document.createElement('div'); c.className='coin-p'+(rainbow?' rainbow':''); c.textContent='🪙'; c.style.cssText=`left:${10+Math.random()*80}%;top:20%;animation-duration:${.65+Math.random()*.8}s;font-size:${12+Math.random()*14}px;`; document.body.appendChild(c); setTimeout(()=>c.remove(),1500); }
 let toastT=null;
@@ -2661,13 +2835,40 @@ document.getElementById('manageBtn').addEventListener('click',openManage);
 document.getElementById('manageClose').addEventListener('click',closeManage);
 document.querySelectorAll('.shop-trigger').forEach(btn=>btn.addEventListener('click',openShop));
 document.getElementById('shopClose').addEventListener('click',closeShop);
-document.getElementById('upgradeBtn').addEventListener('click',openUpgrades);
-document.getElementById('systemsUpgradeBtn').addEventListener('click',openUpgrades);
-document.getElementById('upgradeClose').addEventListener('click',closeUpgrades);
+['upgradeBtn','systemsUpgradeBtn','upgradeBtnMain'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('click',openUpgrades);
+});
+['upgradeClose','upgradeCloseX'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('click',closeUpgrades);
+});
+const upgradeOverlayEl=document.getElementById('upgradeOverlay');
+if(upgradeOverlayEl){
+  upgradeOverlayEl.addEventListener('click',e=>{
+    if(e.target===upgradeOverlayEl) closeUpgrades();
+  });
+}
+['achBtn','achBtnMain'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('click',openAchievements);
+});
+document.getElementById('achClose').addEventListener('click',closeAchievements);
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeUpgrades();
+    closeAchievements();
+    closeShop();
+  }
+});
 // Hard fallback: any visible SHOP button opens the PokéMart, even if class styling changes later.
 document.addEventListener('click', function(e){
   const btn = e.target.closest('#shopBtn, #shopHardBtn, #shopFloatBtn, .shop-trigger');
   if(btn){ e.preventDefault(); openShop(); }
+  const ach = e.target.closest('#achBtn, #achBtnMain, .achievement-trigger');
+  if(ach){ e.preventDefault(); openAchievements(); }
+  const upg = e.target.closest('#upgradeBtn, #upgradeBtnMain, .upgrade-trigger');
+  if(upg){ e.preventDefault(); openUpgrades(); }
 });
 
 
@@ -2689,6 +2890,7 @@ updateEggMeter();
 updateBadgeCase();
 updateShopButton();
 updateSystemsPanel();
+updateAchievementButton();
 if(pendingLvPoints>0 && Object.keys(caught).length>0) openPokeLvPicker();
 </script>
 </body>

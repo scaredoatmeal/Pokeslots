@@ -199,6 +199,8 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .br-card{background:#09090f;border:2px solid #1e1e2e;border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:all .18s;width:80px}
 .br-card:hover{border-color:var(--neon-g);box-shadow:0 0 14px rgba(57,255,20,.25);transform:translateY(-2px)}
 .br-card.selected{border-color:var(--neon-g)!important;box-shadow:0 0 18px rgba(57,255,20,.4)!important}
+.battle-roster.locked .br-card{pointer-events:none;opacity:.45;filter:grayscale(.55);cursor:not-allowed;transform:none!important}
+.battle-roster.locked .br-card.selected{opacity:1;filter:none;border-color:var(--gold)!important;box-shadow:0 0 16px rgba(255,200,0,.45)!important}
 .br-card img{width:52px;height:52px;object-fit:contain}
 .br-card .bc-name{font-family:'Bungee',cursive;font-size:.44rem;letter-spacing:1px;text-transform:uppercase;color:#667;text-align:center}
 .br-card .bc-type{font-size:.55rem;color:#445;text-align:center}
@@ -395,6 +397,26 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .shop-float-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 28px rgba(255,200,0,.4),0 12px 30px rgba(0,0,0,.75);filter:brightness(1.1)}
 .shop-float-btn.active{border-color:var(--neon-g);color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);box-shadow:0 0 22px rgba(57,255,20,.35),0 10px 26px rgba(0,0,0,.65)}
 @media(max-width:520px){.shop-float-btn{right:10px;bottom:10px;font-size:.7rem;padding:10px 12px}}
+
+/* ── ALWAYS VISIBLE ITEM STATUS PANEL ── */
+.item-panel{position:fixed;right:16px;top:82px;z-index:489;width:218px;background:linear-gradient(180deg,#090912,#050509);border:1px solid #25253a;border-radius:14px;padding:10px 11px;box-shadow:0 16px 40px rgba(0,0,0,.65),0 0 18px rgba(0,0,0,.4);text-align:left;pointer-events:auto}
+.item-panel.has-items{border-color:rgba(255,215,0,.75);box-shadow:0 16px 40px rgba(0,0,0,.65),0 0 18px rgba(255,215,0,.18)}
+.item-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;border-bottom:1px solid #1b1b2d;padding-bottom:7px}
+.item-panel-title{font-family:'Bungee',cursive;font-size:.58rem;letter-spacing:1px;color:var(--gold);text-shadow:0 0 8px rgba(255,215,0,.4);white-space:nowrap}
+.item-panel-count{font-family:'Bungee',cursive;font-size:.48rem;color:#556;white-space:nowrap}
+.item-panel.has-items .item-panel-count{color:var(--neon-g);text-shadow:0 0 7px rgba(57,255,20,.35)}
+.item-panel-list{display:flex;flex-direction:column;gap:6px}
+.item-panel-row{display:flex;align-items:center;gap:8px;background:#0d0d17;border:1px solid #1d1d31;border-radius:10px;padding:7px 8px}
+.ipr-icon{font-size:1.15rem;filter:drop-shadow(0 0 7px rgba(255,215,0,.25));width:22px;text-align:center;flex-shrink:0}
+.ipr-main{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ipr-main b{font-family:'Bungee',cursive;font-size:.54rem;letter-spacing:.5px;color:#dde;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ipr-main em{font-style:normal;font-size:.68rem;color:var(--neon-b);line-height:1.05;text-shadow:0 0 6px rgba(0,229,255,.25)}
+.item-panel-empty{font-size:.72rem;color:#445;text-align:center;padding:5px 0;font-style:italic}
+.shop-active-list{display:flex;flex-direction:column;gap:6px;text-align:left}
+.shop-active-line{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0c0c16;border:1px solid #202036;border-radius:9px;padding:6px 8px}
+.shop-active-line b{color:var(--gold);font-family:'Bungee',cursive;font-size:.58rem;letter-spacing:.5px}
+.shop-active-line span{color:var(--neon-b);font-size:.72rem;text-align:right}
+@media(max-width:760px){.item-panel{position:static;width:min(680px,calc(100% - 24px));margin:0 auto 10px;order:2}.shop-float-btn{bottom:14px;top:auto}.shop-trigger#shopFloatBtn{top:auto!important;bottom:16px!important}}
 .shop-overlay{position:fixed;inset:0;background:rgba(0,0,5,.94);z-index:560;display:none;flex-direction:column;align-items:center;padding:22px 14px 34px;overflow-y:auto;text-align:center}
 .shop-overlay.show{display:flex;animation:fadeIn .3s ease}
 .shop-title{font-family:'Bungee Inline',cursive;font-size:1.85rem;color:var(--gold);text-shadow:0 0 20px var(--gold),0 0 40px #ff6600;letter-spacing:3px;margin-bottom:4px}
@@ -506,6 +528,17 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <button class="shop-close" id="shopClose">← CLOSE SHOP</button>
 </div>
 
+<!-- ACTIVE ITEM STATUS PANEL -->
+<div class="item-panel" id="itemPanel">
+  <div class="item-panel-head">
+    <div class="item-panel-title">🎒 ACTIVE ITEMS</div>
+    <div class="item-panel-count" id="itemPanelCount">none</div>
+  </div>
+  <div class="item-panel-list" id="itemPanelList">
+    <div class="item-panel-empty">No items active</div>
+  </div>
+</div>
+
 <!-- TEAM ROCKET AMBUSH OVERLAY -->
 <div class="rocket-overlay" id="rocketOverlay">
   <div class="rocket-card">
@@ -570,7 +603,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="sub">★ Casino Royale ★</div>
   </header>
   <div class="marquee-wrap">
-    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ BATTLE POKÉMON EARN XP & LEVEL UP! &nbsp;&nbsp; ★ POKéMART ITEMS CAN RIG THE REELS! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EVOLVE POKÉMON WITH 3 COPIES! &nbsp;&nbsp; ★ TEAM ROCKET CAN AMBUSH YOUR COINS! &nbsp;&nbsp; ★ EGGS = MOSTLY COINS, RARELY A POKÉMON! &nbsp;&nbsp;</span>
+    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ BATTLE POKÉMON EARN XP & LEVEL UP! &nbsp;&nbsp; ★ POKéMART ITEMS CAN RIG THE REELS! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EVOLVE POKÉMON WITH 3 COPIES! &nbsp;&nbsp; ★ TEAM ROCKET IS RARER AND REPELS BLOCK 3 AMBUSHES! &nbsp;&nbsp; ★ EGGS = MOSTLY COINS, RARELY A POKÉMON! &nbsp;&nbsp;</span>
   </div>
 
   <div class="machine">
@@ -786,8 +819,8 @@ const DAILY_MS        = 24 * 60 * 60 * 1000;
 const BATTLE_EVERY    = 10;    // spins between battles
 const GYM_EVERY       = 3;     // every Nth battle is a Gym Leader
 const PAYOUTS         = {jackpot:50, triple:10, starter:8, typeTriple:5, double:2};
-const ROCKET_CHANCE   = 0.12;   // 12% chance after a normal spin
-const ROCKET_COOLDOWN = 6;      // minimum spins between ambushes
+const ROCKET_CHANCE   = 0.055;  // much rarer, so it stops feeling like Rocket spam
+const ROCKET_COOLDOWN = 12;     // extra hidden breathing room between ambushes
 let lastRocketSpin    = -ROCKET_COOLDOWN;
 
 // ─── GYM LEADERS (8 badges, escalating difficulty) ───────────────────────────
@@ -1139,7 +1172,8 @@ function shouldTriggerRocket(){
     if(activeItems.rocketRepel>0){
       activeItems.rocketRepel--;
       lastRocketSpin=spinCount;
-      showToast('🛡️ Rocket Repel blocked the ambush!');
+      const left=activeItems.rocketRepel;
+      showToast(left>0 ? `🛡️ Rocket Repel blocked Team Rocket! ${left} block${left>1?'s':''} left.` : '🛡️ Rocket Repel blocked Team Rocket!');
       updateShopButton();
       saveState();
       return false;
@@ -1160,7 +1194,11 @@ function strongestCaughtEntry(){
 }
 
 function rocketPenalty(){
-  return Math.min(coins, Math.max(75, Math.floor(bet*(3+Math.random()*4))));
+  // Softer shakedown: scales with bet, but caps against your wallet so Rocket stops feeling brutal.
+  const scaled = Math.floor(bet * (1.5 + Math.random() * 2.5));
+  const walletCap = Math.max(20, Math.floor(coins * 0.12));
+  const penalty = Math.max(20, Math.min(scaled, walletCap, 180));
+  return Math.min(coins, penalty);
 }
 
 function triggerRocketAmbush(){
@@ -1241,7 +1279,7 @@ function triggerRocketAmbush(){
     };
 
     payBtn.onclick=()=>{
-      const payoff=Math.min(coins, Math.ceil(penalty*.45));
+      const payoff=Math.min(coins, Math.ceil(penalty*.35));
       coins=Math.max(0,coins-payoff);
       showToast(`You paid Team Rocket ${payoff} coins to leave.`);
       finish('neutral',`PAID OFF -${payoff} 🪙`,-payoff);
@@ -1429,10 +1467,16 @@ function triggerBattle(){
     document.getElementById('fightBtn').textContent='⚔️ FIGHT!';
     const rb=document.getElementById('runBtn');
     rb.disabled=false; rb.style.opacity=''; rb.style.cursor='';
+    setBattleRosterLocked(false);
 
     buildBattleRoster(wild);
     overlay.classList.add('show');
   });
+}
+
+function setBattleRosterLocked(locked){
+  const roster=document.getElementById('battleRoster');
+  if(roster) roster.classList.toggle('locked', !!locked);
 }
 
 function buildBattleRoster(wild){
@@ -1459,6 +1503,10 @@ function buildBattleRoster(wild){
 }
 
 function selectBattlePoke(poke, card, wild, pokeLevel=1, hasShiny=false){
+  if(battleState.active || battleState.over){
+    battleLog('Your Pokémon is already committed. No swapping mid-fight.');
+    return;
+  }
   document.querySelectorAll('.br-card').forEach(c=>c.classList.remove('selected'));
   card.classList.add('selected');
   const maxHp=50+pokeEffectivePower(poke,pokeLevel,hasShiny);
@@ -1509,6 +1557,7 @@ async function doFight(){
   if(!battleState.yours||battleState.active) return;
   battleState.active=true;
   battleState.over=false;
+  setBattleRosterLocked(true);
   document.getElementById('fightBtn').disabled=true;
   // Lock the Run button — no fleeing once the fight is underway
   document.getElementById('runBtn').disabled=true;
@@ -1612,6 +1661,7 @@ function updateBattleHp(){
 }
 
 function closeBattle(){
+  setBattleRosterLocked(false);
   document.getElementById('battleOverlay').classList.remove('show');
   if(battleResolve){ battleResolve(); battleResolve=null; }
 }
@@ -1889,30 +1939,69 @@ function playEvolution(fromPoke, toPoke, shiny){
 
 // ─── POKéMART ITEM SHOP ─────────────────────────────────────────────────────
 const SHOP_ITEMS = [
-  {key:'lucky', icon:'🍀', name:'Lucky Charm', cost:350, desc:'Next 5 spins have a better chance to force at least a pair.'},
-  {key:'repel', icon:'🛡️', name:'Rocket Repel', cost:300, desc:'Blocks the next Team Rocket ambush before it starts.'},
-  {key:'candy', icon:'🍬', name:'Rare Candy', cost:500, desc:'Adds 1 power up point. Pick any caught Pokémon to level.'},
-  {key:'master', icon:'🔴', name:'Master Ball', cost:750, desc:'The next triple match gets a 35% shiny boost.'},
-  {key:'amulet', icon:'🪙', name:'Coin Amulet', cost:450, desc:'Your next 3 winning spins pay 1.5× coins.'},
+  {key:'lucky', icon:'🍀', name:'Lucky Charm', cost:175, desc:'Next 5 spins have a better chance to force at least a pair.'},
+  {key:'repel', icon:'🛡️', name:'Rocket Repel Pack', cost:90, desc:'Blocks the next 3 Team Rocket ambushes. Cheaper per block and less annoying.'},
+  {key:'candy', icon:'🍬', name:'Rare Candy', cost:250, desc:'Adds 1 power up point. Pick any caught Pokémon to level.'},
+  {key:'master', icon:'🔴', name:'Master Ball', cost:350, desc:'The next triple match gets a 35% shiny boost.'},
+  {key:'amulet', icon:'🪙', name:'Coin Amulet', cost:200, desc:'Your next 3 winning spins pay 1.5× coins.'},
 ];
 
+function activeItemDetails(){
+  const items=[];
+  if(activeItems.luckyCharmSpins>0){
+    const n=activeItems.luckyCharmSpins;
+    items.push({icon:'🍀', name:'Lucky Charm', value:`${n} spin${n===1?'':'s'} left`, note:'pair boost'});
+  }
+  if(activeItems.rocketRepel>0){
+    const n=activeItems.rocketRepel;
+    items.push({icon:'🛡️', name:'Rocket Repel', value:`${n} Rocket block${n===1?'':'s'} left`, note:'blocks ambushes'});
+  }
+  if(activeItems.masterBall>0){
+    const n=activeItems.masterBall;
+    items.push({icon:'🔴', name:'Master Ball', value:`${n} triple boost${n===1?'':'s'} ready`, note:'shiny boost'});
+  }
+  if(activeItems.coinAmuletWins>0){
+    const n=activeItems.coinAmuletWins;
+    items.push({icon:'🪙', name:'Coin Amulet', value:`${n} winning spin${n===1?'':'s'} left`, note:'1.5× wins'});
+  }
+  return items;
+}
+
 function activeItemText(){
-  const bits=[];
-  if(activeItems.luckyCharmSpins>0) bits.push(`<b>Lucky Charm</b>: ${activeItems.luckyCharmSpins} spin${activeItems.luckyCharmSpins>1?'s':''}`);
-  if(activeItems.rocketRepel>0) bits.push(`<b>Rocket Repel</b>: ${activeItems.rocketRepel} block${activeItems.rocketRepel>1?'s':''}`);
-  if(activeItems.masterBall>0) bits.push(`<b>Master Ball</b>: ${activeItems.masterBall} shiny boost${activeItems.masterBall>1?'s':''}`);
-  if(activeItems.coinAmuletWins>0) bits.push(`<b>Coin Amulet</b>: ${activeItems.coinAmuletWins} win${activeItems.coinAmuletWins>1?'s':''}`);
-  return bits.length?bits.join(' • '):'No active items.';
+  const items=activeItemDetails();
+  if(!items.length) return 'No active items.';
+  return `<div class="shop-active-list">${items.map(i=>`<div class="shop-active-line"><b>${i.icon} ${i.name}</b><span>${i.value}</span></div>`).join('')}</div>`;
+}
+
+function updateItemPanel(){
+  const panel=document.getElementById('itemPanel');
+  const list=document.getElementById('itemPanelList');
+  const count=document.getElementById('itemPanelCount');
+  if(!panel||!list||!count) return;
+  const items=activeItemDetails();
+  panel.classList.toggle('has-items', items.length>0);
+  count.textContent=items.length?`${items.length} active`:'none';
+  if(!items.length){
+    list.innerHTML='<div class="item-panel-empty">No items active</div>';
+    return;
+  }
+  list.innerHTML=items.map(i=>`
+    <div class="item-panel-row" title="${i.note}">
+      <span class="ipr-icon">${i.icon}</span>
+      <span class="ipr-main"><b>${i.name}</b><em>${i.value}</em></span>
+    </div>
+  `).join('');
 }
 
 function updateShopButton(){
   const active=(activeItems.luckyCharmSpins||0)+(activeItems.rocketRepel||0)+(activeItems.masterBall||0)+(activeItems.coinAmuletWins||0);
   document.querySelectorAll('.shop-trigger').forEach(btn=>{
     btn.classList.toggle('active', active>0);
-    if(btn.id==='shopFloatBtn') btn.textContent=active>0?`🛒 SHOP • ${active}`:'🛒 SHOP';
-    else if(btn.id==='shopHardBtn') btn.textContent=active>0?`🛒 SHOP • ${active}`:'🛒 SHOP';
-    else btn.textContent=active>0?`🛒 OPEN SHOP • ${active} ACTIVE`:'🛒 OPEN SHOP / POKEMART';
+    if(btn.id==='shopFloatBtn') btn.textContent='🛒 SHOP';
+    else if(btn.id==='shopHardBtn') btn.textContent='🛒 SHOP';
+    else btn.textContent='🛒 OPEN SHOP / POKEMART';
   });
+  updateItemPanel();
   const activeBox=document.getElementById('shopActive');
   if(activeBox) activeBox.innerHTML=activeItemText();
   const coinBox=document.getElementById('shopCoins');
@@ -1954,7 +2043,7 @@ async function buyShopItem(key){
   }
   coins-=item.cost;
   if(key==='lucky') activeItems.luckyCharmSpins+=5;
-  if(key==='repel') activeItems.rocketRepel+=1;
+  if(key==='repel') activeItems.rocketRepel+=3;
   if(key==='master') activeItems.masterBall+=1;
   if(key==='amulet') activeItems.coinAmuletWins+=3;
   updateStats();

@@ -154,6 +154,9 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .spin-btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
 .max-btn{width:62px;height:62px;background:linear-gradient(135deg,#001f55,#000f2a);border:2px solid var(--neon-b);border-radius:13px;font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:1px;color:var(--neon-b);cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,.18),0 5px 0 #000;text-shadow:0 0 7px var(--neon-b);transition:all .1s;flex-shrink:0;user-select:none}
 .max-btn:hover{background:linear-gradient(135deg,#002d80,#001540);box-shadow:0 0 18px rgba(0,229,255,.35),0 5px 0 #000}
+.shop-hard-btn{width:72px;height:62px;background:linear-gradient(135deg,#3a2500,#8a5a00 55%,#2a1a00);border:2px solid var(--gold);border-radius:13px;font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:1px;color:var(--gold);cursor:pointer;box-shadow:0 0 16px rgba(255,200,0,.28),0 5px 0 #1b1100;text-shadow:0 0 9px var(--gold);transition:all .1s;flex-shrink:0;user-select:none}
+.shop-hard-btn:hover{background:linear-gradient(135deg,#543600,#ad7100 55%,#3a2500);box-shadow:0 0 24px rgba(255,200,0,.45),0 5px 0 #1b1100;transform:translateY(-2px)}
+.shop-hard-btn.active{border-color:var(--neon-g);color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);box-shadow:0 0 20px rgba(57,255,20,.35),0 5px 0 #102000}
 
 /* ── CATCH OVERLAY ── */
 .catch-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
@@ -257,6 +260,50 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .cd-pokeball{width:80px;height:80px;border-radius:50%;margin-bottom:8px;background:linear-gradient(to bottom,#cc0000 0%,#cc0000 47%,#222 47%,#222 53%,#f0f0f0 53%,#f0f0f0 100%);border:3px solid #111;box-shadow:0 0 30px rgba(200,0,0,.4);animation:cdSpin 3s linear infinite}
 @keyframes cdSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
+
+
+/* ── TEAM ROCKET AMBUSH ── */
+.rocket-overlay{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(60,0,90,.28),rgba(0,0,0,.94) 65%);z-index:550;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;overflow-y:auto}
+.rocket-overlay.show{display:flex;animation:fadeIn .3s ease}
+.rocket-card{width:100%;max-width:520px;background:linear-gradient(180deg,#110013,#050508);border:2px solid var(--neon-p);border-radius:18px;padding:18px;box-shadow:0 0 28px rgba(255,0,255,.22),0 22px 60px rgba(0,0,0,.8);position:relative;overflow:hidden}
+.rocket-card::before{content:'R';position:absolute;inset:auto -10px -50px auto;font-family:'Bungee Inline',cursive;font-size:9rem;color:rgba(255,0,255,.07);line-height:1}
+.rocket-title-r{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:linear-gradient(180deg,#ff2a2a,#900);color:#fff;font-family:'Bungee',cursive;font-size:1rem;vertical-align:middle;box-shadow:0 0 14px rgba(255,0,0,.7);margin-right:8px}.rocket-title{font-family:'Bungee Inline',cursive;font-size:1.9rem;color:var(--neon-p);text-shadow:0 0 20px var(--neon-p),0 0 42px #8000ff;letter-spacing:3px;margin-bottom:4px}
+.rocket-sub{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:#887;margin-bottom:12px;text-transform:uppercase}
+.rocket-scene{display:flex;align-items:center;justify-content:center;gap:18px;margin:8px 0 14px;position:relative;z-index:1}
+.rocket-boss{width:142px;min-height:142px;border:2px solid rgba(255,0,255,.75);border-radius:18px;background:radial-gradient(circle at 50% 35%,rgba(255,0,255,.22),rgba(10,0,20,.94) 70%);display:grid;grid-template-rows:1fr auto;align-items:center;justify-items:center;gap:2px;filter:drop-shadow(0 0 18px rgba(255,0,255,.55));animation:rocketFloat 1.8s ease-in-out infinite alternate;position:relative;overflow:hidden}
+.rocket-boss::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.08) 45%,transparent 60%);transform:translateX(-120%);animation:rocketSweep 2.7s ease-in-out infinite}
+.rocket-boss-label{font-family:'Bungee',cursive;font-size:.45rem;letter-spacing:1px;color:#a78;text-transform:uppercase;position:relative;z-index:1}
+.rocket-emblem{position:relative;z-index:1;width:108px;height:104px;display:flex;align-items:center;justify-content:center}
+.rocket-r-big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bungee Inline',cursive;font-size:5.2rem;line-height:1;color:#ff2aff;text-shadow:0 0 14px #ff00ff,0 0 30px #8000ff,0 0 44px #ff0066;transform:skew(-7deg);animation:rocketRPulse 1s ease-in-out infinite alternate}
+.rocket-img{width:72px;height:72px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 0 12px rgba(255,255,255,.45));position:absolute;right:-4px;bottom:4px;z-index:2}
+.rocket-r-logo{display:none}
+@keyframes rocketRPulse{from{transform:skew(-7deg) scale(1)}to{transform:skew(-7deg) scale(1.08)}}
+@keyframes rocketSweep{0%,45%{transform:translateX(-130%)}70%,100%{transform:translateX(130%)}}
+@keyframes rocketFloat{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-8px) rotate(2deg)}}
+.rocket-target{background:#070710;border:1px solid #2a1535;border-radius:12px;padding:10px 14px;min-width:160px}
+.rocket-target .rt-lbl{font-size:.62rem;letter-spacing:2px;color:#667;text-transform:uppercase;font-weight:700}
+.rocket-target .rt-val{font-family:'Bungee',cursive;font-size:1.1rem;color:var(--gold);text-shadow:0 0 10px rgba(255,200,0,.4)}
+.rocket-text{font-size:.9rem;color:#99a;line-height:1.35;margin-bottom:14px;position:relative;z-index:1}
+.rocket-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;position:relative;z-index:1}
+.rocket-btn{border:none;border-radius:11px;min-height:54px;padding:8px 6px;font-family:'Bungee',cursive;font-size:.7rem;letter-spacing:1px;cursor:pointer;transition:all .13s;box-shadow:0 4px 0 #020205;text-transform:uppercase}
+.rocket-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.rocket-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #020205}
+.rocket-btn.fight{background:linear-gradient(135deg,#680000,#c00);color:white}
+.rocket-btn.pay{background:linear-gradient(135deg,#332100,#705000);color:var(--gold);border:1px solid #805c00}
+.rocket-btn.risk{background:linear-gradient(135deg,#001a35,#003e68);color:var(--neon-b);border:1px solid var(--neon-b)}
+.rocket-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;filter:none}
+.rocket-reel{height:82px;width:120px;margin:10px auto 2px;background:#05050b;border:2px solid var(--neon-b);border-radius:13px;display:none;align-items:center;justify-content:center;font-size:2.7rem;box-shadow:inset 0 0 20px rgba(0,229,255,.12),0 0 18px rgba(0,229,255,.25)}
+.rocket-reel.spin{display:flex;animation:rocketReel .12s linear infinite}
+.rocket-reel.done{display:flex;animation:pop .4s cubic-bezier(.36,2,.5,.8)}
+@keyframes rocketReel{0%{filter:blur(1px);transform:translateY(-2px)}50%{filter:blur(4px);transform:translateY(2px)}100%{filter:blur(1px);transform:translateY(-2px)}}
+.rocket-result{font-family:'Bungee Inline',cursive;font-size:1.6rem;letter-spacing:2px;min-height:42px;margin-top:10px;display:none;position:relative;z-index:1}
+.rocket-result.good{display:block;color:var(--neon-g);text-shadow:0 0 18px var(--neon-g)}
+.rocket-result.bad{display:block;color:#ff3333;text-shadow:0 0 16px #f00}
+.rocket-result.neutral{display:block;color:var(--gold);text-shadow:0 0 16px var(--gold)}
+.rocket-close{display:none;margin-top:12px;font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:2px;color:#889;cursor:pointer;padding:7px 20px;border:1px solid #334;border-radius:20px;background:none;position:relative;z-index:1}
+.rocket-close.show{display:inline-block}
+@media(max-width:520px){.rocket-actions{grid-template-columns:1fr}.rocket-title{font-size:1.45rem}.rocket-scene{gap:8px}.rocket-boss{width:104px;min-height:104px}.rocket-img{width:60px;height:60px}.rocket-emblem{width:92px;height:90px}.rocket-r-big{font-size:4.4rem}}
+
 /* ── POKÉDEX ── */
 .dex-section{padding:0 20px 16px}
 .dex-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
@@ -335,6 +382,43 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 .fs .fl{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:#334}
 .fs .fv{font-family:'Bungee',cursive;font-size:.85rem;color:#556;text-align:center}
 
+
+/* ── POKéMART ITEM SHOP ── */
+.shop-badge{font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:1px;padding:3px 10px;border-radius:18px;border:1px solid #3a2a00;color:var(--gold);background:rgba(255,200,0,.06);cursor:pointer;transition:all .25s;text-shadow:0 0 7px rgba(255,200,0,.4)}
+.shop-badge:hover{border-color:var(--gold);box-shadow:0 0 12px rgba(255,200,0,.28);transform:translateY(-1px)}
+.shop-badge.active{border-color:var(--neon-g);color:var(--neon-g);background:rgba(57,255,20,.08);text-shadow:0 0 8px var(--neon-g)}
+.shop-open-row{padding:9px 20px;background:#070710;border-bottom:2px solid #1c1c2e;display:flex}
+.shop-main-btn{width:100%;min-height:42px;border-radius:12px;border:2px solid var(--gold);background:linear-gradient(135deg,#181000,#3a2700 55%,#15100a);color:var(--gold);font-family:'Bungee',cursive;font-size:.9rem;letter-spacing:2px;cursor:pointer;text-shadow:0 0 10px rgba(255,200,0,.65);box-shadow:0 0 16px rgba(255,200,0,.16),inset 0 1px 0 rgba(255,255,255,.12);transition:all .15s}
+.shop-main-btn:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(255,200,0,.28),inset 0 1px 0 rgba(255,255,255,.15);filter:brightness(1.08)}
+.shop-main-btn.active{border-color:var(--neon-g);color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);box-shadow:0 0 18px rgba(57,255,20,.22)}
+.shop-float-btn{position:fixed;right:16px;bottom:16px;z-index:490;border:2px solid var(--gold);border-radius:999px;background:linear-gradient(135deg,#1b1200,#5a3b00 55%,#1b1200);color:var(--gold);font-family:'Bungee',cursive;font-size:.82rem;letter-spacing:1px;padding:12px 16px;cursor:pointer;text-shadow:0 0 10px rgba(255,200,0,.7);box-shadow:0 0 18px rgba(255,200,0,.28),0 10px 26px rgba(0,0,0,.65);transition:transform .15s,box-shadow .15s,filter .15s}
+.shop-float-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 28px rgba(255,200,0,.4),0 12px 30px rgba(0,0,0,.75);filter:brightness(1.1)}
+.shop-float-btn.active{border-color:var(--neon-g);color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);box-shadow:0 0 22px rgba(57,255,20,.35),0 10px 26px rgba(0,0,0,.65)}
+@media(max-width:520px){.shop-float-btn{right:10px;bottom:10px;font-size:.7rem;padding:10px 12px}}
+.shop-overlay{position:fixed;inset:0;background:rgba(0,0,5,.94);z-index:560;display:none;flex-direction:column;align-items:center;padding:22px 14px 34px;overflow-y:auto;text-align:center}
+.shop-overlay.show{display:flex;animation:fadeIn .3s ease}
+.shop-title{font-family:'Bungee Inline',cursive;font-size:1.85rem;color:var(--gold);text-shadow:0 0 20px var(--gold),0 0 40px #ff6600;letter-spacing:3px;margin-bottom:4px}
+.shop-sub{font-family:'Bungee',cursive;font-size:.7rem;letter-spacing:2px;color:#667;margin-bottom:12px;text-transform:uppercase}
+.shop-coins{font-family:'Bungee',cursive;font-size:.95rem;color:var(--neon-g);text-shadow:0 0 10px var(--neon-g);margin-bottom:12px}
+.shop-active{width:100%;max-width:620px;background:#070710;border:1px solid #22223a;border-radius:12px;padding:9px 12px;margin-bottom:14px;color:#667;font-size:.82rem;line-height:1.45}
+.shop-active b{color:var(--gold);font-family:'Bungee',cursive;font-size:.68rem;letter-spacing:1px}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px;width:100%;max-width:720px;margin-bottom:18px}
+.shop-card{background:linear-gradient(180deg,#10101a,#07070d);border:2px solid #242438;border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:7px;min-height:190px;box-shadow:0 14px 35px rgba(0,0,0,.45);position:relative;overflow:hidden}
+.shop-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,200,0,.08),transparent 55%);pointer-events:none}
+.shop-ico{font-size:2rem;filter:drop-shadow(0 0 10px rgba(255,200,0,.35));position:relative;z-index:1}
+.shop-name{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:1px;color:var(--gold);text-shadow:0 0 8px rgba(255,200,0,.35);position:relative;z-index:1}
+.shop-desc{font-size:.78rem;color:#778;line-height:1.25;min-height:42px;position:relative;z-index:1}
+.shop-cost{font-family:'Bungee',cursive;font-size:.72rem;color:var(--neon-b);text-shadow:0 0 8px var(--neon-b);position:relative;z-index:1}
+.shop-buy{margin-top:auto;width:100%;border:none;border-radius:10px;background:linear-gradient(135deg,#1a1400,#5a4200);border:1px solid var(--gold2);color:var(--gold);font-family:'Bungee',cursive;font-size:.66rem;letter-spacing:1px;padding:8px 6px;cursor:pointer;transition:all .15s;position:relative;z-index:1}
+.shop-buy:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(255,200,0,.3);filter:brightness(1.12)}
+.shop-buy:disabled{opacity:.35;cursor:not-allowed;transform:none;filter:none;box-shadow:none}
+.shop-close{font-family:'Bungee',cursive;font-size:.72rem;letter-spacing:2px;color:#667;background:none;border:1px solid #2a2a3a;border-radius:20px;padding:8px 24px;cursor:pointer;transition:all .2s}
+.shop-close:hover{color:#99a;border-color:#444}
+.poke-xp{width:58px;height:5px;background:#111827;border:1px solid #22283a;border-radius:4px;overflow:hidden;margin-top:2px}
+.poke-xp-fill{height:100%;background:linear-gradient(90deg,var(--neon-b),var(--neon-g));box-shadow:0 0 7px rgba(0,229,255,.35)}
+.level-flash{animation:levelFlash .7s ease-in-out 2}
+@keyframes levelFlash{0%,100%{filter:drop-shadow(0 0 12px rgba(57,255,20,.4))}50%{filter:drop-shadow(0 0 28px var(--neon-g)) brightness(1.4)}}
+
 /* ── MISC ── */
 @keyframes coinRain{0%{transform:translateY(-40px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 .coin-p{position:fixed;pointer-events:none;z-index:9999;animation:coinRain linear forwards}
@@ -409,6 +493,43 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
   <button class="ov-dismiss" id="evoDismiss" style="display:none">CONTINUE →</button>
 </div>
 
+
+
+
+<!-- POKéMART ITEM SHOP -->
+<div class="shop-overlay" id="shopOverlay">
+  <div class="shop-title">🛒 POKéMART</div>
+  <div class="shop-sub">Buy questionable slot machine upgrades</div>
+  <div class="shop-coins" id="shopCoins">Coins: 0</div>
+  <div class="shop-active" id="shopActive">No active items.</div>
+  <div class="shop-grid" id="shopGrid"></div>
+  <button class="shop-close" id="shopClose">← CLOSE SHOP</button>
+</div>
+
+<!-- TEAM ROCKET AMBUSH OVERLAY -->
+<div class="rocket-overlay" id="rocketOverlay">
+  <div class="rocket-card">
+    <div class="rocket-title"><span class="rocket-title-r">R</span> TEAM ROCKET!</div>
+    <div class="rocket-sub">A sketchy ambush at the slots</div>
+    <div class="rocket-scene">
+      <div class="rocket-boss"><div class="rocket-emblem"><div class="rocket-r-big">R</div><img class="rocket-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/52.png" alt="Team Rocket Meowth" onerror="this.style.display='none'"></div><div class="rocket-boss-label">Team Rocket</div></div>
+      <div class="rocket-target">
+        <div class="rt-lbl">They want</div>
+        <div class="rt-val" id="rocketSteal">??? 🪙</div>
+      </div>
+    </div>
+    <div class="rocket-text" id="rocketText">Team Rocket is trying to jack your coins. Fight, pay them off, or risk one emergency reel.</div>
+    <div class="rocket-reel" id="rocketReel">❔</div>
+    <div class="rocket-actions" id="rocketActions">
+      <button class="rocket-btn fight" id="rocketFight">⚔️ Fight</button>
+      <button class="rocket-btn pay" id="rocketPay">💰 Pay Off</button>
+      <button class="rocket-btn risk" id="rocketRisk">🎰 Risk It</button>
+    </div>
+    <div class="rocket-result" id="rocketResult"></div>
+    <button class="rocket-close" id="rocketClose">CONTINUE →</button>
+  </div>
+</div>
+
 <!-- BATTLE OVERLAY -->
 <div class="battle-overlay" id="battleOverlay">
   <div class="battle-title" id="battleTitle">⚔️ WILD ENCOUNTER!</div>
@@ -441,6 +562,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
 </div>
 
 <div class="toast" id="toast"></div>
+<button class="shop-trigger" id="shopFloatBtn" type="button" style="position:fixed;right:16px;top:16px;z-index:9999;border:3px solid #FFD700;border-radius:999px;background:#5a3b00;color:#FFD700;font-family:Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;padding:12px 18px;cursor:pointer;text-shadow:0 0 10px #FFD700;box-shadow:0 0 24px rgba(255,215,0,.55),0 10px 26px rgba(0,0,0,.65);">🛒 SHOP</button>
 
 <div id="app">
   <header>
@@ -448,7 +570,7 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
     <div class="sub">★ Casino Royale ★</div>
   </header>
   <div class="marquee-wrap">
-    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EVOLVE POKÉMON WITH 3 COPIES! &nbsp;&nbsp; ★ EGGS = MOSTLY COINS, RARELY A POKÉMON! &nbsp;&nbsp;</span>
+    <span class="marquee">★ JACKPOT: 3× LEGENDARY ×50 &nbsp;&nbsp; ★ 3× SAME = GUARANTEED CATCH + ×10 &nbsp;&nbsp; ★ STARTER TRIO = ×8 &nbsp;&nbsp; ★ SAME TYPE = ×5 &nbsp;&nbsp; ★ PAIR = ×2 &nbsp;&nbsp; ★ EVERY 10 SPINS = BATTLE! &nbsp;&nbsp; ★ BATTLE POKÉMON EARN XP & LEVEL UP! &nbsp;&nbsp; ★ POKéMART ITEMS CAN RIG THE REELS! &nbsp;&nbsp; ★ EVERY 3RD BATTLE = GYM LEADER! WIN 8 BADGES! &nbsp;&nbsp; ★ EVOLVE POKÉMON WITH 3 COPIES! &nbsp;&nbsp; ★ TEAM ROCKET CAN AMBUSH YOUR COINS! &nbsp;&nbsp; ★ EGGS = MOSTLY COINS, RARELY A POKÉMON! &nbsp;&nbsp;</span>
   </div>
 
   <div class="machine">
@@ -463,6 +585,9 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
       <div class="stat" data-c="g"><div class="slbl">Total Won</div><div class="sval g" id="dTotalWon">0</div></div>
     </div>
 
+    <div id="shopStrip" style="padding:10px 20px;background:#070710;border-bottom:2px solid #1c1c2e;display:flex;gap:10px;align-items:center;">
+      <button class="shop-trigger" id="shopBtn" type="button" style="display:block;width:100%;min-height:48px;border-radius:12px;border:3px solid #FFD700;background:linear-gradient(135deg,#3a2500,#9b6500 55%,#241600);color:#FFD700;font-family:Arial,sans-serif;font-weight:900;font-size:20px;letter-spacing:2px;cursor:pointer;text-shadow:0 0 10px rgba(255,215,0,.85);box-shadow:0 0 22px rgba(255,215,0,.35);">🛒 OPEN SHOP / POKEMART</button>
+    </div>
     <div class="streak-bar">
       <div class="streak-badge" id="streakBadge">🔥 0 STREAK</div>
       <div class="battle-counter" id="battleCounter">⚔️ BATTLE IN 10</div>
@@ -510,8 +635,9 @@ h1{font-family:'Bungee Inline',cursive;font-size:clamp(2rem,6vw,4rem);
         <button class="qb" data-v="50">50</button>
         <button class="qb" data-v="100">MAX<br>100</button>
       </div>
-      <div class="action-row">
+      <div class="action-row" style="display:grid;grid-template-columns:1fr 120px 74px;gap:12px;align-items:center;">
         <button class="spin-btn" id="spinBtn">SPIN!</button>
+        <button class="shop-trigger" id="shopHardBtn" type="button" style="height:62px;border-radius:13px;border:3px solid #FFD700;background:linear-gradient(135deg,#3a2500,#ad7100 55%,#2a1a00);color:#FFD700;font-family:Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(255,215,0,.45),0 5px 0 #1b1100;text-shadow:0 0 9px #FFD700;">🛒 SHOP</button>
         <button class="max-btn" id="maxBtn">MAX<br>BET</button>
       </div>
     </div>
@@ -660,6 +786,9 @@ const DAILY_MS        = 24 * 60 * 60 * 1000;
 const BATTLE_EVERY    = 10;    // spins between battles
 const GYM_EVERY       = 3;     // every Nth battle is a Gym Leader
 const PAYOUTS         = {jackpot:50, triple:10, starter:8, typeTriple:5, double:2};
+const ROCKET_CHANCE   = 0.12;   // 12% chance after a normal spin
+const ROCKET_COOLDOWN = 6;      // minimum spins between ambushes
+let lastRocketSpin    = -ROCKET_COOLDOWN;
 
 // ─── GYM LEADERS (8 badges, escalating difficulty) ───────────────────────────
 // Signature pokemon id references POOL; power gets a big boost in battle.
@@ -691,6 +820,7 @@ let eggProgress=0;       // spins accumulated toward next egg
 let battlesWon=0;        // total battles won (gym pacing)
 let badges=[];           // earned badge indices (0-7)
 let battleCount=0;       // total battles triggered
+let activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0};
 const EGG_HATCH_AT=25;   // spins needed for an egg to hatch
 
 // ─── SAVE / LOAD ─────────────────────────────────────────────────────────────
@@ -699,7 +829,7 @@ function saveState() {
     coins,totalWon,spinCount,caught,history:history.slice(0,10),
     bestWin,xp,level,winStreak,lastDaily,soundOn,
     spinsUntilBattle,firstWinGiven,battleUnlocked,pendingLvPoints,shinyCount,eggProgress,
-    battlesWon,badges,battleCount
+    battlesWon,badges,battleCount,activeItems
   }));
 }
 
@@ -720,6 +850,7 @@ function loadState() {
     battlesWon=d.battlesWon??0;
     badges=d.badges??[];
     battleCount=d.battleCount??0;
+    activeItems={luckyCharmSpins:0, rocketRepel:0, masterBall:0, coinAmuletWins:0, ...(d.activeItems||{})};
     return true;
   } catch(e){ return false; }
 }
@@ -848,13 +979,14 @@ async function spin(){
   document.getElementById('spinBtn').disabled=true;
 
   coins-=bet; spinCount++; spinsUntilBattle--; eggProgress++;
-  updateStats(); updateBattleCounter(); updateEggMeter();
+  updateStats(); updateBattleCounter(); updateEggMeter(); updateShopButton();
   setMsg('SPINNING...','');
   document.getElementById('wflash').classList.remove('on');
   document.querySelectorAll('.reel-box').forEach(b=>b.classList.remove('winner','catch-try','shiny'));
 
   let result=[randPoke(),randPoke(),randPoke()];
   result=applyEarlyWin(result);
+  result=applyLuckyCharm(result);
 
   const isShiny=[
     Math.random()<1/SHINY_RATE,
@@ -870,6 +1002,11 @@ async function spin(){
 
   // ⚠️ Spin stays LOCKED through entire evaluate — catches, overlays, level pickers all finish first
   await evaluate(result,isShiny);
+
+  if(coins>0 && shouldTriggerRocket()){
+    await wait(450);
+    await triggerRocketAmbush();
+  }
 
   // Only unlock AFTER evaluate fully completes
   spinning=false;
@@ -894,11 +1031,25 @@ async function spin(){
 // ─── EVALUATE ─────────────────────────────────────────────────────────────────
 async function evaluate(poke, isShiny=[false,false,false]){
   const [p0,p1,p2]=poke;
-  const allShiny = isShiny[0]&&isShiny[1]&&isShiny[2];
+  let allShiny = isShiny[0]&&isShiny[1]&&isShiny[2];
   const anyShiny = isShiny[0]||isShiny[1]||isShiny[2];
   let mult=0,rtype='lose',msg='',attemptCatch=false;
 
   const allSame  =p0.id===p1.id&&p1.id===p2.id;
+
+  if(allSame && !allShiny && activeItems.masterBall>0){
+    activeItems.masterBall--;
+    if(Math.random()<0.35){
+      isShiny[0]=isShiny[1]=isShiny[2]=true;
+      allShiny=true;
+      showToast('🔴 Master Ball went off! Shiny boost hit!');
+    } else {
+      showToast('🔴 Master Ball used. No shiny this time.');
+    }
+    updateShopButton();
+    saveState();
+  }
+
   const allLeg   =p0.leg&&p1.leg&&p2.leg;
   const allStart =p0.start&&p1.start&&p2.start;
   const sameType =p0.types.some(t=>p1.types.includes(t)&&p2.types.includes(t));
@@ -914,7 +1065,13 @@ async function evaluate(poke, isShiny=[false,false,false]){
   else if(anyPair)             { mult=PAYOUTS.double;     rtype='win';     msg=`✨ PAIR! ×${PAYOUTS.double}`; }
   else                         { rtype='lose'; msg=LOSE_MSGS[Math.floor(Math.random()*LOSE_MSGS.length)]; }
 
-  const win=mult*bet;
+  let win=mult*bet;
+  if(win>0 && activeItems.coinAmuletWins>0){
+    win=Math.floor(win*1.5);
+    activeItems.coinAmuletWins--;
+    showToast(`🪙 Coin Amulet boosted this win to +${win}!`);
+    updateShopButton();
+  }
   coins+=win; totalWon+=win;
 
   if(rtype!=='lose'){ winStreak++; if(winStreak>0&&winStreak%5===0){ const b=50*Math.floor(winStreak/5);coins+=b;showToast(`🔥 ${winStreak} WIN STREAK! +${b} BONUS!`); } }
@@ -971,12 +1128,163 @@ async function evaluate(poke, isShiny=[false,false,false]){
   saveState();
 }
 
+
+
+// ─── TEAM ROCKET AMBUSH ─────────────────────────────────────────────────────
+function shouldTriggerRocket(){
+  if(spinCount-lastRocketSpin<ROCKET_COOLDOWN) return false;
+  if(spinCount<4) return false;
+  if(coins<=0) return false;
+  if(Math.random()<ROCKET_CHANCE){
+    if(activeItems.rocketRepel>0){
+      activeItems.rocketRepel--;
+      lastRocketSpin=spinCount;
+      showToast('🛡️ Rocket Repel blocked the ambush!');
+      updateShopButton();
+      saveState();
+      return false;
+    }
+    return true;
+  }
+  return false;
+}
+
+function strongestCaughtEntry(){
+  const entries=Object.values(caught);
+  if(!entries.length) return null;
+  return entries.reduce((best,entry)=>{
+    const cur=pokeEffectivePower(entry.poke, entry.pokeLevel||1, entry.hasShiny||false) + (entry.wins||0)*3;
+    const old=pokeEffectivePower(best.poke, best.pokeLevel||1, best.hasShiny||false) + (best.wins||0)*3;
+    return cur>old?entry:best;
+  },entries[0]);
+}
+
+function rocketPenalty(){
+  return Math.min(coins, Math.max(75, Math.floor(bet*(3+Math.random()*4))));
+}
+
+function triggerRocketAmbush(){
+  return new Promise(resolve=>{
+    lastRocketSpin=spinCount;
+    const overlay=document.getElementById('rocketOverlay');
+    const stealEl=document.getElementById('rocketSteal');
+    const textEl=document.getElementById('rocketText');
+    const reelEl=document.getElementById('rocketReel');
+    const actions=document.getElementById('rocketActions');
+    const resultEl=document.getElementById('rocketResult');
+    const closeBtn=document.getElementById('rocketClose');
+    const fightBtn=document.getElementById('rocketFight');
+    const payBtn=document.getElementById('rocketPay');
+    const riskBtn=document.getElementById('rocketRisk');
+    const strongest=strongestCaughtEntry();
+    const penalty=rocketPenalty();
+
+    stealEl.textContent=`${penalty} 🪙`;
+    textEl.textContent=strongest
+      ? `Team Rocket is trying to swipe ${penalty} coins. Send ${strongest.poke.name} in, pay them off, or gamble on one emergency reel.`
+      : `Team Rocket is trying to swipe ${penalty} coins. You need a caught Pokémon to fight, so pay them off or gamble on one emergency reel.`;
+    reelEl.className='rocket-reel';
+    reelEl.textContent='❔';
+    resultEl.className='rocket-result';
+    resultEl.textContent='';
+    closeBtn.className='rocket-close';
+    actions.style.display='grid';
+    fightBtn.disabled=!strongest;
+    overlay.classList.add('show');
+    sfxBattle();
+
+    function finish(kind,msg,amount=0){
+      actions.style.display='none';
+      resultEl.textContent=msg;
+      resultEl.className='rocket-result '+kind;
+      closeBtn.classList.add('show');
+      updateStats();
+      document.getElementById('dLastWin').textContent=amount>0?`+${amount}`:amount<0?`${amount}`:'—';
+      if(amount>0){ totalWon+=amount; document.getElementById('dTotalWon').textContent=totalWon.toLocaleString(); }
+      if(amount>0) addHistory('battle',amount,false);
+      else addHistory('lose',Math.abs(amount),false);
+      saveState();
+    }
+
+    function cleanup(){
+      overlay.classList.remove('show');
+      fightBtn.onclick=payBtn.onclick=riskBtn.onclick=closeBtn.onclick=null;
+      resolve();
+    }
+
+    fightBtn.onclick=async()=>{
+      if(!strongest) return;
+      actions.style.display='none';
+      const rocketMons=[POOL.find(p=>p.id===52),POOL.find(p=>p.id===92),POOL.find(p=>p.id===94),POOL.find(p=>p.id===143)].filter(Boolean);
+      const enemy=rocketMons[Math.floor(Math.random()*rocketMons.length)];
+      const yourPower=pokeEffectivePower(strongest.poke,strongest.pokeLevel||1,strongest.hasShiny||false)+(strongest.wins||0)*4;
+      const enemyPower=enemy.power+Math.floor(spinCount/12)*6;
+      textEl.textContent=`${strongest.poke.name} jumps in against Rocket ${enemy.name}!`;
+      reelEl.className='rocket-reel done';
+      reelEl.textContent='⚔️';
+      await wait(900);
+      const winChance=Math.max(.25,Math.min(.85,.52+(yourPower-enemyPower)/180));
+      if(Math.random()<winChance){
+        const reward=penalty+Math.floor(bet*(2+Math.random()*4));
+        coins+=reward;
+        if(caught[strongest.poke.id]) caught[strongest.poke.id].wins=(caught[strongest.poke.id].wins||0)+1;
+        grantBattleXP(strongest.poke.id, 20);
+        for(let i=0;i<25;i++) setTimeout(()=>spawnCoin(true),i*45);
+        showToast(`Team Rocket blasted off! +${reward} coins!`);
+        finish('good',`BLASTED OFF! +${reward} 🪙`,reward);
+      } else {
+        coins=Math.max(0,coins-penalty);
+        showToast(`Team Rocket got away with ${penalty} coins...`);
+        grantBattleXP(strongest.poke.id, 8);
+        finish('bad',`THEY GOT AWAY! -${penalty} 🪙`,-penalty);
+      }
+    };
+
+    payBtn.onclick=()=>{
+      const payoff=Math.min(coins, Math.ceil(penalty*.45));
+      coins=Math.max(0,coins-payoff);
+      showToast(`You paid Team Rocket ${payoff} coins to leave.`);
+      finish('neutral',`PAID OFF -${payoff} 🪙`,-payoff);
+    };
+
+    riskBtn.onclick=async()=>{
+      actions.style.display='none';
+      textEl.textContent='Emergency reel spinning... land Pikachu, Meowth, or a Legendary to send them blasting off!';
+      const symbols=['⚡','🐱','✨','R','🍃','🔥','💧','🪨'];
+      reelEl.className='rocket-reel spin';
+      let i=0;
+      const int=setInterval(()=>{ reelEl.textContent=symbols[i++%symbols.length]; },90);
+      await wait(1400);
+      clearInterval(int);
+      const roll=Math.random();
+      const success=roll<0.38;
+      reelEl.className='rocket-reel done';
+      if(success){
+        const symbol=roll<0.14?'⚡':roll<0.28?'🐱':'✨';
+        reelEl.textContent=symbol;
+        const reward=penalty*2;
+        coins+=reward;
+        for(let i=0;i<30;i++) setTimeout(()=>spawnCoin(true),i*40);
+        showToast(`Emergency reel hit! Team Rocket blasted off!`);
+        finish('good',`LUCKY HIT! +${reward} 🪙`,reward);
+      } else {
+        reelEl.textContent='R';
+        coins=Math.max(0,coins-penalty);
+        showToast(`Bad roll. Team Rocket robbed you for ${penalty} coins.`);
+        finish('bad',`ROBBED! -${penalty} 🪙`,-penalty);
+      }
+    };
+
+    closeBtn.onclick=cleanup;
+  });
+}
+
 // ─── CATCH OVERLAY ────────────────────────────────────────────────────────────
 function triggerCatch(poke, fromSlot=false){
   return new Promise(resolve=>{
     // Update caught dict
     if(caught[poke.id]) caught[poke.id].count++;
-    else caught[poke.id]={poke,count:1,wins:0,pokeLevel:1};
+    else caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0};
     battleUnlocked=true;
     // Save immediately so a refresh never loses the catch
     saveState();
@@ -1030,7 +1338,7 @@ function triggerShinyCatch(poke){
       caught[poke.id].count++;
       caught[poke.id].hasShiny=true;
     } else {
-      caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:true};
+      caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0,hasShiny:true};
     }
     shinyCount++;
     battleUnlocked=true;
@@ -1143,6 +1451,7 @@ function buildBattleRoster(wild){
       <div class="bc-type">PWR ${effectivePower}</div>
       ${adv?`<div class="bc-adv">${adv}</div>`:''}
       ${wins>0?`<div style="font-size:.48rem;color:#3a5a3a">⚔️ ${wins}W</div>`:''}
+      <div class="poke-xp"><div class="poke-xp-fill" style="width:${Math.min(100,Math.floor(((caught[poke.id]?.pokeXP||0)/pokeXpNeeded(pokeLevel))*100))}%"></div></div>
     `;
     card.addEventListener('click',()=>selectBattlePoke(poke, card, wild, pokeLevel, hasShiny));
     roster.appendChild(card);
@@ -1168,6 +1477,32 @@ function selectBattlePoke(poke, card, wild, pokeLevel=1, hasShiny=false){
 function battleLog(msg){
   const log=document.getElementById('battleLog');
   log.innerHTML=`<span class="bl-line">${msg}</span>`;
+}
+
+
+function pokeXpNeeded(lv){ return Math.floor(24 + lv*lv*10); }
+function grantBattleXP(pokeId, amount){
+  const entry=caught[pokeId];
+  if(!entry) return {leveled:false, level:1};
+  entry.pokeXP=(entry.pokeXP||0)+amount;
+  let leveled=false;
+  while(entry.pokeXP>=pokeXpNeeded(entry.pokeLevel||1)){
+    entry.pokeXP-=pokeXpNeeded(entry.pokeLevel||1);
+    entry.pokeLevel=(entry.pokeLevel||1)+1;
+    leveled=true;
+  }
+  updateDex();
+  if(leveled){
+    sfxLevel();
+    showToast(`⬆️ ${entry.poke.name} leveled up to LV ${entry.pokeLevel}!`);
+    const yourImg=document.getElementById('yourImg');
+    if(yourImg) yourImg.classList.add('level-flash');
+    setTimeout(()=>yourImg&&yourImg.classList.remove('level-flash'),1500);
+  } else {
+    showToast(`⚔️ ${entry.poke.name} gained ${amount} XP!`);
+  }
+  saveState();
+  return {leveled, level:entry.pokeLevel||1};
 }
 
 async function doFight(){
@@ -1217,6 +1552,7 @@ async function doFight(){
     // Victory
     battlesWon++;
     if(caught[atk.id]) caught[atk.id].wins=(caught[atk.id].wins||0)+1;
+    grantBattleXP(atk.id, battleState.isGym?45:28);
 
     if(battleState.isGym){
       // Award badge + big payout
@@ -1254,6 +1590,7 @@ async function doFight(){
     updateStats();
     document.getElementById('battleLog').innerHTML=`<span class="battle-result defeat">DEFEATED! -${penalty} COINS</span>`;
     showToast(`${atk.name} fainted... -${penalty} coins`);
+    grantBattleXP(atk.id, 12);
     await wait(2000);
   }
 
@@ -1361,7 +1698,7 @@ function hatchEgg(){
           caught[poke.id].count++;
           if(isShiny) caught[poke.id].hasShiny=true;
         } else {
-          caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,hasShiny:isShiny};
+          caught[poke.id]={poke,count:1,wins:0,pokeLevel:1,pokeXP:0,hasShiny:isShiny};
         }
         if(isShiny) shinyCount++;
         battleUnlocked=true;
@@ -1425,6 +1762,7 @@ function updateDex(){
       <div style="font-family:'Bungee',cursive;font-size:.52rem;color:${hasShiny?'var(--neon-p)':'var(--gold)'}">LV ${pokeLevel}</div>
       ${count>1?`<div class="dc-cnt">×${count}</div>`:''}
       ${wins>0?`<div class="dc-wins">⚔️${wins}W</div>`:''}
+      <div class="poke-xp"><div class="poke-xp-fill" style="width:${Math.min(100,Math.floor(((caught[poke.id]?.pokeXP||0)/pokeXpNeeded(pokeLevel))*100))}%"></div></div>
     `;
     grid.appendChild(card);
   });
@@ -1459,7 +1797,7 @@ function buildManageGrid(){
     card.innerHTML=`
       <img src="${hasShiny?SPRITE_SHINY(poke.id):SPRITE(poke.id)}" onerror="this.onerror=null;this.src='${SPRITE_FALLBACK(poke.id)}'" alt="${poke.name}">
       <div class="mg-name">${hasShiny?'✨ ':''}${poke.name}</div>
-      <div class="mg-stats">LV <b>${pokeLevel}</b> • ×<b>${count}</b>${wins?` • ⚔️${wins}W`:''}</div>
+      <div class="mg-stats">LV <b>${pokeLevel}</b> • XP <b>${entry.pokeXP||0}/${pokeXpNeeded(pokeLevel)}</b> • ×<b>${count}</b>${wins?` • ⚔️${wins}W`:''}</div>
       <div class="mg-actions">
         <button class="mg-act trade" data-trade="${poke.id}" ${canTrade?'':'disabled'}>TRADE 1 → +${tradeValue(poke)}🪙</button>
         ${evoTargetId
@@ -1494,7 +1832,7 @@ async function evolvePokemon(id){
     if(keptShiny) caught[evolved.id].hasShiny=true;
     caught[evolved.id].wins=(caught[evolved.id].wins||0)+keptWins;
   } else {
-    caught[evolved.id]={poke:evolved,count:1,wins:keptWins,pokeLevel:keptLevel,hasShiny:keptShiny};
+    caught[evolved.id]={poke:evolved,count:1,wins:keptWins,pokeLevel:keptLevel,pokeXP:0,hasShiny:keptShiny};
   }
   // Remove base entry if no copies left
   if(entry.count<=0) delete caught[id];
@@ -1546,6 +1884,110 @@ function playEvolution(fromPoke, toPoke, shiny){
     const h=()=>{ ov.classList.remove('show'); dismiss.removeEventListener('click',h); resolve(); };
     dismiss.addEventListener('click',h);
   });
+}
+
+
+// ─── POKéMART ITEM SHOP ─────────────────────────────────────────────────────
+const SHOP_ITEMS = [
+  {key:'lucky', icon:'🍀', name:'Lucky Charm', cost:350, desc:'Next 5 spins have a better chance to force at least a pair.'},
+  {key:'repel', icon:'🛡️', name:'Rocket Repel', cost:300, desc:'Blocks the next Team Rocket ambush before it starts.'},
+  {key:'candy', icon:'🍬', name:'Rare Candy', cost:500, desc:'Adds 1 power up point. Pick any caught Pokémon to level.'},
+  {key:'master', icon:'🔴', name:'Master Ball', cost:750, desc:'The next triple match gets a 35% shiny boost.'},
+  {key:'amulet', icon:'🪙', name:'Coin Amulet', cost:450, desc:'Your next 3 winning spins pay 1.5× coins.'},
+];
+
+function activeItemText(){
+  const bits=[];
+  if(activeItems.luckyCharmSpins>0) bits.push(`<b>Lucky Charm</b>: ${activeItems.luckyCharmSpins} spin${activeItems.luckyCharmSpins>1?'s':''}`);
+  if(activeItems.rocketRepel>0) bits.push(`<b>Rocket Repel</b>: ${activeItems.rocketRepel} block${activeItems.rocketRepel>1?'s':''}`);
+  if(activeItems.masterBall>0) bits.push(`<b>Master Ball</b>: ${activeItems.masterBall} shiny boost${activeItems.masterBall>1?'s':''}`);
+  if(activeItems.coinAmuletWins>0) bits.push(`<b>Coin Amulet</b>: ${activeItems.coinAmuletWins} win${activeItems.coinAmuletWins>1?'s':''}`);
+  return bits.length?bits.join(' • '):'No active items.';
+}
+
+function updateShopButton(){
+  const active=(activeItems.luckyCharmSpins||0)+(activeItems.rocketRepel||0)+(activeItems.masterBall||0)+(activeItems.coinAmuletWins||0);
+  document.querySelectorAll('.shop-trigger').forEach(btn=>{
+    btn.classList.toggle('active', active>0);
+    if(btn.id==='shopFloatBtn') btn.textContent=active>0?`🛒 SHOP • ${active}`:'🛒 SHOP';
+    else if(btn.id==='shopHardBtn') btn.textContent=active>0?`🛒 SHOP • ${active}`:'🛒 SHOP';
+    else btn.textContent=active>0?`🛒 OPEN SHOP • ${active} ACTIVE`:'🛒 OPEN SHOP / POKEMART';
+  });
+  const activeBox=document.getElementById('shopActive');
+  if(activeBox) activeBox.innerHTML=activeItemText();
+  const coinBox=document.getElementById('shopCoins');
+  if(coinBox) coinBox.textContent=`Coins: ${coins.toLocaleString()} 🪙`;
+}
+
+function openShop(){
+  buildShop();
+  document.getElementById('shopOverlay').classList.add('show');
+}
+function closeShop(){ document.getElementById('shopOverlay').classList.remove('show'); }
+
+function buildShop(){
+  updateShopButton();
+  const grid=document.getElementById('shopGrid');
+  grid.innerHTML='';
+  SHOP_ITEMS.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='shop-card';
+    const disabled=coins<item.cost;
+    card.innerHTML=`
+      <div class="shop-ico">${item.icon}</div>
+      <div class="shop-name">${item.name}</div>
+      <div class="shop-desc">${item.desc}</div>
+      <div class="shop-cost">${item.cost} 🪙</div>
+      <button class="shop-buy" data-buy="${item.key}" ${disabled?'disabled':''}>${disabled?'NOT ENOUGH':'BUY'}</button>
+    `;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll('.shop-buy').forEach(btn=>btn.addEventListener('click',()=>buyShopItem(btn.dataset.buy)));
+}
+
+async function buyShopItem(key){
+  const item=SHOP_ITEMS.find(i=>i.key===key);
+  if(!item || coins<item.cost) return;
+  if(key==='candy' && Object.keys(caught).length===0){
+    showToast('Catch a Pokémon before buying Rare Candy.');
+    return;
+  }
+  coins-=item.cost;
+  if(key==='lucky') activeItems.luckyCharmSpins+=5;
+  if(key==='repel') activeItems.rocketRepel+=1;
+  if(key==='master') activeItems.masterBall+=1;
+  if(key==='amulet') activeItems.coinAmuletWins+=3;
+  updateStats();
+  sfxDaily();
+  showToast(`🛒 Bought ${item.name}!`);
+  if(key==='candy'){
+    pendingLvPoints++;
+    saveState();
+    updateShopButton();
+    buildShop();
+    closeShop();
+    await wait(300);
+    await openPokeLvPicker();
+  }
+  saveState();
+  updateShopButton();
+  buildShop();
+}
+
+function applyLuckyCharm(result){
+  if(activeItems.luckyCharmSpins<=0) return result;
+  activeItems.luckyCharmSpins--;
+  const hasPair=result[0].id===result[1].id || result[1].id===result[2].id || result[0].id===result[2].id;
+  if(!hasPair && Math.random()<0.45){
+    const a=Math.floor(Math.random()*3);
+    let b=Math.floor(Math.random()*3);
+    while(b===a) b=Math.floor(Math.random()*3);
+    result[b]=result[a];
+    showToast('🍀 Lucky Charm nudged the reels!');
+  }
+  updateShopButton();
+  saveState();
+  return result;
 }
 
 // ─── XP & LEVEL ───────────────────────────────────────────────────────────────
@@ -1729,6 +2171,14 @@ document.getElementById('runBtn').addEventListener('click',()=>{
 });
 document.getElementById('manageBtn').addEventListener('click',openManage);
 document.getElementById('manageClose').addEventListener('click',closeManage);
+document.querySelectorAll('.shop-trigger').forEach(btn=>btn.addEventListener('click',openShop));
+document.getElementById('shopClose').addEventListener('click',closeShop);
+// Hard fallback: any visible SHOP button opens the PokéMart, even if class styling changes later.
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('#shopBtn, #shopHardBtn, #shopFloatBtn, .shop-trigger');
+  if(btn){ e.preventDefault(); openShop(); }
+});
+
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 loadState();
@@ -1746,6 +2196,7 @@ checkCooldown();
 document.getElementById('dShinies').textContent=shinyCount;
 updateEggMeter();
 updateBadgeCase();
+updateShopButton();
 if(pendingLvPoints>0 && Object.keys(caught).length>0) openPokeLvPicker();
 </script>
 </body>
